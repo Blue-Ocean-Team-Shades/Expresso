@@ -8,7 +8,7 @@ import ShopDetails from './components/shop-details';
 render(
   <BrowserRouter>
     <Routes>
-      <Route path='/index' element={<ShopsList />} />
+      <Route path='/' element={<ShopsList />} />
       <Route path='/details' element={<ShopDetails isFavorites={false} />} />
       <Route path='/login' element={<LoginSignup isLogin={true} />} />
       <Route path='/signup' element={<LoginSignup isSignup={true}/>} />
