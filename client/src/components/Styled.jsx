@@ -33,6 +33,16 @@ export const HighlightButton = styled.button`
   ${/*placeholder*/}
 `
 
-export const Input = styled.input `
+export const Input = styled.input`
   ${/*placeholder*/}
+`
+
+export const FlexRow = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+
+export const FlexCol = styled.div`
+  display: flex;
+  flex-direction: column;
 `

@@ -1,9 +1,16 @@
 import React from 'react';
+import { FlexRow } from '../Styled.jsx'
+import { Link } from 'react-router-dom';
 
-export default function TopBar (props) {
+function TopBar (props) {
   return (
-    <div>
-      Top bar stuff
-    </div>
+    <FlexRow>
+      <Link to='/login'>Login</Link>
+      <Link to='/signup'>Signup</Link>
+      <Link to='/details'>Shop details</Link>
+      <Link to='/'>Shops list</Link>
+    </FlexRow>
   )
 }
+
+export default TopBar;
