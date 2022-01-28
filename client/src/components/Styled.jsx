@@ -25,16 +25,19 @@ export const Highlight = styled.div`
   color: black;
 `
 
+//placeholder
 export const AccentButton = styled.button`
-  ${/*placeholder*/}
+
 `
 
+//placeholder
 export const HighlightButton = styled.button`
-  ${/*placeholder*/}
+
 `
 
+//placeholder
 export const Input = styled.input`
-  ${/*placeholder*/}
+
 `
 
 export const FlexRow = styled.div`
