@@ -13,7 +13,7 @@ function App() {
   return (
     <BrowserRouter>
       Page loaded at: {entryTime}
-      <TopBar />
+      <TopBar/>
       <Routes>
         <Route path='/' element={<ShopsList />} />
         <Route path='/details' element={<ShopDetails isFavorites={false} />} />
