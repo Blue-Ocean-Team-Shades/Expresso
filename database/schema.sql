@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS users (
 DROP TABLE IF EXISTS shops CASCADE;
 CREATE TABLE IF NOT EXISTS shops (
   id SERIAL PRIMARY KEY,
-  shop_id TEXT,
+  place_id TEXT,
   shop_rating DECIMAL
 );
 
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS drinks (
   id SERIAL PRIMARY KEY,
   drink_name TEXT NOT NULL,
   drink_rating DECIMAL,
-  shop_id INT REFERENCES shops(id)
+  place_id TEXT
 );
 
 DROP TABLE IF EXISTS favorites;
@@ -31,6 +31,6 @@ CREATE TABLE IF NOT EXISTS favorites (
   id SERIAL NOT NULL,
   isCoffee BOOLEAN NOT NULL,
   user_id INT REFERENCES users(id),
-  shop_id INT REFERENCES shops(id),
+  place_id INT,
   drink_id INT REFERENCES drinks(id)
 );

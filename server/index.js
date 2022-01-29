@@ -70,6 +70,50 @@ app.post('/login', (req, res) => {
 });
 
 
+app.post('/drinkmenu', (req, res) => {
+  let rating = 0;
+  if (req.query.recommend) rating = 1;
+
+  let drinkName = req.query.drink_name.toLowerCase();
+
+  pool.query(`SELECT * FROM drinks WHERE drink_name = '${drinkName}' AND place_id = '${req.query.place_id}'`)
+    .then(data => {
+      if (data.rows.length > 0) {
+        res.status(400).send('Drink already exists in menu.');
+      } else {
+        pool.query(`INSERT INTO drinks (drink_name, drink_rating, place_id) VALUES ('${drinkName}', ${rating}, '${req.query.place_id}')`)
+          .then(x => { res.status(200).send('Drink added!'); })
+          .catch(err => {
+            res.status(500).send();
+            console.err;
+          });
+      }
+    });
+});
+
+app.post('/drinkrating', (req, res) => {
+  if (req.query.rating === '1') {
+    pool.query(`UPDATE drinks SET drink_rating = drink_rating + 1 WHERE id = ${Number(req.query.drink_id)}`)
+      .then(x => {
+        res.status(200).send('Drink rating updated +1!')
+      })
+      .catch(err => {
+        res.status(500).send();
+        console.err;
+       });
+  } else {
+    pool.query(`UPDATE drinks SET drink_rating = drink_rating - 1 WHERE id = ${Number(req.query.drink_id)}`)
+      .then(x => {
+        res.status(200).send('Drink rating updated -1!');
+      })
+      .catch(err => {
+        res.status(500).send();
+        console.err;
+      });
+  }
+});
+
+
 
 
 
