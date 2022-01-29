@@ -1,21 +1,21 @@
 import React from 'react';
 import TopBar from '../top-bar';
+import styled from 'styled-components'
+import { Background, Accent, Highlight } from '../Styled.jsx'
 
 function ShopsList({ isFavorites }) {
 
   if (isFavorites) {
     return (
-      <div>
-        <TopBar />
-        My Favorites stuff
-      </div>
+      <Background>
+          My Favorites stuff
+      </Background>
     );
   } else {
     return (
-      <div>
-        <TopBar />
+      <Background>
         Shops list stuff
-      </div>
+      </Background>
     );
   }
 }

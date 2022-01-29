@@ -1,27 +1,25 @@
 import React from 'react';
-import TopBar from '../top-bar';
+import styled from 'styled-components';
+import {Background, Accent, Highlight} from '../Styled.jsx';
 
 function LoginAndSignup({ isLogin, isSignup }) {
   if (isLogin) {
     return (
-      <div>
-        <TopBar />
+      <Background>
         Login stuff
-      </div>
+      </Background>
     );
   } else if (isSignup) {
     return (
-      <div>
-        <TopBar />
+      <Background>
         Signup stuff
-      </div>
+      </Background>
     );
   } else {
     return (
-      <div>
-        <TopBar />
+      <Background>
         Whoops!
-      </div>
+      </Background>
     );
   }
 }

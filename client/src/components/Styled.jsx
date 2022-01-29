@@ -10,19 +10,18 @@ import styled from 'styled-components';
  *   ...etc
  * />
  */
+
+
+//placeholder
 export const Background = styled.div`
-  background-color: brown;
-  color: creme;
 `
 
+//placeholder
 export const Accent = styled.div`
-  background-color: mint;
-  color: black;
 `
 
+//placeholder
 export const Highlight = styled.div`
-  background-color: gold;
-  color: black;
 `
 
 //placeholder

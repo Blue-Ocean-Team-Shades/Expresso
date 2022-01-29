@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ShopsList from './shops-list';
 import LoginSignup from './login-and-signup';
 import ShopDetails from './shop-details';
+import TopBar from './top-bar'
 
 function App() {
   //example persistent state
@@ -11,6 +12,7 @@ function App() {
   return (
     <BrowserRouter>
       Page loaded at: {entryTime}
+      <TopBar />
       <Routes>
         <Route path='/' element={<ShopsList />} />
         <Route path='/details' element={<ShopDetails isFavorites={false} />} />
