@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Container, Input, Button } from './login.jsx';
 
-const Register = ({ logIn }) => {
+const Register = ({ logIn, signUp }) => {
   return (
     <Container>
       <div>
@@ -16,7 +16,7 @@ const Register = ({ logIn }) => {
           <Input placeholder='Password'></Input>
         </div>
         <div>
-          <Button>Sign up</Button>
+          <Button onClick={signUp}>Sign up</Button>
         </div>
         <Login onClick={logIn}>Log in</Login>
       </div>

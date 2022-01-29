@@ -1,18 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Login = ({ signUp }) => {
+const Login = ({ usernameChange, passwordChange, submitLogin, signUp }) => {
   return (
     <Container>
       <div>
         <div>
-          <Input placeholder='Username'></Input>
+          <Input placeholder='Username' type="text" onChange={usernameChange}></Input>
         </div>
         <div>
-          <Input placeholder='Password'></Input>
+          <Input placeholder='Password' type="password" onChange={passwordChange}></Input>
         </div>
         <div>
-          <Button>Log in</Button>
+          <Button onClick={submitLogin}>Log in</Button>
         </div>
         <SignUp onClick={signUp}>Sign up</SignUp>
       </div>
@@ -25,7 +25,7 @@ export const Container = styled.div`
   position:fixed;
   text-align: center;
   background: white;
-  width: 20%;
+  width: 35%;
   height: 30%;
   top:50%;
   left:50%;
@@ -41,7 +41,7 @@ export const Input = styled.input`
   text-align: center;
   padding: 10px;
   border: 1px solid;
-  margin: 10px 10px 10px 10px;
+  margin: 3% 5% 0% 5%;
 `
 
 export const Button = styled.button`
@@ -52,6 +52,7 @@ export const Button = styled.button`
   cursor: pointer;
   text-transform: uppercase;
   padding: 10px;
+  margin-top: 20px;
   margin-bottom: 20px;
 `
 
