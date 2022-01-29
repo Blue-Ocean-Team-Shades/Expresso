@@ -2,18 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 import { Container, Input, Button } from './login.jsx';
 
-const Register = ({ logIn, signUp }) => {
+const Register = ({ logIn, signUp, signUpName, signUpPassword, confirmPassword }) => {
   return (
     <Container>
       <div>
         <div>
-          <Input placeholder='Username'></Input>
+          <Input placeholder='Username' type="text" minlength='1' onChange={signUpName} required></Input>
         </div>
         <div>
-          <Input placeholder='Email'></Input>
+          <Input placeholder='Password' type="password" minlength='1' onChange={signUpPassword} required></Input>
         </div>
         <div>
-          <Input placeholder='Password'></Input>
+          <Input placeholder='Confirm password' type="password" minlength='1' onChange={confirmPassword} required></Input>
         </div>
         <div>
           <Button onClick={signUp}>Sign up</Button>

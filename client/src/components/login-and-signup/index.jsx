@@ -11,7 +11,10 @@ function LoginAndSignup({ isLogin, isSignup }) {
   const navigate = useNavigate();
 
   const [user, setUser] = useState('');
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState();
+  const [signUpUser, setSignUpUser] = useState('');
+  const [signUpPassword, setSignUpPassword] = useState();
+  const [confirmPassword, setConfirmPassword] = useState();
 
   const signUp = () => {
     navigate("/signup");
@@ -29,30 +32,51 @@ function LoginAndSignup({ isLogin, isSignup }) {
     setPassword(e.target.value)
   }
 
+  const signUpName = (e) => {
+    setSignUpUser(e.target.value)
+  }
+
+  const signUpPw = (e) => {
+    setSignUpPassword(e.target.value)
+    console.log(signUpPassword)
+  }
+
+  const confirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value)
+    console.log(confirmPassword)
+  }
+
   const submitLogin = () => {
     axios.post('/login', {
       username: user,
       password: password
     })
       .then((res) => {
-        console.log(res);
+        console.log('this is res', res);
+        // navigate('/');
       })
       .catch((err) => {
-        console.log(err);
+        console.log('this is err', err);
       })
   }
 
   const submitSignUp = () => {
-    axios.post('/signup', {
-      username: user,
-      password: password
-    })
-      .then((res) => {
-        console.log(res);
+    if (signUpPassword === confirmPassword) {
+      axios.post('/signup', {
+        username: signUpUser,
+        password: signUpPassword
       })
-      .catch((err) => {
-        console.log(err);
-      })
+        .then((res) => {
+          console.log('this is res', res);
+          // navigate('/login');
+        })
+        .catch((err) => {
+          console.log('this is err', err);
+        })
+    } else {
+      alert('Password confirm was incorrect!');
+      navigate('/signup');
+    }
   }
 
   // const [token, setToken] = useState();
@@ -77,6 +101,9 @@ function LoginAndSignup({ isLogin, isSignup }) {
     return (
       <Background>
         <Register
+          signUpName={signUpName}
+          signUpPassword={signUpPw}
+          confirmPassword={confirmPasswordChange}
           signUp={submitSignUp}
           logIn={logIn}
         />

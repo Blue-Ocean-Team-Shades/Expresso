@@ -6,10 +6,10 @@ const Login = ({ usernameChange, passwordChange, submitLogin, signUp }) => {
     <Container>
       <div>
         <div>
-          <Input placeholder='Username' type="text" onChange={usernameChange}></Input>
+          <Input placeholder='Username' type="text" onChange={usernameChange} minlength='1' required></Input>
         </div>
         <div>
-          <Input placeholder='Password' type="password" onChange={passwordChange}></Input>
+          <Input placeholder='Password' type="password" onChange={passwordChange} minlength='1' required></Input>
         </div>
         <div>
           <Button onClick={submitLogin}>Log in</Button>
@@ -42,6 +42,7 @@ export const Input = styled.input`
   padding: 10px;
   border: 1px solid;
   margin: 3% 5% 0% 5%;
+  minlength: 1
 `
 
 export const Button = styled.button`

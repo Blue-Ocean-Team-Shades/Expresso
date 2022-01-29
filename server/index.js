@@ -24,15 +24,16 @@ app.use('/favorites', express.static(path.resolve(__dirname, staticPath)));
 //ROUTE FOR CREATING USER
 app.post('/signup', (req, res) => {
   //CHECKS IF USER WITH GIVEN USERNAME ALREADY EXISTS
-  pool.query(`SELECT * FROM users WHERE username = '${req.query.username}'`)
+  console.log(req.body)
+  pool.query(`SELECT * FROM users WHERE username = '${req.body.username}'`)
     .then(data => {
       //IF NOT, CREATES USER, SALT, AND HASHED PASSWORD ->
       if (data.rows.length === 0 || data.rows === undefined) {
         let salt = utils.createRandom32String();
-        let password = utils.createHash(req.query.password, salt);
+        let password = utils.createHash(req.body.password, salt);
 
         //STORES USERNAME, HASHED PWORD, AND SALT IN DB
-        pool.query(`INSERT INTO users (username, password, salt) VALUES ('${req.query.username}', '${password}', '${salt}')`)
+        pool.query(`INSERT INTO users (username, password, salt) VALUES ('${req.body.username}', '${password}', '${salt}')`)
           .then(x => {
             console.log('user created');
             res.redirect('/login');
@@ -40,7 +41,7 @@ app.post('/signup', (req, res) => {
           .catch(err => { throw err; });
       } else {
         //IF USER ALREADY EXISTS, REDIRECT TO SIGNUP
-        console.log(`USER WITH USERNAME ${req.query.username} ALREADY EXISTS`)
+        console.log(`USER WITH USERNAME ${req.body.username} ALREADY EXISTS`)
         res.redirect('/signup');
       }
     })
@@ -49,7 +50,7 @@ app.post('/signup', (req, res) => {
 
 //ROUTE FOR LOGGING IN
 app.post('/login', (req, res) => {
-  pool.query(`SELECT * FROM users WHERE username = '${req.query.username}'`)
+  pool.query(`SELECT * FROM users WHERE username = '${req.body.username}'`)
     .then(data => {
       let user = data.rows[0];
 
@@ -58,7 +59,7 @@ app.post('/login', (req, res) => {
         res.status(404).send('user not found');
       }
       //IF USERNAME IS IN DB AND PROVIDED PASSWORD HASHED WITH SALT RETURNED FROM QUERY MATCHES PASSWORD STORED IN DB
-      else if (utils.compareHash(req.query.password, user.password, user.salt)){
+      else if (utils.compareHash(req.body.password, user.password, user.salt)){
         console.log('login successful');
         res.redirect('/');
       } else {
