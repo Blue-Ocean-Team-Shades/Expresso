@@ -13,7 +13,26 @@ import Button from '@mui/material/Button';
  */
 
 
-//placeholder
+export const mobileWidth = 768;
+
+export function isMobile () {
+  return window.screen.width < mobileWidth;
+}
+
+export const Main = styled.div`
+  width: ${mobileWidth}px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  @media screen and (max-width: ${mobileWidth}px) {
+    width: 100%;
+    left: 0;
+    transform: none;
+  }
+`
+
+
 export const Background = styled.div`
   width: 100%;
   height: 100%;
@@ -52,3 +71,4 @@ export const FlexCol = styled.div`
   display: flex;
   flex-direction: column;
 `
+

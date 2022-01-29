@@ -23,9 +23,10 @@ const Column = styled(FlexCol)`
   flex: 1;
 `;
 
-function ShopDetails(props) {
+function ShopDetails({ currentShop }) {
   return (
     <Background>
+      {currentShop ? `current shop: ${currentShop.name}` : null}
       <Column>
         <ShopInfo />
         <DrinkList />
