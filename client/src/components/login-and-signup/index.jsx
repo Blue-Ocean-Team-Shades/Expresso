@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import {Background, Accent, Highlight} from '../Styled.jsx';
 import { useNavigate } from "react-router-dom";
+import { inputValidation } from "./inputValidation";
 
 import Login from './login.jsx';
 import Register from './register.jsx';
@@ -47,36 +48,53 @@ function LoginAndSignup({ isLogin, isSignup }) {
   }
 
   const submitLogin = () => {
-    axios.post('/login', {
+    let formData = {
       username: user,
       password: password
-    })
-      .then((res) => {
-        console.log('this is res', res);
-        // navigate('/');
-      })
-      .catch((err) => {
-        console.log('this is err', err);
-      })
-  }
+    }
 
-  const submitSignUp = () => {
-    if (signUpPassword === confirmPassword) {
-      axios.post('/signup', {
-        username: signUpUser,
-        password: signUpPassword
-      })
+    let currentErrors = inputValidation(formData);
+
+    if (currentErrors.length === 0) {
+      axios.post('/login', formData)
         .then((res) => {
           console.log('this is res', res);
-          // navigate('/login');
+          // navigate('/');
         })
         .catch((err) => {
           console.log('this is err', err);
         })
     } else {
-      alert('Password confirm was incorrect!');
-      navigate('/signup');
+      alert(`${currentErrors[0]}`);
     }
+
+  }
+
+  const submitSignUp = () => {
+    let formData = {
+      username: signUpUser,
+      password: signUpPassword
+    }
+
+    let currentErrors = inputValidation(formData);
+
+    if (currentErrors.length === 0) {
+      if (signUpPassword === confirmPassword) {
+        axios.post('/signup', formData)
+          .then((res) => {
+            console.log('this is res', res);
+            // navigate('/login');
+          })
+          .catch((err) => {
+            console.log('this is err', err);
+          })
+      } else {
+        alert('Confirm password was incorrect')
+      }
+    } else {
+      alert(`${currentErrors[0]}`);
+    }
+
   }
 
   // const [token, setToken] = useState();

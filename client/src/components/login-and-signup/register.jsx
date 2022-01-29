@@ -7,13 +7,13 @@ const Register = ({ logIn, signUp, signUpName, signUpPassword, confirmPassword }
     <Container>
       <div>
         <div>
-          <Input placeholder='Username' type="text" minlength='1' onChange={signUpName} required></Input>
+          <Input placeholder='Username' type="text" onChange={signUpName}></Input>
         </div>
         <div>
-          <Input placeholder='Password' type="password" minlength='1' onChange={signUpPassword} required></Input>
+          <Input placeholder='Password' type="password" onChange={signUpPassword}></Input>
         </div>
         <div>
-          <Input placeholder='Confirm password' type="password" minlength='1' onChange={confirmPassword} required></Input>
+          <Input placeholder='Confirm password' type="password" onChange={confirmPassword}></Input>
         </div>
         <div>
           <Button onClick={signUp}>Sign up</Button>

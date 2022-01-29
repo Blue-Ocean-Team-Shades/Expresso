@@ -6,10 +6,10 @@ const Login = ({ usernameChange, passwordChange, submitLogin, signUp }) => {
     <Container>
       <div>
         <div>
-          <Input placeholder='Username' type="text" onChange={usernameChange} minlength='1' required></Input>
+          <Input placeholder='Username' type="text" onChange={usernameChange}></Input>
         </div>
         <div>
-          <Input placeholder='Password' type="password" onChange={passwordChange} minlength='1' required></Input>
+          <Input placeholder='Password' type="password" onChange={passwordChange}></Input>
         </div>
         <div>
           <Button onClick={submitLogin}>Log in</Button>
