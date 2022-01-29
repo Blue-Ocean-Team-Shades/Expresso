@@ -118,6 +118,17 @@ app.post('/drinkrating', (req, res) => {
   }
 });
 
+app.get('/drinkmenu', (req, res) => {
+  pool.query(`SELECT * FROM drinks WHERE place_id = '${req.body.place_id}'`)
+    .then(data => {
+      res.status(200).send(data.rows);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send(err);
+    })
+})
+
 //////////////*SHOP RATING ROUTEs*//////////////
 
 app.post('/shopratings', (req, res) => {
@@ -158,6 +169,8 @@ app.post('/shopratings', (req, res) => {
       }
     });
 });
+
+
 
 
 
