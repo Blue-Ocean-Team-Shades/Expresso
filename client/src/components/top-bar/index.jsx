@@ -6,7 +6,6 @@ import Options from './Options.jsx';
 
 function TopBar(props) {
   const location = useLocation();
-  console.log(location.pathname);
   return (
     <FlexRow>
       Temporary nav bar:

@@ -36,9 +36,10 @@ const Inner = styled(FlexCol)`
   background-color: green;
 `;
 
-function ShopDetails(props) {
+function ShopDetails({ currentShop }) {
   return (
     <Background>
+      {currentShop ? `current shop: ${currentShop.name}` : null}
       <Container>
         <Inner>
           <ShopInfo />
