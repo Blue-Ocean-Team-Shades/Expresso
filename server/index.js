@@ -21,6 +21,8 @@ app.use('/favorites', express.static(path.resolve(__dirname, staticPath)));
 
 
 
+/////////////* USER ACCOUNT ROUTES *////////////////
+
 //ROUTE FOR CREATING USER
 app.post('/signup', (req, res) => {
   //CHECKS IF USER WITH GIVEN USERNAME ALREADY EXISTS
@@ -70,6 +72,9 @@ app.post('/login', (req, res) => {
 });
 
 
+///////////////*DRINK MENU ROUTES*////////////////
+
+
 app.post('/drinkmenu', (req, res) => {
   let rating = 0;
   if (req.query.recommend) rating = 1;
@@ -85,7 +90,7 @@ app.post('/drinkmenu', (req, res) => {
           .then(x => { res.status(200).send('Drink added!'); })
           .catch(err => {
             res.status(500).send();
-            console.err;
+            console.error(err);
           });
       }
     });
@@ -99,7 +104,7 @@ app.post('/drinkrating', (req, res) => {
       })
       .catch(err => {
         res.status(500).send();
-        console.err;
+        console.error(err);
        });
   } else {
     pool.query(`UPDATE drinks SET drink_rating = drink_rating - 1 WHERE id = ${Number(req.query.drink_id)}`)
@@ -108,10 +113,53 @@ app.post('/drinkrating', (req, res) => {
       })
       .catch(err => {
         res.status(500).send();
-        console.err;
+        console.error(err);
       });
   }
 });
+
+//////////////*SHOP RATING ROUTEs*//////////////
+
+app.post('/shopratings', (req, res) => {
+  pool.query(`SELECT shop_rating FROM shops WHERE place_id = '${req.query.place_id}'`)
+    .then(data => {
+      if (data.rows.length > 0) {
+        if (req.query.rating === '1') {
+          pool.query(`UPDATE shops SET shop_rating = shop_rating + 1 WHERE place_id = '${req.query.place_id}'`)
+            .then(x => { res.status(200).send('Review updated +1!'); })
+            .catch(err => {
+              res.status(500).send();
+              console.error(err);
+            });
+        } else {
+          pool.query(`UPDATE shops SET shop_rating = shop_rating - 1 WHERE place_id = '${req.query.place_id}'`)
+            .then(x => { res.status(200).send('Review updated -1!'); })
+            .catch(err => {
+              res.status(500).send();
+              console.error(err);
+            });
+        }
+      } else {
+        if (req.query.rating === '1') {
+          pool.query(`INSERT INTO shops (place_id, shop_rating) VALUES ('${req.query.place_id}', 1.0)`)
+            .then(x => { res.status(200).send('Shop rating added!'); })
+            .catch(err => {
+              res.status(500).send();
+              console.error(err);
+            });
+        } else {
+          pool.query(`INSERT INTO shops (place_id, shop_rating) VALUES ('${req.query.place_id}', 0)`)
+            .then(x => { res.status(200).send('Shop rating added!'); })
+            .catch(err => {
+              res.status(500).send();
+              console.error(err);
+            });
+        }
+      }
+    });
+});
+
+
 
 
 
