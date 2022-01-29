@@ -74,11 +74,20 @@ app.post('/drinkmenu', (req, res) => {
   let rating = 0;
   if (req.query.recommend) rating = 1;
 
-  pool.query(`INSERT INTO drinks (drink_name, drink_rating, place_id) VALUES ('${req.query.name}', ${rating}, '${req.query.place_id}')`)
-    .then(x => { res.status(200).send('Drink added!'); })
-    .catch(err => {
-      res.status(500).send();
-      console.err;
+  let drinkName = req.query.drink_name.toLowerCase();
+
+  pool.query(`SELECT * FROM drinks WHERE drink_name = '${drinkName}' AND place_id = '${req.query.place_id}'`)
+    .then(data => {
+      if (data.rows.length > 0) {
+        res.status(400).send('Drink already exists in menu.');
+      } else {
+        pool.query(`INSERT INTO drinks (drink_name, drink_rating, place_id) VALUES ('${drinkName}', ${rating}, '${req.query.place_id}')`)
+          .then(x => { res.status(200).send('Drink added!'); })
+          .catch(err => {
+            res.status(500).send();
+            console.err;
+          });
+      }
     });
 });
 
@@ -102,6 +111,7 @@ app.post('/drinkrating', (req, res) => {
         console.err;
       });
   }
+});
 
 
 
