@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Button from '@mui/material/Button';
 
 /**
  * To use these as something other than a div, use the `as` prop:
@@ -14,6 +15,9 @@ import styled from 'styled-components';
 
 //placeholder
 export const Background = styled.div`
+  width: 100%;
+  height: 100%;
+  margin: 0;
 `
 
 //placeholder
@@ -25,12 +29,12 @@ export const Highlight = styled.div`
 `
 
 //placeholder
-export const AccentButton = styled.button`
+export const AccentButton = styled(Button)`
 
 `
 
 //placeholder
-export const HighlightButton = styled.button`
+export const HighlightButton = styled(Button)`
 
 `
 

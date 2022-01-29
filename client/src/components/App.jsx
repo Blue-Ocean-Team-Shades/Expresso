@@ -1,3 +1,4 @@
+import Styled from './Styled.jsx';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ShopsList from './shops-list';
@@ -12,7 +13,7 @@ function App() {
   return (
     <BrowserRouter>
       Page loaded at: {entryTime}
-      <TopBar />
+      <TopBar/>
       <Routes>
         <Route path='/' element={<ShopsList />} />
         <Route path='/details' element={<ShopDetails isFavorites={false} />} />
