@@ -2,7 +2,6 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { FlexRow, colors, AccentButton } from '../Styled.jsx';
 import { useNavigate } from 'react-router-dom';
-import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
@@ -29,6 +28,15 @@ const ButtonOpen = styled.div`
   height: ${({ height }) => `${height}`}px;
   visibility: ${({ open }) => `${open ? 'visible' : 'hidden'}`};
 `;
+
+const MenuRight = styled(MenuItem)`
+  && {
+    justify-content: flex-end;
+  }
+`
+const EmptySpace = styled.div`
+  height: 8rem;
+`
 
 function callbackRef(setHeight, isMenu) {
   const ref = useRef();
@@ -67,7 +75,7 @@ function Options(props) {
     <div>
       <AccentButton onClick={(e) => setAnchor(e.target)} disableRipple={true} ref={buttonRef}>
         V
-        <ButtonOpen height={open ? menuHeight + buttonHeight : buttonHeight} open={open}>
+        <ButtonOpen as='div' height={open ? menuHeight + buttonHeight : buttonHeight} open={open}>
           ^
         </ButtonOpen>
       </AccentButton>
@@ -81,7 +89,8 @@ function Options(props) {
         ref={menuRef}
       >
         <MenuItem onClick={() => goToPage('/favorites/')}>My Favorites</MenuItem>
-        <MenuItem onClick={() => goToPage('/login')}>Log in</MenuItem>
+        <EmptySpace />
+        <MenuRight onClick={() => goToPage('/login')}>Log in</MenuRight>
       </MenuStyled>
     </div>
   );

@@ -1,8 +1,9 @@
 import React from 'react';
 import { Input } from '../Styled.jsx';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Options from './Options.jsx';
 import styled from 'styled-components';
+import Button from '@mui/material/Button';
 
 const FillSpace = styled.div`
   flex: 1;
@@ -20,9 +21,12 @@ const TitleBar = styled.div`
 
 function TopBar(props) {
   const location = useLocation();
+  const navigate = useNavigate();
   return (
     <TitleBar>
-      <Logo/>
+      <Button onClick={() => navigate('/')}>
+        <Logo/>
+      </Button>
       <FillSpace />
       <Input label='search'/>
       <Options />
