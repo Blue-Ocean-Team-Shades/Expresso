@@ -17,7 +17,7 @@ const Shops = styled(Background)`
   flex-direction: column;
 `;
 
-function ShopsList({ isFavorites }) {
+function ShopsList({ shops, isFavorites }) {
   if (isFavorites) {
     return <Background>My Favorites stuff</Background>;
   } else {
@@ -29,8 +29,8 @@ function ShopsList({ isFavorites }) {
           </FitWidth>
           <Main>
             <Shops>
-              {['A', 'B', 'C'].map((shop) => (
-                <ShopEntry shop={shop} key={shop} />
+              {shops.map((shop) => (
+                <ShopEntry shop={shop} key={shop.id} />
               ))}
             </Shops>
             <Accent>
