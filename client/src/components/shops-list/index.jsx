@@ -17,7 +17,7 @@ const Shops = styled(Background)`
   flex-direction: column;
 `;
 
-function ShopsList({ shops, isFavorites }) {
+function ShopsList({ shops, isFavorites, setCurrentShop}) {
   if (isFavorites) {
     return <Background>My Favorites stuff</Background>;
   } else {
@@ -30,7 +30,7 @@ function ShopsList({ shops, isFavorites }) {
           <Main>
             <Shops>
               {shops.map((shop) => (
-                <ShopEntry shop={shop} key={shop.id} />
+                <ShopEntry shop={shop} key={shop.id} setCurrentShop={setCurrentShop} />
               ))}
             </Shops>
             <Accent>

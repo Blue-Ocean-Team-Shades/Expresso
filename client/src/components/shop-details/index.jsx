@@ -101,8 +101,18 @@ const createRows = (arr) => {
 let rows = createRows(array);
 console.log(rows);
 
+function useQuery() {
+  const { search } = useLocation();
+  return useMemo(() => new URLSearchParams(search), [search]);
+}
+
 function ShopDetails(props) {
-  return <GreenBackground>{rows.map((row) => row)}</GreenBackground>;
+  return (
+    <div>
+      {props.currentShop ? `current shop: ${props.currentShop.name}` : null}
+      <GreenBackground>{rows.map((row) => row)}</GreenBackground>;
+    </div>
+  );
 }
 
 export default ShopDetails;

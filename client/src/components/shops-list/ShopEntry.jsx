@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import { Background, Accent, Highlight, FlexRow, FlexCol, AccentButton } from '../Styled.jsx';
 import { useNavigate } from 'react-router-dom'
 
-function ShopEntry ({shop}) {
+function ShopEntry ({shop, setCurrentShop}) {
   const navigate = useNavigate()
   function viewShop() {
-    navigate(`/details?shop_id=${shop.id}`)
+    setCurrentShop(shop)
+    navigate(`/details`)
   }
 
   return (
