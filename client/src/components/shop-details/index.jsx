@@ -1,12 +1,12 @@
 import React from 'react';
-import TopBar from '../top-bar';
+import styled from 'styled-components';
+import {Background, Accent, Highlight} from '../Styled.jsx';
 
 function ShopDetails(props) {
   return (
-    <div>
-      <TopBar />
+    <Background>
       Shop details stuff
-    </div>
+    </Background>
   );
 }
 
