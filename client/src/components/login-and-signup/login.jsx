@@ -25,8 +25,8 @@ export const Container = styled.div`
   position:fixed;
   text-align: center;
   background: white;
-  width: 35%;
-  height: 30%;
+  width: 30%;
+  height: 35%;
   top:50%;
   left:50%;
   transform: translate(-50%,-50%);

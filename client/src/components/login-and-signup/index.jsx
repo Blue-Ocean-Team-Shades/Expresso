@@ -34,6 +34,12 @@ function LoginAndSignup({ isLogin, isSignup }) {
       username: user,
       password: password
     })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
   const submitSignUp = () => {
@@ -41,6 +47,12 @@ function LoginAndSignup({ isLogin, isSignup }) {
       username: user,
       password: password
     })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
   // const [token, setToken] = useState();
