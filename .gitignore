@@ -1,3 +1,6 @@
+#configs
+config.js
+
 # Logs
 logs
 *.log
@@ -80,7 +83,9 @@ typings/
 
 # Nuxt.js build / generate output
 .nuxt
-dist
+client/dist/*
+!client/dist/index.html
+!client/dist/style.css
 
 # Gatsby files
 .cache/
