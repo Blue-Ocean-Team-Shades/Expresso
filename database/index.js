@@ -18,4 +18,4 @@ pool
     console.log('err: ', err);
   });
 
-module.exports = pool;
+module.exports.pool = pool;
