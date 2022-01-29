@@ -2,6 +2,7 @@ import React from 'react';
 import TopBar from '../top-bar';
 
 function ShopsList({ isFavorites }) {
+
   if (isFavorites) {
     return (
       <div>
