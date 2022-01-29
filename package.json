@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "postinstall": "chmod +x setup.sh && ./setup.sh",
     "build": "webpack",
     "watch": "webpack -w",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server/index.js"
+    "start": "nodemon server"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,9 @@
     "pg": "^8.7.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-router": "^6.2.1",
+    "react-router-dom": "^6.2.1",
+    "styled-components": "^5.3.3",
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.7.3"
   },
