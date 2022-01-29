@@ -9,7 +9,7 @@
     "watch": "webpack -w",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server",
-    "clear-database": "psql -d expresso -f database/schema.sql"
+    "clear-database": "psql -v -d expresso -f database/schema.sql"
   },
   "repository": {
     "type": "git",
