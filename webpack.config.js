@@ -20,7 +20,7 @@ module.exports = {
   },
   mode: 'development',
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx'],
     alias: {
       '@mui/styled-engine': '@mui/styled-engine-sc'
     }
