@@ -1,13 +1,20 @@
 import React from 'react';
-import Login from './login.jsx';
-import Register from './register.jsx';
 import styled from 'styled-components';
 import {Background, Accent, Highlight} from '../Styled.jsx';
+import { useNavigate } from "react-router-dom";
+
+import Login from './login.jsx';
+import Register from './register.jsx';
 
 function LoginAndSignup({ isLogin, isSignup }) {
+  const navigate = useNavigate();
 
   const signUp = () => {
-    console.log('hello')
+    navigate("/signup");
+  }
+
+  const logIn = () => {
+    navigate("/login");
   }
 
 
@@ -22,7 +29,9 @@ function LoginAndSignup({ isLogin, isSignup }) {
   } else if (isSignup) {
     return (
       <Background>
-        <Register />
+        <Register
+          logIn={logIn}
+        />
       </Background>
     );
   } else {

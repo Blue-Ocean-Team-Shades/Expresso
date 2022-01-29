@@ -24,7 +24,7 @@ const Register = ({ logIn }) => {
   )
 }
 
-const Login = styled.p`
+const Login = styled.button`
   font-size: 20px;
   position: absolute;
   right: 0;
