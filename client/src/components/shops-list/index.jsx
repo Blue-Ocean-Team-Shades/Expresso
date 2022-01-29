@@ -1,7 +1,7 @@
 import React from 'react';
 import TopBar from '../top-bar';
 import styled from 'styled-components';
-import { Background, Accent, Highlight, FlexRow, FlexCol, AccentButton } from '../Styled.jsx';
+import { isMobile, Main, Background, Accent, Highlight, FlexRow, FlexCol, AccentButton } from '../Styled.jsx';
 import ShopEntry from './ShopEntry.jsx';
 
 const FitWidth = styled(Background)`
@@ -17,14 +17,6 @@ const Shops = styled(Background)`
   flex-direction: column;
 `;
 
-const Content = styled(FlexRow)`
-  max-width: 800px;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  margin: 1vmin;
-`
-
 function ShopsList({ isFavorites }) {
   if (isFavorites) {
     return <Background>My Favorites stuff</Background>;
@@ -35,7 +27,7 @@ function ShopsList({ isFavorites }) {
           <FitWidth>
             <h1>Expresso</h1>
           </FitWidth>
-          <Content>
+          <Main>
             <Shops>
               {['A', 'B', 'C'].map((shop) => (
                 <ShopEntry shop={shop} key={shop} />
@@ -51,7 +43,7 @@ function ShopsList({ isFavorites }) {
                 <AccentButton>nearby</AccentButton>
               </FlexCol>
             </Accent>
-          </Content>
+          </Main>
         </FlexCol>
       </Background>
     );
