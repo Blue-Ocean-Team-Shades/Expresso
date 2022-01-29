@@ -35,7 +35,7 @@ app.post('/signup', (req, res) => {
         pool.query(`INSERT INTO users (username, password, salt) VALUES ('${req.query.username}', '${password}', '${salt}')`)
           .then(x => {
             console.log('user created');
-            res.redirect('/');
+            res.redirect('/login');
           })
           .catch(err => { throw err; });
       } else {
@@ -46,6 +46,29 @@ app.post('/signup', (req, res) => {
     })
     .catch(err => { throw err; });
 });
+
+//ROUTE FOR LOGGING IN
+app.post('/login', (req, res) => {
+  pool.query(`SELECT * FROM users WHERE username = '${req.query.username}'`)
+    .then(data => {
+      let user = data.rows[0];
+
+      //IF USERNAME IS NOT IN DATABASE -> 404/USER NOT FOUND
+      if (user === undefined) {
+        res.status(404).send('user not found');
+      }
+      //IF USERNAME IS IN DB AND PROVIDED PASSWORD HASHED WITH SALT RETURNED FROM QUERY MATCHES PASSWORD STORED IN DB
+      else if (utils.compareHash(req.query.password, user.password, user.salt)){
+        console.log('login successful');
+        res.redirect('/');
+      } else {
+        //IF PASSWORDS DON'T MATCH
+        console.log('invalid password');
+        res.redirect('/login');
+      }
+    });
+});
+
 
 app.post('/drinkmenu', (req, res) => {
   let rating = 0;
@@ -66,7 +89,6 @@ app.post('/drinkrating', (req, res) => {
       .then(x => console.log('Drink rating updated -1!'))
       .catch(err => { throw err; });
   }
-});
 
 
 
