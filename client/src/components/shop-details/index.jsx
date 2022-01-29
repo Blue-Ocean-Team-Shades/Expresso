@@ -23,14 +23,29 @@ const Column = styled(FlexCol)`
   flex: 1;
 `;
 
+const Container = styled(FlexRow)`
+  align-items: center;
+  justify-content: center;
+`;
+
+const Inner = styled(FlexCol)`
+  width: 80vw;
+  height: 70vh;
+  // max-height: 50vh;
+  // height: 1200px;
+  background-color: green;
+`;
+
 function ShopDetails(props) {
   return (
     <Background>
-      <Column>
-        <ShopInfo />
-        <DrinkList />
-        <AddDrink />
-      </Column>
+      <Container>
+        <Inner>
+          <ShopInfo />
+          <DrinkList />
+          <AddDrink />
+        </Inner>
+      </Container>
     </Background>
   );
 }

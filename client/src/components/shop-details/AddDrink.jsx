@@ -1,15 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {
-  Background,
-  Accent,
-  Highlight,
-  AccentButton,
-  HighlightButton,
-  Input,
-  FlexRow,
-  FlexCol,
-} from '../Styled.jsx';
+import { Input, FlexCol } from '../Styled.jsx';
 
 const Row = styled(FlexCol)`
   align-items: center;
