@@ -1,10 +1,15 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
 const controllers = require('./controllers.js');
-const path = require('path')
+const path = require('path');
+const { pool } = require('../database');
+const utils = require('./hashUtils.js');
 
 app.use(express.json());
+app.use(express.urlencoded());
+
 
 //janky fix, but it's fine because we're replacing all this with subdomains anyways
 const staticPath = '../client/dist';
@@ -13,6 +18,42 @@ app.use('/details', express.static(path.resolve(__dirname, staticPath)));
 app.use('/login', express.static(path.resolve(__dirname, staticPath)));
 app.use('/signup', express.static(path.resolve(__dirname, staticPath)));
 app.use('/favorites', express.static(path.resolve(__dirname, staticPath)));
+
+
+
+//ROUTE FOR CREATING USER
+app.post('/signup', (req, res) => {
+  //CHECKS IF USER WITH GIVEN USERNAME ALREADY EXISTS
+  pool.query(`SELECT * FROM users WHERE username = '${req.query.username}'`)
+    .then(data => {
+      //IF NOT, CREATES USER, SALT, AND HASHED PASSWORD ->
+      if (data.rows.length === 0 || data.rows === undefined) {
+        let salt = utils.createRandom32String();
+        let password = utils.createHash(req.query.password, salt);
+
+        //STORES USERNAME, HASHED PWORD, AND SALT IN DB
+        pool.query(`INSERT INTO users (username, password, salt) VALUES ('${req.query.username}', '${password}', '${salt}')`)
+          .then(x => {
+            console.log('user created');
+            res.redirect('/');
+          })
+          .catch(err => { throw err; });
+      } else {
+        //IF USER ALREADY EXISTS, REDIRECT TO SIGNUP
+        console.log(`USER WITH USERNAME ${req.query.username} ALREADY EXISTS`)
+        res.redirect('/signup');
+      }
+    })
+    .catch(err => { throw err; });
+});
+
+
+
+
+
+
+
+
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);

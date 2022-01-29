@@ -23,6 +23,7 @@
   "homepage": "https://github.com/Blue-Ocean-Team-Shades/Expresso#readme",
   "dependencies": {
     "axios": "^0.25.0",
+    "body-parser": "^1.19.1",
     "express": "^4.17.2",
     "nodemon": "^2.0.15",
     "pg": "^8.7.1",
