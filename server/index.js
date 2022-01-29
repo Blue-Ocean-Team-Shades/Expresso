@@ -21,18 +21,20 @@ app.use('/favorites', express.static(path.resolve(__dirname, staticPath)));
 
 
 
+/////////////* USER ACCOUNT ROUTES *////////////////
+
 //ROUTE FOR CREATING USER
 app.post('/signup', (req, res) => {
   //CHECKS IF USER WITH GIVEN USERNAME ALREADY EXISTS
-  pool.query(`SELECT * FROM users WHERE username = '${req.query.username}'`)
+  pool.query(`SELECT * FROM users WHERE username = '${req.body.username}'`)
     .then(data => {
       //IF NOT, CREATES USER, SALT, AND HASHED PASSWORD ->
       if (data.rows.length === 0 || data.rows === undefined) {
         let salt = utils.createRandom32String();
-        let password = utils.createHash(req.query.password, salt);
+        let password = utils.createHash(req.body.password, salt);
 
         //STORES USERNAME, HASHED PWORD, AND SALT IN DB
-        pool.query(`INSERT INTO users (username, password, salt) VALUES ('${req.query.username}', '${password}', '${salt}')`)
+        pool.query(`INSERT INTO users (username, password, salt) VALUES ('${req.body.username}', '${password}', '${salt}')`)
           .then(x => {
             console.log('user created');
             res.redirect('/login');
@@ -40,7 +42,7 @@ app.post('/signup', (req, res) => {
           .catch(err => { throw err; });
       } else {
         //IF USER ALREADY EXISTS, REDIRECT TO SIGNUP
-        console.log(`USER WITH USERNAME ${req.query.username} ALREADY EXISTS`)
+        console.log(`USER WITH USERNAME ${req.body.username} ALREADY EXISTS`)
         res.redirect('/signup');
       }
     })
@@ -49,7 +51,7 @@ app.post('/signup', (req, res) => {
 
 //ROUTE FOR LOGGING IN
 app.post('/login', (req, res) => {
-  pool.query(`SELECT * FROM users WHERE username = '${req.query.username}'`)
+  pool.query(`SELECT * FROM users WHERE username = '${req.body.username}'`)
     .then(data => {
       let user = data.rows[0];
 
@@ -58,7 +60,7 @@ app.post('/login', (req, res) => {
         res.status(404).send('user not found');
       }
       //IF USERNAME IS IN DB AND PROVIDED PASSWORD HASHED WITH SALT RETURNED FROM QUERY MATCHES PASSWORD STORED IN DB
-      else if (utils.compareHash(req.query.password, user.password, user.salt)){
+      else if (utils.compareHash(req.body.password, user.password, user.salt)){
         console.log('login successful');
         res.redirect('/');
       } else {
@@ -70,48 +72,107 @@ app.post('/login', (req, res) => {
 });
 
 
+///////////////*DRINK MENU ROUTES*////////////////
+
+
 app.post('/drinkmenu', (req, res) => {
   let rating = 0;
-  if (req.query.recommend) rating = 1;
+  if (req.body.recommend) rating = 1;
 
-  let drinkName = req.query.drink_name.toLowerCase();
+  let drinkName = req.body.drink_name.toLowerCase();
 
-  pool.query(`SELECT * FROM drinks WHERE drink_name = '${drinkName}' AND place_id = '${req.query.place_id}'`)
+  pool.query(`SELECT * FROM drinks WHERE drink_name = '${drinkName}' AND place_id = '${req.body.place_id}'`)
     .then(data => {
       if (data.rows.length > 0) {
         res.status(400).send('Drink already exists in menu.');
       } else {
-        pool.query(`INSERT INTO drinks (drink_name, drink_rating, place_id) VALUES ('${drinkName}', ${rating}, '${req.query.place_id}')`)
+        pool.query(`INSERT INTO drinks (drink_name, drink_rating, place_id) VALUES ('${drinkName}', ${rating}, '${req.body.place_id}')`)
           .then(x => { res.status(200).send('Drink added!'); })
           .catch(err => {
             res.status(500).send();
-            console.err;
+            console.error(err);
           });
       }
     });
 });
 
 app.post('/drinkrating', (req, res) => {
-  if (req.query.rating === '1') {
-    pool.query(`UPDATE drinks SET drink_rating = drink_rating + 1 WHERE id = ${Number(req.query.drink_id)}`)
+  if (req.body.rating === '1') {
+    pool.query(`UPDATE drinks SET drink_rating = drink_rating + 1 WHERE id = ${Number(req.body.drink_id)}`)
       .then(x => {
         res.status(200).send('Drink rating updated +1!')
       })
       .catch(err => {
         res.status(500).send();
-        console.err;
+        console.error(err);
        });
   } else {
-    pool.query(`UPDATE drinks SET drink_rating = drink_rating - 1 WHERE id = ${Number(req.query.drink_id)}`)
+    pool.query(`UPDATE drinks SET drink_rating = drink_rating - 1 WHERE id = ${Number(req.body.drink_id)}`)
       .then(x => {
         res.status(200).send('Drink rating updated -1!');
       })
       .catch(err => {
         res.status(500).send();
-        console.err;
+        console.error(err);
       });
   }
 });
+
+app.get('/drinkmenu', (req, res) => {
+  pool.query(`SELECT * FROM drinks WHERE place_id = '${req.body.place_id}'`)
+    .then(data => {
+      res.status(200).send(data.rows);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send(err);
+    })
+})
+
+//////////////*SHOP RATING ROUTEs*//////////////
+
+app.post('/shopratings', (req, res) => {
+  pool.query(`SELECT shop_rating FROM shops WHERE place_id = '${req.body.place_id}'`)
+    .then(data => {
+      if (data.rows.length > 0) {
+        if (req.body.rating === '1') {
+          pool.query(`UPDATE shops SET shop_rating = shop_rating + 1 WHERE place_id = '${req.body.place_id}'`)
+            .then(x => { res.status(200).send('Review updated +1!'); })
+            .catch(err => {
+              res.status(500).send();
+              console.error(err);
+            });
+        } else {
+          pool.query(`UPDATE shops SET shop_rating = shop_rating - 1 WHERE place_id = '${req.body.place_id}'`)
+            .then(x => { res.status(200).send('Review updated -1!'); })
+            .catch(err => {
+              res.status(500).send();
+              console.error(err);
+            });
+        }
+      } else {
+        if (req.body.rating === '1') {
+          pool.query(`INSERT INTO shops (place_id, shop_rating) VALUES ('${req.body.place_id}', 1.0)`)
+            .then(x => { res.status(200).send('Shop rating added!'); })
+            .catch(err => {
+              res.status(500).send();
+              console.error(err);
+            });
+        } else {
+          pool.query(`INSERT INTO shops (place_id, shop_rating) VALUES ('${req.body.place_id}', 0)`)
+            .then(x => { res.status(200).send('Shop rating added!'); })
+            .catch(err => {
+              res.status(500).send();
+              console.error(err);
+            });
+        }
+      }
+    });
+});
+
+
+
+
 
 
 
