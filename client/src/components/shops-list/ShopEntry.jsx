@@ -7,7 +7,7 @@ function ShopEntry ({shop, setCurrentShop}) {
   const navigate = useNavigate()
   function viewShop() {
     setCurrentShop(shop)
-    navigate(`/details`)
+    navigate(`/details/`)
   }
 
   return (

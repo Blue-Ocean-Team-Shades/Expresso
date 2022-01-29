@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
-import { FlexRow } from '../Styled.jsx';
-import { Link } from 'react-router-dom';
+import { FlexRow, colors, AccentButton } from '../Styled.jsx';
+import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -14,17 +14,9 @@ const MenuStyled = styled(Menu)`
   }
 `;
 
-const ButtonStyled = styled(Button)`
-  background-color: brown;
-  color: black;
-  :hover {
-    background-color: red;
-  }
-`;
-
 const ButtonOpen = styled.div`
   border-radius: 4px;
-  background-color: grey;
+  background-color: ${colors.accentDark};
   transition-property: height;
   transition-duration: 250ms;
   border-bottom-left-radius: 0;
@@ -41,9 +33,6 @@ const ButtonOpen = styled.div`
 function callbackRef(setHeight, isMenu) {
   const ref = useRef();
   const setRef = useCallback((node) => {
-    if (ref.current) {
-      //cleanup old events
-    }
     if (node) {
       if (isMenu) {
         setHeight(node.children[2].clientHeight);
@@ -63,19 +52,25 @@ function Options(props) {
   const open = Boolean(anchorEl);
   const buttonRef = callbackRef(setButtonHeight);
   const menuRef = callbackRef(setMenuHeight, true);
+  const navigate = useNavigate();
   // const
   function handleClose() {
     setAnchor(null);
   }
 
+  function goToPage(page) {
+    navigate(page);
+    handleClose();
+  }
+
   return (
     <div>
-      <ButtonStyled onClick={(e) => setAnchor(e.target)} disableRipple={true} ref={buttonRef}>
+      <AccentButton onClick={(e) => setAnchor(e.target)} disableRipple={true} ref={buttonRef}>
         V
         <ButtonOpen height={open ? menuHeight + buttonHeight : buttonHeight} open={open}>
           ^
         </ButtonOpen>
-      </ButtonStyled>
+      </AccentButton>
       <MenuStyled
         open={open}
         id='settings'
@@ -85,8 +80,8 @@ function Options(props) {
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         ref={menuRef}
       >
-        <MenuItem onClick={handleClose}> Item 1</MenuItem>
-        <MenuItem onClick={handleClose}> Item 2</MenuItem>
+        <MenuItem onClick={() => goToPage('/favorites/')}>My Favorites</MenuItem>
+        <MenuItem onClick={() => goToPage('/login')}>Log in</MenuItem>
       </MenuStyled>
     </div>
   );
