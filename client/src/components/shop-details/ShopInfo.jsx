@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import {
   Background,
   Accent,
@@ -16,14 +17,15 @@ const Column = styled(FlexCol)`
   flex: 1;
 `;
 
-function ShopInfo(props) {
+function ShopInfo({ shop }) {
   return (
     <FlexRow>
+      {console.log(shop)}
       <Column>
         <div>Back Home</div>
       </Column>
       <Column>
-        <div>Shop Name</div>
+        <div>{shop.name}</div>
         <div>Address</div>
         <div>Website</div>
       </Column>

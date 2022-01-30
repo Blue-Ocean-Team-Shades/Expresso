@@ -116,17 +116,17 @@ const createRows = (arr) => {
       <Row key={arr.length}>
         <Column>
           <OrangeColumn>
-            <div>{arr[0]}</div>
+            <div>{`${arr[0].name} ${arr[0].rating}`}</div>
           </OrangeColumn>
         </Column>
         <Column>
           <BlueColumn>
-            <div>{arr[1]}</div>
+            <div>{`${arr[1].name} ${arr[1].rating}`}</div>
           </BlueColumn>
         </Column>
         <Column>
           <RedColumn>
-            <div>{arr[2]}</div>
+            <div>{`${arr[2].name} ${arr[2].rating}`}</div>
           </RedColumn>
         </Column>
       </Row>
@@ -153,9 +153,11 @@ const createRows = (arr) => {
   return result;
 };
 
-let rows = createRows(array);
+// let rows = createRows(array);
 
-function DrinkList(props) {
+function DrinkList({ drinks }) {
+  let rows = createRows(drinks);
+
   return <Container>{rows}</Container>;
 }
 
