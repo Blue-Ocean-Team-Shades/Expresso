@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Background, FlexRow, FlexCol, Accent } from '../Styled.jsx';
+import { Background, FlexRow, FlexCol, Accent, colors } from '../Styled.jsx';
 import DrinkItem from './DrinkItem.jsx';
 
 const GreenBackground = styled(Background)`
@@ -15,17 +15,25 @@ const Container = styled(Accent)`
   overflow: auto;
   height: inherit;
   border: gray solid 1px;
-  // margin: 20px;
+  margin: 2vw;
 `;
 
+// change flex direction to column  for mobile
+// note: DrinkList Inner
+// // //    width: 90vw;
+// // //     height: 60vh;
 const Row = styled(FlexRow)`
   flex-wrap: wrap;
-  width: 100%;
+  // width: 100%;
 `;
 
 const Column = styled(FlexCol)`
   flex-basis: 100%;
   flex: 1;
+  margin: 4px;
+  border-radius: 5px;
+  background-color: ${colors.accent};
+  padding: 7px;
 `;
 
 const InnerColumn = styled(FlexCol)`
@@ -81,8 +89,14 @@ const createRows = (arr) => {
 
 function DrinkList({ drinks }) {
   let rows = createRows(drinks);
-
-  return <Container>{rows}</Container>;
+  // return <Container>{rows}</Container>;
+  return (
+    <Container>
+      {/* <div id='test2'>{rows}</div> */}
+      {/* <div id='test2'></div> */}
+      {rows}
+    </Container>
+  );
 }
 
 export default DrinkList;

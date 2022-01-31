@@ -18,6 +18,18 @@ const Column = styled(FlexCol)`
   flex: 1;
 `;
 
+const Text = styled(Accent)`
+  text-align: center;
+`;
+
+const Website = styled(Accent)`
+  text-align: center;
+`;
+
+const Map = styled(Accent)`
+  text-align: right;
+`;
+
 function ShopInfo({ shop }) {
   return (
     <FlexRow>
@@ -25,12 +37,14 @@ function ShopInfo({ shop }) {
         <Link to='/'>Back Home</Link>
       </Column>
       <Column>
-        <div>{shop.name}</div>
-        <div>Address</div>
-        <div>Website</div>
+        <Text>{shop.name}</Text>
+        <Text>201 Octavia St, San Francisco, CA 94102</Text>
+        <Website as='a' href='http://www.mercurycafe.net/'>
+          mercurycafe.net
+        </Website>
       </Column>
       <Column>
-        <div>Show on Map</div>
+        <Map>Show on Map</Map>
       </Column>
     </FlexRow>
   );

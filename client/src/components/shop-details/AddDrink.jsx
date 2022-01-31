@@ -9,6 +9,7 @@ const Row = styled(FlexCol)`
 
 const DrinkInput = styled(Accent)`
   // width: 40%;
+  font-size: 1.3rem;
 `;
 
 const DrinkName = styled(Input)`
