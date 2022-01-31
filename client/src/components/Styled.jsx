@@ -60,14 +60,21 @@ export const Accent = styled.div`
 export const Highlight = styled.div`
 `
 
-//placeholder
+export const styleAccentButton = `
+&& {
+  border-radius: 4px;
+  background-color: ${colors.accent};
+  color: black;
+  :hover {
+    background-color: ${colors.accentLight};
+  }
+  :disabled {
+    background-color: ${colors.accentDark};
+  }
+`
+
 export const AccentButton = styled(Button)`
-  && {
-    background-color: ${colors.accent};
-    color: black;
-    :hover {
-      background-color: ${colors.accentLight};
-    }
+  ${styleAccentButton}
 `
 
 //placeholder

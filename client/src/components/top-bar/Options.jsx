@@ -1,69 +1,83 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
-import { FlexRow, colors, AccentButton } from '../Styled.jsx';
+import { FlexRow, FlexCol, colors, AccentButton, styleAccentButton } from '../Styled.jsx';
 import { useNavigate } from 'react-router-dom';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import Collapse from '@mui/material/Collapse';
+import hamburger from '../../assets/hamburger.svg';
+import hamburgerOpen from '../../assets/hamburgerOpen.svg';
+import IconButton from '@mui/material/IconButton';
 
 const MenuStyled = styled(Menu)`
-  & .MuiPaper-root {
-    background-color: lightgrey;
-    border-bottom-right-radius: 0;
-    border-top-right-radius: 0;
+  && {
+    .MuiList-padding {
+      padding: 0;
+    }
+    .MuiPaper-root {
+      background-color: lightgrey;
+      border-top-right-radius: 0;
+    }
   }
 `;
 
-const ButtonOpen = styled.div`
-  border-radius: 4px;
-  background-color: ${colors.accentDark};
-  transition-property: height;
-  transition-duration: 250ms;
-  border-bottom-left-radius: 0;
-  box-shadow: -1px 1px 1px 0px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%),
-    0px 1px 3px 0px rgb(0 0 0 / 12%);
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: ${({ height }) => `${height}`}px;
-  visibility: ${({ open }) => `${open ? 'visible' : 'hidden'}`};
+const ButtonImg = styled.img`
+  width: 2em;
+  height: auto;
+`;
+
+const ButtonClosed = styled(IconButton)`
+  ${styleAccentButton}
+  ${({ open }) =>
+    open
+      ? `
+        && {
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
+          }
+      `
+      : ''}
+`;
+
+const ButtonOpen = styled(ButtonClosed)`
+  && {
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-radius: 0;
+    width: ${({ width }) => width}px;
+  }
 `;
 
 const MenuRight = styled(MenuItem)`
   && {
     justify-content: flex-end;
   }
-`
+`;
 const EmptySpace = styled.div`
   height: 8rem;
-`
-
-function callbackRef(setHeight, isMenu) {
-  const ref = useRef();
-  const setRef = useCallback((node) => {
-    if (node) {
-      if (isMenu) {
-        setHeight(node.children[2].clientHeight);
-      } else {
-        setHeight(node.clientHeight);
-      }
-    }
-    ref.current = node;
-  }, []);
-  return setRef;
-}
+`;
 
 function Options(props) {
-  const [anchorEl, setAnchor] = useState(null);
-  const [menuHeight, setMenuHeight] = useState(0);
-  const [buttonHeight, setButtonHeight] = useState(0);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const buttonRef = callbackRef(setButtonHeight);
-  const menuRef = callbackRef(setMenuHeight, true);
+  const [anchorWidth, setAnchorWidth] = useState(64);
+  const [offset, setOffset] = useState(16);
+  const anchorRef = useRef();
   const navigate = useNavigate();
-  // const
   function handleClose() {
     setAnchor(null);
+  }
+
+  function setAnchor(e) {
+    if (e) {
+      setAnchorEl(e.currentTarget);
+      const newOffs = e.currentTarget.offsetWidth - e.currentTarget.children[0].offsetWidth;
+      setOffset(newOffs);
+      console.log(newOffs);
+      setAnchorWidth(e.currentTarget.offsetWidth);
+    } else {
+      setAnchorEl(null);
+    }
   }
 
   function goToPage(page) {
@@ -73,24 +87,37 @@ function Options(props) {
 
   return (
     <div>
-      <AccentButton onClick={(e) => setAnchor(e.target)} disableRipple={true} ref={buttonRef}>
-        V
-        <ButtonOpen as='div' height={open ? menuHeight + buttonHeight : buttonHeight} open={open}>
-          ^
-        </ButtonOpen>
-      </AccentButton>
+      <ButtonClosed
+        onClick={setAnchor}
+        disableRipple={true}
+        ref={anchorRef}
+        size='medium'
+        open={open}
+      >
+        {open ? <ButtonImg src={hamburgerOpen} /> : <ButtonImg src={hamburger} />}
+      </ButtonClosed>
       <MenuStyled
         open={open}
         id='settings'
         onClose={handleClose}
         anchorEl={anchorEl}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        ref={menuRef}
+        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        offset={offset}
+        PaperProps={{
+          style: {
+            transform: `translateX(${offset}px)`,
+          },
+        }}
       >
-        <MenuItem onClick={() => goToPage('/favorites/')}>My Favorites</MenuItem>
-        <EmptySpace />
-        <MenuRight onClick={() => goToPage('/login')}>Log in</MenuRight>
+        <FlexRow>
+          <FlexCol style={{ margin: '4px' }}>
+            <MenuItem onClick={() => goToPage('/favorites/')}>My Favorites</MenuItem>
+            <EmptySpace />
+            <MenuRight onClick={() => goToPage('/login')}>Log in</MenuRight>
+          </FlexCol>
+          <ButtonOpen as='div' width={anchorWidth}></ButtonOpen>
+        </FlexRow>
       </MenuStyled>
     </div>
   );
