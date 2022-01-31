@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+
 import {
   Background,
   Accent,
@@ -16,14 +18,14 @@ const Column = styled(FlexCol)`
   flex: 1;
 `;
 
-function ShopInfo(props) {
+function ShopInfo({ shop }) {
   return (
     <FlexRow>
       <Column>
-        <div>Back Home</div>
+        <Link to='/'>Back Home</Link>
       </Column>
       <Column>
-        <div>Shop Name</div>
+        <div>{shop.name}</div>
         <div>Address</div>
         <div>Website</div>
       </Column>
