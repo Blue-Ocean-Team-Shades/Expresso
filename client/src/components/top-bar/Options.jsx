@@ -77,7 +77,6 @@ function Options(props) {
       setAnchorEl(e.currentTarget);
       const rect = e.currentTarget.getBoundingClientRect();
       setFixRight(window.innerWidth - rect.right);
-      console.log('right side: ', window.innerWidth, rect.right, window.innerWidth - rect.right);
       setAnchorWidth(e.currentTarget.offsetWidth);
     } else {
       setAnchorEl(null);

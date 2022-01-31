@@ -19,6 +19,7 @@ const FitWidth = styled(Background)`
   width: 100%;
   border: 1px solid black;
   padding: 1em;
+  box-sizing: border-box
 `;
 
 const Shops = styled(Background)`
