@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Input, FlexCol, AccentButton, FlexRow, Accent } from '../Styled.jsx';
-import axios from 'Axios';
+import axios from 'axios';
 
 const Row = styled(FlexCol)`
   align-items: center;
@@ -44,17 +44,17 @@ function AddDrink({ currentShop, setCurrentShop }) {
     setPriceValue('');
   };
 
-  const addDrinkItem = () => {
-    let obj = {
-      place_id: 'ChIJr0p1HSe5QIYRJbI_fFPj6e0',
-      drink_name: 'Late',
-      recommend: true,
-    };
-    axios
-      .post('/drinkmenu', obj)
-      .then((result) => console.log(result))
-      .catch((err) => console.log(err));
-  };
+  // const addDrinkItem = () => {
+  //   let obj = {
+  //     place_id: 'ChIJr0p1HSe5QIYRJbI_fFPj6e0',
+  //     drink_name: 'Late',
+  //     recommend: true,
+  //   };
+  //   axios
+  //     .post('/drinkmenu', obj)
+  //     .then((result) => console.log(result))
+  //     .catch((err) => console.log(err));
+  // };
 
   const clickHandler = (event) => {
     event.preventDefault();
