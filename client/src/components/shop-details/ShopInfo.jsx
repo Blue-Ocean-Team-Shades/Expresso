@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 import {
   Background,
@@ -20,9 +21,8 @@ const Column = styled(FlexCol)`
 function ShopInfo({ shop }) {
   return (
     <FlexRow>
-      {console.log(shop)}
       <Column>
-        <div>Back Home</div>
+        <Link to='/'>Back Home</Link>
       </Column>
       <Column>
         <div>{shop.name}</div>
