@@ -6,9 +6,25 @@ const controllers = require('./controllers.js');
 const path = require('path');
 const { pool } = require('../database');
 const utils = require('./hashUtils.js');
+const session = require('express-session');
+const store = require('connect-pg-simple')(session);
 
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(session({
+  store: new store({
+    pool: pool,
+    tableName: 'session',
+    createTableIfMissing: true
+  }),
+  name: 'expressoid',
+  secret: 'some secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24
+  }
+}));
 
 
 //janky fix, but it's fine because we're replacing all this with subdomains anyways
