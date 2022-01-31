@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { FlexRow, FlexCol, colors, AccentButton, styleAccentButton } from '../Styled.jsx';
 import { useNavigate } from 'react-router-dom';
@@ -63,9 +63,11 @@ function Options(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [anchorWidth, setAnchorWidth] = useState(64);
-  const [offset, setOffset] = useState(16);
-  const anchorRef = useRef();
+  const [offset, setOffset] = useState({ left: 0, top: 0 });
   const navigate = useNavigate();
+
+  const [menuWidth, setMenuWidth] = useState(0);
+
   function handleClose() {
     setAnchor(null);
   }
@@ -73,9 +75,8 @@ function Options(props) {
   function setAnchor(e) {
     if (e) {
       setAnchorEl(e.currentTarget);
-      const newOffs = e.currentTarget.offsetWidth - e.currentTarget.children[0].offsetWidth;
-      setOffset(newOffs);
-      console.log(newOffs);
+      const rect = e.currentTarget.getBoundingClientRect();
+      setOffset({ left: rect.right, top: rect.bottom });
       setAnchorWidth(e.currentTarget.offsetWidth);
     } else {
       setAnchorEl(null);
@@ -88,29 +89,18 @@ function Options(props) {
   }
 
   return (
-    <div>
-      <ButtonClosed
-        onClick={setAnchor}
-        disableRipple={true}
-        ref={anchorRef}
-        size='small'
-        open={open}
-      >
+    <div style={{ margin: 0 }}>
+      <ButtonClosed onClick={setAnchor} disableRipple={true} size='small' open={open}>
         {open ? <ButtonImg src={hamburgerOpen} /> : <ButtonImg src={hamburger} />}
       </ButtonClosed>
       <MenuStyled
         open={open}
         id='settings'
         onClose={handleClose}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         anchorEl={anchorEl}
-        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        offset={offset}
-        PaperProps={{
-          style: {
-            transform: `translateX(${offset - 6}px)`,
-          },
-        }}
+        disableScrollLock={true}
       >
         <FlexRow>
           <FlexCol style={{ margin: '4px' }}>
