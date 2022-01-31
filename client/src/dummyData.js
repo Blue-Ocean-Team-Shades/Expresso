@@ -8,14 +8,17 @@ export const dummyShops = [
       {
         name: 'coffee',
         rating: 15,
+        price: 18,
       },
       {
         name: 'latte',
         rating: 4,
+        price: 26,
       },
       {
         name: 'milk',
         rating: 0,
+        price: 7,
       },
     ],
   },
@@ -28,14 +31,17 @@ export const dummyShops = [
       {
         name: 'coffee',
         rating: 15,
+        price: 16,
       },
       {
         name: 'latte',
         rating: 4,
+        price: 35,
       },
       {
         name: 'milk',
         rating: 0,
+        price: 49,
       },
     ],
   },
@@ -48,14 +54,17 @@ export const dummyShops = [
       {
         name: 'coffee',
         rating: 15,
+        price: 14,
       },
       {
         name: 'latte',
         rating: 4,
+        price: 19,
       },
       {
         name: 'milk',
         rating: 0,
+        price: 25,
       },
     ],
   },

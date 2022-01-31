@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Input, FlexCol, AccentButton, FlexRow, Accent } from '../Styled.jsx';
+import axios from 'Axios';
 
 const Row = styled(FlexCol)`
   align-items: center;
@@ -8,24 +9,25 @@ const Row = styled(FlexCol)`
 `;
 
 const DrinkInput = styled(Accent)`
-  width: 40%;
+  // width: 40%;
+  font-size: 1.3rem;
 `;
 
 const DrinkName = styled(Input)`
-  background-color: #d1d1d1;
+  // background-color: #d1d1d1;
 `;
 
 const DrinkPrice = styled(Input)`
-  background-color: #d1d1d1;
+  // background-color: #d1d1d1;
 `;
 
 const AddDrinkButton = styled(AccentButton)`
-  background-color: white;
+  // background-color: white;
 `;
 
 let placeholder = `Don't see a drink here? Add it!`;
 
-function AddDrink(props) {
+function AddDrink({ currentShop, setCurrentShop }) {
   const [drinkValue, setDrinkValue] = useState('');
   const [priceValue, setPriceValue] = useState('');
 
@@ -40,6 +42,29 @@ function AddDrink(props) {
   const resetInputFields = () => {
     setDrinkValue('');
     setPriceValue('');
+  };
+
+  const addDrinkItem = () => {
+    let obj = {
+      place_id: 'ChIJr0p1HSe5QIYRJbI_fFPj6e0',
+      drink_name: 'Late',
+      recommend: true,
+    };
+    axios
+      .post('/drinkmenu', obj)
+      .then((result) => console.log(result))
+      .catch((err) => console.log(err));
+  };
+
+  const clickHandler = (event) => {
+    event.preventDefault();
+    // add drink to database --> /drinkmenu
+    // // drink name , rating, placeid
+    // setCurrentShop
+    // use current shop place id
+    // get current shop info from database
+    // setcurrentshop
+    resetInputFields();
   };
 
   return (
@@ -57,7 +82,7 @@ function AddDrink(props) {
           value={priceValue}
           onChange={handlePriceInput}
         />
-        <AddDrinkButton onClick={resetInputFields}>Add Drink</AddDrinkButton>
+        <AddDrinkButton onClick={clickHandler}>Add Drink</AddDrinkButton>
       </FlexRow>
     </Row>
   );
