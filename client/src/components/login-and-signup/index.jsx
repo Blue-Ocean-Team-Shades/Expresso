@@ -16,6 +16,9 @@ function LoginAndSignup({ isLogin, isSignup }) {
   const [signUpUser, setSignUpUser] = useState('');
   const [signUpPassword, setSignUpPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
+  const [usernameErr, setUsernameErr] = useState(false);
+  const [passwordErr, setPasswordErr] = useState(false);
+  const [signUpUsernameErr, setSignUpUsernameErr] = useState(false);
 
   const signUp = () => {
     navigate("/signup");
@@ -61,7 +64,15 @@ function LoginAndSignup({ isLogin, isSignup }) {
           navigate('/');
         })
         .catch((err) => {
-          console.log('this is err', err);
+          console.log(document.getElementsByClassName('loginUser')[0].style.border)
+          if (err.response.status === 404) {
+            setUsernameErr(true);
+            document.getElementsByClassName('loginUser')[0].style.border = '1px solid red';
+          }
+          if (err.response.status === 400) {
+            setPasswordErr(true);
+            document.getElementsByClassName('loginPassword')[0].style.border = '1px solid red';
+          }
         })
     } else {
       alert(`${currentErrors[0]}`);
@@ -85,7 +96,10 @@ function LoginAndSignup({ isLogin, isSignup }) {
             // navigate('/login');
           })
           .catch((err) => {
-            console.log('this is err', err);
+            if (err.response.status === 500) {
+              setSignUpUsernameErr(true);
+              document.getElementsByClassName('signUpUser')[0].style.border = '1px solid red';
+            }
           })
       } else {
         alert('Confirm password was incorrect')
@@ -109,6 +123,8 @@ function LoginAndSignup({ isLogin, isSignup }) {
         <Login
           usernameChange={usernameChange}
           passwordChange={passwordChange}
+          usernameErr={usernameErr}
+          passwordErr={passwordErr}
           submitLogin={submitLogin}
           signUp={signUp}
         />
@@ -121,6 +137,7 @@ function LoginAndSignup({ isLogin, isSignup }) {
           signUpName={signUpName}
           signUpPassword={signUpPw}
           confirmPassword={confirmPasswordChange}
+          signUpUsernameErr={signUpUsernameErr}
           signUp={submitSignUp}
           logIn={logIn}
         />
