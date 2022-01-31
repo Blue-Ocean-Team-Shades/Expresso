@@ -198,6 +198,31 @@ app.post('/favorites', (req, res) => {
 
 
 
+app.get('/userfavorites', (req, res) => {
+  let returnObject = {
+    favoriteDrinks: [],
+    favoriteShops: []
+  };
+
+
+  pool.query(`SELECT * FROM favorites WHERE user_id = ${Number(req.body.user_id)}`)
+    .then(data => {
+      for (let favorite of data.rows) {
+        if (favorite['iscoffee']) { returnObject.favoriteDrinks.push(favorite) } else {
+          returnObject.favoriteShops.push(favorite);
+        }
+      }
+
+      res.status(200).send(returnObject);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send();
+    });
+});
+
+
+
 
 
 
