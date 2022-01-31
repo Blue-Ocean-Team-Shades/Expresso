@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TopBar from '../top-bar';
 import styled from 'styled-components';
-import { isMobile, Main, Background, Accent, Highlight, FlexRow, FlexCol, AccentButton } from '../Styled.jsx';
+import {
+  isMobile,
+  Main,
+  Background,
+  Accent,
+  Highlight,
+  FlexRow,
+  FlexCol,
+  AccentButton,
+} from '../Styled.jsx';
 import ShopEntry from './ShopEntry.jsx';
 
 const FitWidth = styled(Background)`
@@ -17,7 +26,26 @@ const Shops = styled(Background)`
   flex-direction: column;
 `;
 
-function ShopsList({ shops, isFavorites, setCurrentShop}) {
+function sortFunc(sortBy) {
+  if (sortBy.startsWith('-')) {
+    sortBy = sortBy.substring(1)
+    return (a, b) => a[sortBy] - b[sortBy]
+  }
+  return (a, b) => b[sortBy] - a[sortBy]
+}
+
+const defaultFilters = {
+  open: false,
+  distance: 1000,
+}
+
+function filter(list, filters){
+  return list;
+}
+
+function ShopsList({ shops, isFavorites, setCurrentShop }) {
+  const [sort, setSort] = useState('-distance');
+  const [filters, setFilters] = useState(defaultFilters)
   return (
     <Background>
       {isFavorites ? 'TODO: filter by favorites' : null}
@@ -27,15 +55,15 @@ function ShopsList({ shops, isFavorites, setCurrentShop}) {
         </FitWidth>
         <Main>
           <Shops>
-            {shops.map((shop) => (
+            {filter(shops, filters).sort(sortFunc(sort)).map((shop) => (
               <ShopEntry shop={shop} key={shop.id} setCurrentShop={setCurrentShop} />
             ))}
           </Shops>
           <Accent>
             <FlexCol>
               Sort by
-              <AccentButton>rating</AccentButton>
-              <AccentButton>distance</AccentButton>
+              <AccentButton disabled={sort==='-distance'} onClick={() => setSort('-distance')}>distance</AccentButton>
+              <AccentButton disabled={sort==='rating'} onClick={() => setSort('rating')}>rating</AccentButton>
               Show
               <AccentButton>open</AccentButton>
               <AccentButton>nearby</AccentButton>

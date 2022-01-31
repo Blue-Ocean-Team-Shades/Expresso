@@ -39,8 +39,10 @@ const ButtonClosed = styled(IconButton)`
       : ''}
 `;
 
-const ButtonOpen = styled(ButtonClosed)`
+const MenuSide = styled(AccentButton)`
   && {
+    pointer-events: none;
+    margin: 0;
     justify-content: flex-start;
     align-items: flex-start;
     border-radius: 0;
@@ -91,7 +93,7 @@ function Options(props) {
         onClick={setAnchor}
         disableRipple={true}
         ref={anchorRef}
-        size='medium'
+        size='small'
         open={open}
       >
         {open ? <ButtonImg src={hamburgerOpen} /> : <ButtonImg src={hamburger} />}
@@ -106,7 +108,7 @@ function Options(props) {
         offset={offset}
         PaperProps={{
           style: {
-            transform: `translateX(${offset}px)`,
+            transform: `translateX(${offset - 6}px)`,
           },
         }}
       >
@@ -116,7 +118,7 @@ function Options(props) {
             <EmptySpace />
             <MenuRight onClick={() => goToPage('/login')}>Log in</MenuRight>
           </FlexCol>
-          <ButtonOpen as='div' width={anchorWidth}></ButtonOpen>
+          <MenuSide as='div' width={anchorWidth}></MenuSide>
         </FlexRow>
       </MenuStyled>
     </div>

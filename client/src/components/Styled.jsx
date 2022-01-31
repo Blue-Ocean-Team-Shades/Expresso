@@ -38,7 +38,7 @@ export const colors = {
   mainDark: '#621c15',
   mainLight: '#ffe0c2',
   accent: '#a4cfcd',
-  accentDark: '#a4cfcd', //replace with darker color
+  accentDark: '#6f9695', //replace with darker color
   accentLight: '#d8fffa',
   highlight: '#ffc700',
   highlightDark: '#ffc700', //replace with darker color
@@ -64,6 +64,7 @@ export const styleAccentButton = `
 && {
   border-radius: 4px;
   background-color: ${colors.accent};
+  margin: 4px;
   color: black;
   :hover {
     background-color: ${colors.accentLight};
