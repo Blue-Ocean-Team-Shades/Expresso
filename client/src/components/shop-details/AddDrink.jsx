@@ -42,6 +42,17 @@ function AddDrink(props) {
     setPriceValue('');
   };
 
+  const clickHandler = (event) => {
+    event.preventDefault();
+    // add drink to database
+    // setShops
+    // setCurrentShop
+    // use current shop place id
+    // get current shop info from database
+    // setcurrentshop
+    resetInputFields();
+  };
+
   return (
     <Row>
       <DrinkInput>{placeholder}</DrinkInput>
@@ -57,7 +68,7 @@ function AddDrink(props) {
           value={priceValue}
           onChange={handlePriceInput}
         />
-        <AddDrinkButton onClick={resetInputFields}>Add Drink</AddDrinkButton>
+        <AddDrinkButton onClick={clickHandler}>Add Drink</AddDrinkButton>
       </FlexRow>
     </Row>
   );

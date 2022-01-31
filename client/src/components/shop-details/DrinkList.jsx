@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Background, FlexRow, FlexCol, Accent } from '../Styled.jsx';
+import DrinkItem from './DrinkItem.jsx';
 
 const GreenBackground = styled(Background)`
   background-color: green;
@@ -14,7 +15,7 @@ const Container = styled(Accent)`
   overflow: auto;
   height: inherit;
   border: gray solid 1px;
-  margin: 20px;
+  // margin: 20px;
 `;
 
 const Row = styled(FlexRow)`
@@ -27,89 +28,10 @@ const Column = styled(FlexCol)`
   flex: 1;
 `;
 
-const OrangeColumn = styled(FlexCol)`
-  background-color: orange;
+const InnerColumn = styled(FlexCol)`
+  // background-color: orange;
   // height: 100px;
 `;
-
-const BlueColumn = styled(FlexCol)`
-  background-color: blue;
-  // height: 100px;
-`;
-
-const RedColumn = styled(FlexCol)`
-  background-color: Red;
-  // height: 100px;
-`;
-
-let array = [
-  'Row 1, Column One',
-  'Row 1, Column Two',
-  'Row 1, Column Three',
-  'Row 2, Column One',
-  'Row 2, Column Two',
-  'Row 2, Column Three',
-  'Row 3, Column One',
-  'Row 3, Column Two',
-  'Row 3, Column Three',
-  'Row 4, Column One',
-  'Row 4, Column Two',
-  'Row 2, Column One',
-  'Row 2, Column Two',
-  'Row 2, Column Three',
-  'Row 3, Column One',
-  'Row 3, Column Two',
-  'Row 3, Column Three',
-  'Row 4, Column One',
-  'Row 4, Column Two',
-  'Row 2, Column One',
-  'Row 2, Column Two',
-  'Row 2, Column Three',
-  'Row 3, Column One',
-  'Row 3, Column Two',
-  'Row 3, Column Three',
-  'Row 4, Column One',
-  'Row 4, Column Two',
-  'Row 3, Column One',
-  'Row 3, Column Two',
-  'Row 3, Column Three',
-  'Row 4, Column One',
-  'Row 4, Column Two',
-  'Row 2, Column One',
-  'Row 2, Column Two',
-  'Row 2, Column Three',
-  'Row 3, Column One',
-  'Row 3, Column Two',
-  'Row 3, Column Three',
-  'Row 4, Column One',
-  'Row 4, Column Two',
-  'Row 3, Column One',
-  'Row 3, Column Two',
-  'Row 3, Column Three',
-  'Row 4, Column One',
-  'Row 4, Column Two',
-  'Row 2, Column One',
-  'Row 2, Column Two',
-  'Row 2, Column Three',
-  'Row 3, Column One',
-  'Row 3, Column Two',
-  'Row 3, Column Three',
-  'Row 4, Column One',
-  'Row 4, Column Two',
-  'Row 3, Column One',
-  'Row 3, Column Two',
-  'Row 3, Column Three',
-  'Row 4, Column One',
-  'Row 4, Column Two',
-  'Row 2, Column One',
-  'Row 2, Column Two',
-  'Row 2, Column Three',
-  'Row 3, Column One',
-  'Row 3, Column Two',
-  'Row 3, Column Three',
-  'Row 4, Column One',
-  'Row 4, Column Two',
-];
 
 const createRows = (arr) => {
   let result = [];
@@ -117,19 +39,19 @@ const createRows = (arr) => {
     result.push(
       <Row key={arr.length}>
         <Column>
-          <OrangeColumn>
-            <div>{`${arr[0].name} ${arr[0].rating}`}</div>
-          </OrangeColumn>
+          <InnerColumn>
+            <DrinkItem arr={arr[0]} />
+          </InnerColumn>
         </Column>
         <Column>
-          <BlueColumn>
-            <div>{`${arr[1].name} ${arr[1].rating}`}</div>
-          </BlueColumn>
+          <InnerColumn>
+            <DrinkItem arr={arr[1]} />
+          </InnerColumn>
         </Column>
         <Column>
-          <RedColumn>
-            <div>{`${arr[2].name} ${arr[2].rating}`}</div>
-          </RedColumn>
+          <InnerColumn>
+            <DrinkItem arr={arr[2]} />
+          </InnerColumn>
         </Column>
       </Row>
     );
@@ -143,9 +65,9 @@ const createRows = (arr) => {
         {arr.map((el, i) => {
           return (
             <Column key={i}>
-              <OrangeColumn>
-                <div>{el}</div>
-              </OrangeColumn>
+              <InnerColumn>
+                <DrinkItem arr={arr[i]} />
+              </InnerColumn>
             </Column>
           );
         })}

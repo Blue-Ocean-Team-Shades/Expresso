@@ -64,8 +64,8 @@ function ShopDetails({ currentShop }) {
       <Image />
       <Container>
         <Inner>
-          <ShopInfo shop={currentShop || {}} />
-          <DrinkList drinks={currentShop ? currentShop.drinks : []} />
+          <ShopInfo shop={dummyCurrentShop || {}} />
+          <DrinkList drinks={dummyCurrentShop ? dummyCurrentShop.drinks : []} />
           <AddDrink />
         </Inner>
       </Container>
