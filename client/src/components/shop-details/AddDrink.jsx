@@ -8,19 +8,19 @@ const Row = styled(FlexCol)`
 `;
 
 const DrinkInput = styled(Accent)`
-  width: 40%;
+  // width: 40%;
 `;
 
 const DrinkName = styled(Input)`
-  background-color: #d1d1d1;
+  // background-color: #d1d1d1;
 `;
 
 const DrinkPrice = styled(Input)`
-  background-color: #d1d1d1;
+  // background-color: #d1d1d1;
 `;
 
 const AddDrinkButton = styled(AccentButton)`
-  background-color: white;
+  // background-color: white;
 `;
 
 let placeholder = `Don't see a drink here? Add it!`;

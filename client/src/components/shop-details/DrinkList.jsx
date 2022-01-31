@@ -10,9 +10,11 @@ const Container = styled(Accent)`
   // height: 80vh;
   // min-height; 60vh;
   // max-height: 50vh;
-  background-color: purple;
+  // background-color: purple;
   overflow: auto;
   height: inherit;
+  border: gray solid 1px;
+  margin: 20px;
 `;
 
 const Row = styled(FlexRow)`

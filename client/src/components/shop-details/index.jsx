@@ -43,7 +43,8 @@ const Inner = styled(FlexCol)`
   height: 60vh;
   // max-height: 50vh;
   // height: 1200px;
-  background-color: green;
+  background-color: white;
+  border: gray solid 1px;
 `;
 
 const Image = styled(Accent)`
