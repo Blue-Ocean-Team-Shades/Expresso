@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Input, FlexCol, AccentButton, FlexRow, Accent } from '../Styled.jsx';
+import axios from 'Axios';
 
 const Row = styled(FlexCol)`
   align-items: center;
@@ -26,7 +27,7 @@ const AddDrinkButton = styled(AccentButton)`
 
 let placeholder = `Don't see a drink here? Add it!`;
 
-function AddDrink(props) {
+function AddDrink({ currentShop, setCurrentShop }) {
   const [drinkValue, setDrinkValue] = useState('');
   const [priceValue, setPriceValue] = useState('');
 
@@ -43,9 +44,22 @@ function AddDrink(props) {
     setPriceValue('');
   };
 
+  const addDrinkItem = () => {
+    let obj = {
+      place_id: 'ChIJr0p1HSe5QIYRJbI_fFPj6e0',
+      drink_name: 'Late',
+      rating: 1,
+    };
+    axios
+      .post('/drinkmenu', obj)
+      .then((result) => console.log(result))
+      .catch((err) => console.log(err));
+  };
+
   const clickHandler = (event) => {
     event.preventDefault();
-    // add drink to database
+    // add drink to database --> /drinkmenu
+    // // drink name , rating, placeid
     // setCurrentShop
     // use current shop place id
     // get current shop info from database

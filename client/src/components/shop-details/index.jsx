@@ -55,7 +55,7 @@ const Image = styled(Accent)`
   background-repeat: no-repeat;
 `;
 
-function ShopDetails({ currentShop }) {
+function ShopDetails({ currentShop, setCurrentShop }) {
   return (
     <ListBackground>
       <Image />
@@ -63,7 +63,7 @@ function ShopDetails({ currentShop }) {
         <Inner>
           <ShopInfo shop={dummyCurrentShop || {}} />
           <DrinkList drinks={dummyCurrentShop ? dummyCurrentShop.drinks : []} />
-          <AddDrink />
+          <AddDrink currentShop={currentShop} setCurrentShop={setCurrentShop} />
         </Inner>
       </Container>
     </ListBackground>
