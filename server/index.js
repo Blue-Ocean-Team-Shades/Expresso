@@ -168,11 +168,8 @@ app.post('/shopratings', (req, res) => {
 
 //////////////*USER FAVORITES ROUTES*//////////////
 
-app.post('/addfavorite', (req, res) => {
-
-
+app.post('/favorites', (req, res) => {
   if (req.body.isCoffee === 'true') {
-
     pool.query(`SELECT * FROM favorites WHERE user_id = ${Number(req.body.user_id)} AND drink_id = ${Number(req.body.drink_id)} AND place_id = '${req.body.place_id}'`)
       .then(data => {
         if (data.rows.length > 0) { res.status(400).send('This drink is already a favorite of yours!'); } else {
