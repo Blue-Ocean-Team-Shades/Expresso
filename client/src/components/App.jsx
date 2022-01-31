@@ -1,4 +1,5 @@
 import Styled from './Styled.jsx';
+import styled from 'styled-components'
 import React, { useState, useEffect, useMemo } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ShopsList from './shops-list';
@@ -7,6 +8,12 @@ import ShopDetails from './shop-details';
 import TopBar from './top-bar';
 import { dummyShops } from '../dummyData.js';
 import axios from 'axios';
+
+const BodyMain = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+`
 
 function getLocation() {
   return new Promise((resolve, reject) => {
@@ -58,23 +65,25 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
-      <TopBar />
-      <Routes>
-        <Route path='/' element={<ShopsList shops={shops} setCurrentShop={setCurrentShop} message={message} />} />
-        <Route
-          path='/details'
-          element={
-            <ShopDetails shops={shops} setCurrentShop={setCurrentShop} currentShop={currentShop} />
-          }
-        />
-        <Route path='/login' element={<LoginSignup isLogin={true} />} />
-        <Route path='/signup' element={<LoginSignup isSignup={true} />} />
-        <Route
-          path='/favorites'
-          element={<ShopsList isFavorites={true} shops={shops} setCurrentShop={setCurrentShop} />}
-        />
-      </Routes>
+    <BrowserRouter style={{height: '100vh'}}>
+      <BodyMain>
+        <TopBar />
+        <Routes>
+          <Route path='/' element={<ShopsList shops={shops} setCurrentShop={setCurrentShop} message={message} />} />
+          <Route
+            path='/details'
+            element={
+              <ShopDetails shops={shops} setCurrentShop={setCurrentShop} currentShop={currentShop} />
+            }
+          />
+          <Route path='/login' element={<LoginSignup isLogin={true} />} />
+          <Route path='/signup' element={<LoginSignup isSignup={true} />} />
+          <Route
+            path='/favorites'
+            element={<ShopsList isFavorites={true} shops={shops} setCurrentShop={setCurrentShop} />}
+          />
+        </Routes>
+      </BodyMain>
     </BrowserRouter>
   );
 }
