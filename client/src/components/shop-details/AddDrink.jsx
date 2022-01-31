@@ -46,7 +46,6 @@ function AddDrink(props) {
   const clickHandler = (event) => {
     event.preventDefault();
     // add drink to database
-    // setShops
     // setCurrentShop
     // use current shop place id
     // get current shop info from database
