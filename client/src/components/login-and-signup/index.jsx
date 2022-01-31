@@ -57,9 +57,8 @@ function LoginAndSignup({ isLogin, isSignup }) {
 
     if (currentErrors.length === 0) {
       axios.post('/login', formData)
-        .then((res) => {
-          console.log('this is res', res);
-          // navigate('/');
+        .then(() => {
+          navigate('/');
         })
         .catch((err) => {
           console.log('this is err', err);
