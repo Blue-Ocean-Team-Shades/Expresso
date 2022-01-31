@@ -41,20 +41,27 @@ function App() {
   const [shops, setShops] = useState(dummyShops);
   const [currentShop, setCurrentShop] = useState(null);
   const [location, setLocation] = useState(null);
+  const [message, setMessage] = useState('loading')
 
   useEffect(() => {
-    getLocation().then((position) => {
-      setLocation(position);
-      //TODO: enable this when server path is done
-      //axios.get('/search', { body: { location: `${location.latitude} ${location.longitude}` } });
-    });
+    setMessage('Fetching location')
+    getLocation()
+      .then((position) => {
+        setMessage(null)
+        setLocation(position);
+        //TODO: enable the next line when server path is done
+        //axios.get('/search', { body: { location: `${location.latitude} ${location.longitude}` } });
+      })
+      .catch(err => {
+        setMessage('Please enable location, or enter a location in the search!')
+      })
   }, []);
 
   return (
     <BrowserRouter>
       <TopBar />
       <Routes>
-        <Route path='/' element={<ShopsList shops={shops} setCurrentShop={setCurrentShop} />} />
+        <Route path='/' element={<ShopsList shops={shops} setCurrentShop={setCurrentShop} message={message} />} />
         <Route
           path='/details'
           element={

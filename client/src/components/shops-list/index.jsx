@@ -1,7 +1,16 @@
 import React from 'react';
 import TopBar from '../top-bar';
 import styled from 'styled-components';
-import { isMobile, Main, Background, Accent, Highlight, FlexRow, FlexCol, AccentButton } from '../Styled.jsx';
+import {
+  isMobile,
+  Main,
+  Background,
+  Accent,
+  Highlight,
+  FlexRow,
+  FlexCol,
+  AccentButton,
+} from '../Styled.jsx';
 import ShopEntry from './ShopEntry.jsx';
 
 const FitWidth = styled(Background)`
@@ -12,12 +21,19 @@ const FitWidth = styled(Background)`
   padding: 1em;
 `;
 
+const Message = styled(Background)`
+  display: flex;
+  justify-content: center;
+  align-elements: center;
+  font-size: 2rem;
+`
+
 const Shops = styled(Background)`
   display: flex;
   flex-direction: column;
 `;
 
-function ShopsList({ shops, isFavorites, setCurrentShop}) {
+function ShopsList({ shops, isFavorites, setCurrentShop, message }) {
   return (
     <Background>
       {isFavorites ? 'TODO: filter by favorites' : null}
@@ -25,23 +41,27 @@ function ShopsList({ shops, isFavorites, setCurrentShop}) {
         <FitWidth>
           <h1>Expresso</h1>
         </FitWidth>
-        <Main>
-          <Shops>
-            {shops.map((shop) => (
-              <ShopEntry shop={shop} key={shop.id} setCurrentShop={setCurrentShop} />
-            ))}
-          </Shops>
-          <Accent>
-            <FlexCol>
-              Sort by
-              <AccentButton>rating</AccentButton>
-              <AccentButton>distance</AccentButton>
-              Show
-              <AccentButton>open</AccentButton>
-              <AccentButton>nearby</AccentButton>
-            </FlexCol>
-          </Accent>
-        </Main>
+        {message ? (
+          <Message>{message}</Message>
+        ) : (
+          <Main>
+            <Shops>
+              {shops.map((shop) => (
+                <ShopEntry shop={shop} key={shop.id} setCurrentShop={setCurrentShop} />
+              ))}
+            </Shops>
+            <Accent>
+              <FlexCol>
+                Sort by
+                <AccentButton>rating</AccentButton>
+                <AccentButton>distance</AccentButton>
+                Show
+                <AccentButton>open</AccentButton>
+                <AccentButton>nearby</AccentButton>
+              </FlexCol>
+            </Accent>
+          </Main>
+        )}
       </FlexCol>
     </Background>
   );
