@@ -168,7 +168,7 @@ app.post('/shopratings', (req, res) => {
 
 //////////////*USER FAVORITES ROUTES*//////////////
 
-app.post('/userfavorites', (req, res) => {
+app.post('/favorites', (req, res) => {
   if (req.body.isCoffee === 'true') {
 
     pool.query(`SELECT * FROM favorites WHERE user_id = ${Number(req.body.user_id)} AND drink_id = ${Number(req.body.drink_id)} AND place_id = '${req.body.place_id}'`)
