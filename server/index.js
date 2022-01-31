@@ -168,9 +168,7 @@ app.post('/shopratings', (req, res) => {
 
 //////////////*USER FAVORITES ROUTES*//////////////
 
-app.post('/addfavorite', (req, res) => {
-
-
+app.post('/userfavorites', (req, res) => {
   if (req.body.isCoffee === 'true') {
 
     pool.query(`SELECT * FROM favorites WHERE user_id = ${Number(req.body.user_id)} AND drink_id = ${Number(req.body.drink_id)} AND place_id = '${req.body.place_id}'`)
@@ -197,6 +195,31 @@ app.post('/addfavorite', (req, res) => {
         }
       });
   }
+});
+
+
+
+app.get('/userfavorites', (req, res) => {
+  let returnObject = {
+    favoriteDrinks: [],
+    favoriteShops: []
+  };
+
+
+  pool.query(`SELECT * FROM favorites WHERE user_id = ${Number(req.body.user_id)}`)
+    .then(data => {
+      for (let favorite of data.rows) {
+        if (favorite['iscoffee']) { returnObject.favoriteDrinks.push(favorite) } else {
+          returnObject.favoriteShops.push(favorite);
+        }
+      }
+
+      res.status(200).send(returnObject);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send();
+    });
 });
 
 
