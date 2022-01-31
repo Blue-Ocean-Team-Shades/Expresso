@@ -1,30 +1,36 @@
 import React from 'react';
-import { FlexRow } from '../Styled.jsx';
-import { Link } from 'react-router-dom';
-import { useLocation } from 'react-router';
+import { Input } from '../Styled.jsx';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Options from './Options.jsx';
+import styled from 'styled-components';
+import Button from '@mui/material/Button';
+
+const FillSpace = styled.div`
+  flex: 1;
+`
+
+const Logo = styled.img`
+  width: 4em;
+  height: 4em;
+`
+
+const TitleBar = styled.div`
+  display: flex;
+  background-color: #fed
+`
 
 function TopBar(props) {
   const location = useLocation();
+  const navigate = useNavigate();
   return (
-    <FlexRow>
-      Temporary nav bar:
-      {location.pathname === '/' ? 'Shops list' : <Link to='/'>Shops list</Link>} &nbsp;|&nbsp;
-      {location.pathname === '/details' ? (
-        'Shop Details'
-      ) : (
-        <Link to='/details'>Shop details</Link>
-      )}{' '}
-      &nbsp;|&nbsp;
-      {location.pathname === '/login' ? 'Login' : <Link to='/login'>Login</Link>} &nbsp;|&nbsp;
-      {location.pathname === '/signup' ? 'Signup' : <Link to='/signup'>Signup</Link>} &nbsp;|&nbsp;
-      {location.pathname === '/favorites' ? (
-        'My Favorites'
-      ) : (
-        <Link to='/favorites'>My Favorites</Link>
-      )}
+    <TitleBar>
+      <Button onClick={() => navigate('/')}>
+        <Logo/>
+      </Button>
+      <FillSpace />
+      <Input label='search'/>
       <Options />
-    </FlexRow>
+    </TitleBar>
   );
 }
 

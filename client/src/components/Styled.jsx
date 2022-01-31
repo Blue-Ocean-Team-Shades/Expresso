@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField'
 
 /**
  * To use these as something other than a div, use the `as` prop:
@@ -32,11 +33,23 @@ export const Main = styled.div`
   }
 `
 
+export const colors = {
+  main: '#974a42',
+  mainDark: '#621c15',
+  mainLight: '#ffe0c2',
+  accent: '#a4cfcd',
+  accentDark: '#a4cfcd', //replace with darker color
+  accentLight: '#d8fffa',
+  highlight: '#ffc700',
+  highlightDark: '#ffc700', //replace with darker color
+  highlightLight: '#fff4c8',
+}
 
 export const Background = styled.div`
   width: 100%;
   height: 100%;
   margin: 0;
+  background-color: ${colors.main}
 `
 
 //placeholder
@@ -49,7 +62,12 @@ export const Highlight = styled.div`
 
 //placeholder
 export const AccentButton = styled(Button)`
-
+  && {
+    background-color: ${colors.accent};
+    color: black;
+    :hover {
+      background-color: ${colors.accentLight};
+    }
 `
 
 //placeholder
@@ -58,7 +76,7 @@ export const HighlightButton = styled(Button)`
 `
 
 //placeholder
-export const Input = styled.input`
+export const Input = styled(TextField)`
 
 `
 
