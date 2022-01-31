@@ -38,7 +38,7 @@ export const colors = {
   mainDark: '#621c15',
   mainLight: '#ffe0c2',
   accent: '#a4cfcd',
-  accentDark: '#a4cfcd', //replace with darker color
+  accentDark: '#6f9695', //replace with darker color
   accentLight: '#d8fffa',
   highlight: '#ffc700',
   highlightDark: '#ffc700', //replace with darker color
@@ -60,14 +60,22 @@ export const Accent = styled.div`
 export const Highlight = styled.div`
 `
 
-//placeholder
+export const styleAccentButton = `
+&& {
+  border-radius: 4px;
+  background-color: ${colors.accent};
+  margin: 4px;
+  color: black;
+  :hover {
+    background-color: ${colors.accentLight};
+  }
+  :disabled {
+    background-color: ${colors.accentDark};
+  }
+`
+
 export const AccentButton = styled(Button)`
-  && {
-    background-color: ${colors.accent};
-    color: black;
-    :hover {
-      background-color: ${colors.accentLight};
-    }
+  ${styleAccentButton}
 `
 
 //placeholder
