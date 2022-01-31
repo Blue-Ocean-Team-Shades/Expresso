@@ -48,7 +48,7 @@ function AddDrink({ currentShop, setCurrentShop }) {
     let obj = {
       place_id: 'ChIJr0p1HSe5QIYRJbI_fFPj6e0',
       drink_name: 'Late',
-      rating: 1,
+      recommend: true,
     };
     axios
       .post('/drinkmenu', obj)
