@@ -15,11 +15,9 @@ import DrinkList from './DrinkList.jsx';
 import AddDrink from './AddDrink.jsx';
 import { dummyShops } from '../../dummyData.js';
 
-// const { id, name, rating, drinks } = dummyShops[0];
 let dummyCurrentShop = dummyShops[0];
 
-const GreenBackground = styled(Background)`
-  background-color: yellow;
+const ListBackground = styled(Background)`
   position: relative;
 `;
 
@@ -43,7 +41,8 @@ const Inner = styled(FlexCol)`
   height: 60vh;
   // max-height: 50vh;
   // height: 1200px;
-  background-color: green;
+  background-color: white;
+  border: gray solid 1px;
 `;
 
 const Image = styled(Accent)`
@@ -56,22 +55,19 @@ const Image = styled(Accent)`
   background-repeat: no-repeat;
 `;
 
-function ShopDetails({ currentShop }) {
+function ShopDetails({ currentShop, setCurrentShop }) {
   return (
-    <GreenBackground>
-      {currentShop ? `current shop: ${currentShop.name}` : null}
+    <ListBackground>
       <Image />
       <Container>
         <Inner>
-          <ShopInfo shop={currentShop || {}} />
-          <DrinkList drinks={currentShop ? currentShop.drinks : []} />
-          <AddDrink />
+          <ShopInfo shop={dummyCurrentShop || {}} />
+          <DrinkList drinks={dummyCurrentShop ? dummyCurrentShop.drinks : []} />
+          <AddDrink currentShop={currentShop} setCurrentShop={setCurrentShop} />
         </Inner>
       </Container>
-    </GreenBackground>
+    </ListBackground>
   );
 }
 
 export default ShopDetails;
-
-// https://picsum.photos/300/200
