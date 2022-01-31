@@ -8,6 +8,7 @@ const { pool } = require('../database');
 const utils = require('./hashUtils.js');
 const session = require('express-session');
 const store = require('connect-pg-simple')(session);
+const { secret } = require('../config.js');
 
 app.use(express.json());
 app.use(express.urlencoded());
@@ -18,7 +19,7 @@ app.use(session({
     createTableIfMissing: true
   }),
   name: 'expressoid',
-  secret: 'some secret',
+  secret: secret,
   resave: false,
   saveUninitialized: true,
   cookie: {
