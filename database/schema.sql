@@ -31,6 +31,6 @@ CREATE TABLE IF NOT EXISTS favorites (
   id SERIAL NOT NULL,
   isCoffee BOOLEAN NOT NULL,
   user_id INT REFERENCES users(id),
-  place_id INT,
+  place_id TEXT,
   drink_id INT REFERENCES drinks(id)
 );
