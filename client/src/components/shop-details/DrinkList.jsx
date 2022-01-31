@@ -85,18 +85,9 @@ const createRows = (arr) => {
   return result;
 };
 
-// let rows = createRows(array);
-
 function DrinkList({ drinks }) {
   let rows = createRows(drinks);
-  // return <Container>{rows}</Container>;
-  return (
-    <Container>
-      {/* <div id='test2'>{rows}</div> */}
-      {/* <div id='test2'></div> */}
-      {rows}
-    </Container>
-  );
+  return <Container>{rows}</Container>;
 }
 
 export default DrinkList;

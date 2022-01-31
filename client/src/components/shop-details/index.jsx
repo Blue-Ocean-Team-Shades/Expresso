@@ -15,11 +15,9 @@ import DrinkList from './DrinkList.jsx';
 import AddDrink from './AddDrink.jsx';
 import { dummyShops } from '../../dummyData.js';
 
-// const { id, name, rating, drinks } = dummyShops[0];
 let dummyCurrentShop = dummyShops[0];
 
-const GreenBackground = styled(Background)`
-  background-color: yellow;
+const ListBackground = styled(Background)`
   position: relative;
 `;
 
@@ -59,8 +57,7 @@ const Image = styled(Accent)`
 
 function ShopDetails({ currentShop }) {
   return (
-    <GreenBackground>
-      {currentShop ? `current shop: ${currentShop.name}` : null}
+    <ListBackground>
       <Image />
       <Container>
         <Inner>
@@ -69,10 +66,8 @@ function ShopDetails({ currentShop }) {
           <AddDrink />
         </Inner>
       </Container>
-    </GreenBackground>
+    </ListBackground>
   );
 }
 
 export default ShopDetails;
-
-// https://picsum.photos/300/200

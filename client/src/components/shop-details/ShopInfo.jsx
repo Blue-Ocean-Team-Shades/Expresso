@@ -16,6 +16,7 @@ import {
 const Column = styled(FlexCol)`
   flex-basis: 100%;
   flex: 1;
+  justify-content: center;
 `;
 
 const Text = styled(Accent)`
@@ -34,7 +35,9 @@ function ShopInfo({ shop }) {
   return (
     <FlexRow>
       <Column>
-        <Link to='/'>Back Home</Link>
+        <Link to='/'>
+          <img src='https://img.icons8.com/color/48/000000/back--v2.png' />
+        </Link>
       </Column>
       <Column>
         <Text>{shop.name}</Text>
@@ -44,7 +47,12 @@ function ShopInfo({ shop }) {
         </Website>
       </Column>
       <Column>
-        <Map>Show on Map</Map>
+        {/* <Map>Show on Map</Map> */}
+        <Map>
+          <Link to='/'>
+            <img src='https://img.icons8.com/external-flatart-icons-outline-flatarticons/64/000000/external-map-hotel-services-and-city-elements-flatart-icons-outline-flatarticons.png' />
+          </Link>
+        </Map>
       </Column>
     </FlexRow>
   );
