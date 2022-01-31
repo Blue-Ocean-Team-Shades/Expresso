@@ -148,7 +148,7 @@ app.post('/shopratings', (req, res) => {
         }
       } else {
         if (req.body.rating === '1') {
-          pool.query(`INSERT INTO shops (place_id, shop_rating) VALUES ('${req.body.place_id}', 1.0)`)
+          pool.query(`INSERT INTO shops (place_id, shop_rating) VALUES ('${req.body.place_id}', 1)`)
             .then(x => { res.status(200).send('Shop rating added!'); })
             .catch(err => {
               res.status(500).send();
@@ -163,6 +163,19 @@ app.post('/shopratings', (req, res) => {
             });
         }
       }
+    });
+});
+
+app.get('/shopratings', (req, res) => {
+  let queryArg = req.body.shops.replace(/, /g, "', '").replace('[', "('").replace(']', "')");
+
+  pool.query(`SELECT * FROM shops WHERE place_id IN ${queryArg}`)
+    .then(data => {
+      res.status(200).send(data.rows);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send();
     });
 });
 
@@ -220,23 +233,6 @@ app.get('/userfavorites', (req, res) => {
       res.status(500).send();
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

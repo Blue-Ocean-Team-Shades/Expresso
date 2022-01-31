@@ -4,14 +4,23 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Options from './Options.jsx';
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
+import logo from '../../assets/logo.svg'
 
 const FillSpace = styled.div`
   flex: 1;
 `
 
-const Logo = styled.img`
-  width: 4em;
-  height: 4em;
+const LogoButton = styled(Button)`
+  &&{
+    margin: 4px;
+    border-radius: 50%;
+    box-shadow: 0 0 2px #0003;
+  }
+  & img {
+    width: 4em;
+    height: 4em;
+    margin: 0;
+  }
 `
 
 const TitleBar = styled.div`
@@ -24,9 +33,9 @@ function TopBar(props) {
   const navigate = useNavigate();
   return (
     <TitleBar>
-      <Button onClick={() => navigate('/')}>
-        <Logo/>
-      </Button>
+      <LogoButton onClick={() => navigate('/')}>
+        <img src={logo}/>
+      </LogoButton>
       <FillSpace />
       <Input label='search'/>
       <Options />
