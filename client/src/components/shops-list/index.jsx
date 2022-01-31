@@ -18,36 +18,33 @@ const Shops = styled(Background)`
 `;
 
 function ShopsList({ shops, isFavorites, setCurrentShop}) {
-  if (isFavorites) {
-    return <Background>My Favorites stuff</Background>;
-  } else {
-    return (
-      <Background>
-        <FlexCol>
-          <FitWidth>
-            <h1>Expresso</h1>
-          </FitWidth>
-          <Main>
-            <Shops>
-              {shops.map((shop) => (
-                <ShopEntry shop={shop} key={shop.id} setCurrentShop={setCurrentShop} />
-              ))}
-            </Shops>
-            <Accent>
-              <FlexCol>
-                Sort by
-                <AccentButton>rating</AccentButton>
-                <AccentButton>distance</AccentButton>
-                Show
-                <AccentButton>open</AccentButton>
-                <AccentButton>nearby</AccentButton>
-              </FlexCol>
-            </Accent>
-          </Main>
-        </FlexCol>
-      </Background>
-    );
-  }
+  return (
+    <Background>
+      {isFavorites ? 'TODO: filter by favorites' : null}
+      <FlexCol>
+        <FitWidth>
+          <h1>Expresso</h1>
+        </FitWidth>
+        <Main>
+          <Shops>
+            {shops.map((shop) => (
+              <ShopEntry shop={shop} key={shop.id} setCurrentShop={setCurrentShop} />
+            ))}
+          </Shops>
+          <Accent>
+            <FlexCol>
+              Sort by
+              <AccentButton>rating</AccentButton>
+              <AccentButton>distance</AccentButton>
+              Show
+              <AccentButton>open</AccentButton>
+              <AccentButton>nearby</AccentButton>
+            </FlexCol>
+          </Accent>
+        </Main>
+      </FlexCol>
+    </Background>
+  );
 }
 
 export default ShopsList;
