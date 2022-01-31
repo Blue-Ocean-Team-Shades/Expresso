@@ -63,7 +63,7 @@ function Options(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [anchorWidth, setAnchorWidth] = useState(64);
-  const [offset, setOffset] = useState({ left: 0, top: 0 });
+  const [fixRight, setFixRight] = useState(4);
   const navigate = useNavigate();
 
   const [menuWidth, setMenuWidth] = useState(0);
@@ -76,7 +76,8 @@ function Options(props) {
     if (e) {
       setAnchorEl(e.currentTarget);
       const rect = e.currentTarget.getBoundingClientRect();
-      setOffset({ left: rect.right, top: rect.bottom });
+      setFixRight(window.innerWidth - rect.right);
+      console.log('right side: ', window.innerWidth, rect.right, window.innerWidth - rect.right);
       setAnchorWidth(e.currentTarget.offsetWidth);
     } else {
       setAnchorEl(null);
@@ -101,9 +102,15 @@ function Options(props) {
         anchorEl={anchorEl}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         disableScrollLock={true}
+        PaperProps={{
+          style: {
+            right: `${fixRight}px`,
+          },
+        }}
+        //TODO: fix menu breaks on window resize
       >
         <FlexRow>
-          <FlexCol style={{ margin: '4px' }}>
+          <FlexCol style={{ margin: '4px', flex: 1 }}>
             <MenuItem onClick={() => goToPage('/favorites/')}>My Favorites</MenuItem>
             <EmptySpace />
             <MenuRight onClick={() => goToPage('/login')}>Log in</MenuRight>
