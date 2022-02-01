@@ -63,10 +63,10 @@ const logout = (req, res) => {
     if (err) {
       coneole.log(err);
       return res.redirect('/');
+    } else {
+      res.clearCookie('expressoid');
+      res.redirect('/login');
     }
-
-    res.clearCookie('expressoid');
-    res.redirect('/login');
   });
 }
 
