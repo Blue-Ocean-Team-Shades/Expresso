@@ -6,7 +6,7 @@ const path = require('path');
 const { pool } = require('../database');
 
 const { login, signup } = require('./controllers/userAccounts');
-const { addDrink, rateDrink, getDrinkRatings } = require('./controllers/drinkMenu');
+const { addDrink, rateDrink, getDrinkRatings, getShopsDrinks } = require('./controllers/drinkMenu');
 const { addShopRating, getShopRatings } = require('./controllers/shopRatings');
 const { addUserFavorite, getUserFavorites } = require('./controllers/userFavorites');
 
@@ -42,6 +42,8 @@ app.post('/drinkrating', rateDrink);
 
 //takes parameter place_id, returns all drink objects (which include drink_name and rating) assoicated with that shop (array of obj)
 app.get('/drinkmenu', getDrinkRatings);
+
+app.get('/shopsdrinks', getShopsDrinks);
 
 //////////////*SHOP RATING ROUTEs*//////////////
 
