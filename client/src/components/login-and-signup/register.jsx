@@ -2,15 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 import { Container, Input, Button } from './login.jsx';
 
-const Register = ({ logIn, signUp, signUpName, signUpPassword, confirmPassword }) => {
+const Register = ({ logIn, signUp, signUpName, signUpPassword, confirmPassword, signUpUsernameErr }) => {
   return (
     <Container>
       <div>
         <div>
-          <Input placeholder='Username' type="text" onChange={signUpName}></Input>
+          <Input className='signUpUser' placeholder='Username' type="text" onChange={signUpName}></Input>
+          {signUpUsernameErr === true && <p>Username already exists</p>}
         </div>
         <div>
-          <Input placeholder='Password' type="password" onChange={signUpPassword}></Input>
+          <Input className='signUpPassword' placeholder='Password' type="password" onChange={signUpPassword}></Input>
         </div>
         <div>
           <Input placeholder='Confirm password' type="password" onChange={confirmPassword}></Input>

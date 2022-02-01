@@ -1,15 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Login = ({ usernameChange, passwordChange, submitLogin, signUp }) => {
+const Login = ({ usernameChange, passwordChange, submitLogin, signUp, usernameErr, passwordErr }) => {
   return (
     <Container>
       <div>
         <div>
-          <Input placeholder='Username' type="text" onChange={usernameChange}></Input>
+          <Input className='loginUser' placeholder='Username' type="text" onChange={usernameChange}></Input>
+          {usernameErr === true && <p>Username not exist.</p>}
         </div>
         <div>
-          <Input placeholder='Password' type="password" onChange={passwordChange}></Input>
+          <Input className='loginPassword' placeholder='Password' type="password" onChange={passwordChange}></Input>
+          {passwordErr === true && <p>Incorrect password</p>}
         </div>
         <div>
           <Button onClick={submitLogin}>Log in</Button>
