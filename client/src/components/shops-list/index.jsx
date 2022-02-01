@@ -10,17 +10,20 @@ import {
   FlexRow,
   FlexCol,
   AccentButton,
+  colors,
 } from '../Styled.jsx';
 import ShopEntry from './ShopEntry.jsx';
 
 const FitWidth = styled(Background)`
+  background-color: ${colors.mainDark};
+  color: ${colors.mainLight};
   display: flex;
   justify-content: center;
   width: 100%;
-  border: 1px solid black;
   padding: 1em;
   box-sizing: border-box;
   height: fit-content;
+  flex: 0;
 `;
 
 const Message = styled(Background)`
@@ -33,6 +36,7 @@ const Message = styled(Background)`
 const Shops = styled(Background)`
   display: flex;
   flex-direction: column;
+  height: 100%;
 `;
 
 function sortFunc(sortBy) {
@@ -58,14 +62,14 @@ function ShopsList({ shops, isFavorites, setCurrentShop, message }) {
   return (
     <Background>
       {isFavorites ? 'TODO: filter by favorites' : null}
-      <FlexCol>
+      <FlexCol style={{height: '100%'}}>
         <FitWidth>
           <h1>Expresso</h1>
         </FitWidth>
         {message ? (
           <Message>{message}</Message>
         ) : (
-          <Main>
+          <Main  style={{flex: 1}}>
             <Shops>
               {filter(shops, filters)
                 .sort(sortFunc(sort))

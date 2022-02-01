@@ -5,15 +5,14 @@ import Options from './Options.jsx';
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
 import logo from '../../assets/logo.svg';
-import { colors } from '../Styled.jsx';
+import { colors, HighlightButton } from '../Styled.jsx';
 
 const FillSpace = styled.div`
   flex: 1;
 `;
 
-const LogoButton = styled(Button)`
+const LogoButton = styled(HighlightButton)`
   && {
-    background-color: ${colors.highlight};
     position: relative;
     height: 4em;
     width: 4em;
@@ -21,8 +20,9 @@ const LogoButton = styled(Button)`
     transform-origin: top left;
     margin: 4px;
     border-radius: 50%;
-    box-shadow: 0 0 2px #0003;
-    z-index: 100;
+    box-shadow:
+                0 0px 3px #0003,
+                0 1px 2px #0003;
   }
   & img {
     height: 100%;
@@ -34,6 +34,7 @@ const LogoButton = styled(Button)`
 const TitleBar = styled.div`
   display: flex;
   background-color: #fed;
+  z-index: 100;
 `;
 
 function TopBar(props) {
@@ -41,7 +42,7 @@ function TopBar(props) {
   const navigate = useNavigate();
   return (
     <TitleBar>
-      <LogoButton onClick={() => navigate('/')}>
+      <LogoButton onClick={() => navigate('/')} disableRipple={true} >
         <img src={logo} />
       </LogoButton>
       <FillSpace />
