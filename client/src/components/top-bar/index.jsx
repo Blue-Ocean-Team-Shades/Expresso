@@ -41,6 +41,7 @@ const OverlayCollapse = styled(Collapse)`
   left: 0;
   top: 100%;
   background-color: ${colors.mainLight};
+  border-radius: 0 0 4px 4px;
 `;
 
 function TopBar({ searchTerm, setSearchTerm, searchLocation, setSearchLocation, submitSearch }) {
@@ -48,20 +49,26 @@ function TopBar({ searchTerm, setSearchTerm, searchLocation, setSearchLocation, 
   const navigate = useNavigate();
   const [focused, setFocused] = useState(undefined);
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    submitSearch();
+  }
+
   return (
     <TitleBar>
       <LogoButton onClick={() => navigate('/')} disableRipple={true}>
         <img src={logo} />
       </LogoButton>
       <FillSpace />
-      <form>
+      <form onSubmit={handleSubmit}>
         <FormControl onFocus={(e) => setFocused(e.target)} onBlur={() => setFocused(undefined)}>
           <Input
-            label='search'
+            label='search for'
             placeholder='coffee'
             size='small'
             style={{ zIndex: 10 }}
             value={searchTerm}
+            autoComplete='off'
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <OverlayCollapse in={!!focused}>
@@ -71,8 +78,10 @@ function TopBar({ searchTerm, setSearchTerm, searchLocation, setSearchLocation, 
               size='small'
               style={{ zIndex: 10 }}
               value={searchLocation}
+              autoComplete='off'
               onChange={(e) => setSearchLocation(e.target.value)}
             />
+            <HighlightButton type='submit' fullWidth style={{margin: 0}}>search</HighlightButton>
           </OverlayCollapse>
         </FormControl>
       </form>

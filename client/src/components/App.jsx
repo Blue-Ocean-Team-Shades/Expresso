@@ -53,8 +53,11 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchLocation, setSearchLocation] = useState('');
   function submitSearch() {
-    //TODO: submit search at location
-    //TODO: reroute to shops list
+    if (location) {
+      console.log('new location:', searchLocation || location)
+      //TODO: submit search at location
+      //TODO: reroute to shops list
+    }
   }
 
   useEffect(() => {
