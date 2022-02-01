@@ -12,6 +12,8 @@ const Col = styled(FlexCol)`
 
 const Row = styled(FlexRow)`
   align-items: flex-end;
+  width: -webkit-fill-available;
+  justify-content: space-evenly;
 `;
 
 const DrinkInput = styled(Accent)`
@@ -37,6 +39,11 @@ const RecommendRow = styled(FlexRow)`
   // border: solid #c4c4c4 1px;
   justify-content: center;
   align-items: center;
+`;
+
+const RecommendLabel = styled(Accent)`
+  // background-color: #d1d1d1;
+  text-align: center;
 `;
 
 const AddDrinkButton = styled(AccentButton)`
@@ -127,7 +134,7 @@ function AddDrink({ currentShop, setCurrentShop }) {
         </FlexCol>
 
         <FlexCol>
-          <label>Recommend?</label>
+          <RecommendLabel>Recommend?</RecommendLabel>
           <RecommendRow>
             <ToggleButtonGroup
               color='primary'

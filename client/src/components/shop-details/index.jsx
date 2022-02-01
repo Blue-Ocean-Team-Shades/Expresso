@@ -43,6 +43,7 @@ const Inner = styled(FlexCol)`
   // height: 1200px;
   background-color: white;
   border: gray solid 1px;
+  border-radius: 8px;
 `;
 
 const Image = styled(Accent)`
