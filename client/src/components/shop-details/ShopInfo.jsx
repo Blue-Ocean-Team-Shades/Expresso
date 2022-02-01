@@ -33,7 +33,13 @@ const Map = styled(Accent)`
   text-align: right;
 `;
 
+const Anchor = styled(Accent)`
+  text-align: center;
+`;
+
 function ShopInfo({ shop }) {
+  let address = '928 Fulton St Suite A, Houston, TX 77009, United States';
+  let url = `https://www.google.com/maps/dir/?api=1&destination=${address}&dir_action=navigate`;
   return (
     <FlexRow>
       <Column>
@@ -50,9 +56,9 @@ function ShopInfo({ shop }) {
       </Column>
       <Column>
         <Map>
-          <Link to='/'>
+          <Anchor as='a' href={url} target='_blank'>
             <img src={map} />
-          </Link>
+          </Anchor>
         </Map>
       </Column>
     </FlexRow>

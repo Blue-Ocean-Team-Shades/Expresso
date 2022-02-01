@@ -83,15 +83,10 @@ function ShopDetails({ currentShop, setCurrentShop }) {
         <Inner>
           <ShopInfo shop={dummyCurrentShop || {}} />
           {/* <DrinkList drinks={drinks ? shop.drinks : []} /> */}
-          <DrinkList
-            drinks={drinks || []}
-            setDrinks={setDrinks}
-            getDrinks={getDrinks}
-          />
+          <DrinkList drinks={drinks || []} getDrinks={getDrinks} />
           <AddDrink
             currentShop={dummyCurrentShop}
             setCurrentShop={setCurrentShop}
-            setDrinks={setDrinks}
             getDrinks={getDrinks}
           />
         </Inner>
