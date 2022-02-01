@@ -8,7 +8,7 @@ const utils = require('./hashUtils.js');
 const session = require('express-session');
 const store = require('connect-pg-simple')(session);
 const { secret } = require('../config.js');
-const { login, signup } = require('./controllers/userAccounts');
+const { login, signup, logout } = require('./controllers/userAccounts');
 const { addDrink, rateDrink, getDrinkRatings, getShopsDrinks } = require('./controllers/drinkMenu');
 const { addShopRating, getShopRatings } = require('./controllers/shopRatings');
 const { addUserFavorite, getUserFavorites } = require('./controllers/userFavorites');
@@ -48,6 +48,8 @@ app.post('/signup', signup);
 
 //takes parameters username and password
 app.post('/login', login);
+
+app.post('/logout', logout);
 
 ///////////////*DRINK MENU ROUTES*////////////////
 
