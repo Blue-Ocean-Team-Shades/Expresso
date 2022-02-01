@@ -32,10 +32,17 @@ const create = (req, callback) => {
 
 const findShops = async (queryString, locationQuery) => {
 
-  let {data} = await axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?location=${locationQuery}&query=${queryString}&radius=2000&key=${placesKey}`);
+  let { data } = await axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?location=${locationQuery}&query=${queryString}&radius=2000&key=${placesKey}`);
   return data.results
 
 };
+
+const findLocation = async (locationString) => {
+
+  let { data } = await axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${locationString}&key=${placesKey}`)
+  return data
+
+}
 
 const getPhotosOfShops = async (photoReference) => {
 
@@ -45,7 +52,4 @@ const getPhotosOfShops = async (photoReference) => {
 };
 
 
-module.exports.getAll = getAll;
-module.exports.create = create;
-module.exports.findShops = findShops;
-module.exports.getPhotosOfShops = getPhotosOfShops;
+module.exports = { findShops, findLocation, getPhotosOfShops }
