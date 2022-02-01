@@ -39,6 +39,14 @@ const Shops = styled(Background)`
   height: 100%;
 `;
 
+const BackgroundGradient = styled.div`
+  background: linear-gradient(0deg, ${colors.main} 25%, ${colors.mainDark} 100%);
+  position: absolute;
+  width: 100%;
+  height: 50vh;
+  top: 100%;
+`
+
 function sortFunc(sortBy) {
   if (sortBy.startsWith('-')) {
     sortBy = sortBy.substring(1);
@@ -63,13 +71,14 @@ function ShopsList({ shops, isFavorites, setCurrentShop, message }) {
     <Background>
       {isFavorites ? 'TODO: filter by favorites' : null}
       <FlexCol style={{height: '100%'}}>
-        <FitWidth>
+        <FitWidth style={{position: 'relative'}}>
           <h1>Expresso</h1>
+          <BackgroundGradient />
         </FitWidth>
         {message ? (
           <Message>{message}</Message>
         ) : (
-          <Main  style={{flex: 1}}>
+          <Main style={{flex: 1}}>
             <Shops>
               {filter(shops, filters)
                 .sort(sortFunc(sort))
@@ -77,7 +86,7 @@ function ShopsList({ shops, isFavorites, setCurrentShop, message }) {
                   <ShopEntry shop={shop} key={shop.id} setCurrentShop={setCurrentShop} />
                 ))}
             </Shops>
-            <Accent>
+            <div>
               <FlexCol>
                 Sort by
                 <AccentButton disabled={sort === '-distance'} onClick={() => setSort('-distance')}>
@@ -90,7 +99,7 @@ function ShopsList({ shops, isFavorites, setCurrentShop, message }) {
                 <AccentButton>open</AccentButton>
                 <AccentButton>nearby</AccentButton>
               </FlexCol>
-            </Accent>
+            </div>
           </Main>
         )}
       </FlexCol>

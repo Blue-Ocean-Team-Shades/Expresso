@@ -54,6 +54,7 @@ export const Background = styled.div`
 
 //placeholder
 export const Accent = styled.div`
+
 `
 
 //placeholder
