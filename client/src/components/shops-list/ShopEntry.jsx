@@ -13,7 +13,7 @@ function ShopEntry ({shop, setCurrentShop}) {
   return (
     <Accent>
       <AccentButton onClick={() => viewShop(shop)}>
-        {shop.name} {'  |  '} Rating: {shop.rating}
+        {shop.name} {'  |  '} Rating: {shop.rating} {' | '} Distance: {shop.distance}
       </AccentButton>
     </Accent>
   )
