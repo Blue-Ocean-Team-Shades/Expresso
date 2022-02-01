@@ -66,14 +66,14 @@ function ShopDetails({ currentShop, setCurrentShop }) {
 
   const getDrinks = () => {
     let optionsConfig = {
-      params: {
+      data: {
         place_id: 'ChIJr0p1HSe5QIYRJbI_fFPj6e0',
       },
     };
     axios
       .get('/drinkmenu', optionsConfig)
       .then(({ data }) => setDrinks(data))
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err, '<<<<<<<'));
   };
 
   return (
