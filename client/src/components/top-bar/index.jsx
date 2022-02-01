@@ -13,10 +13,13 @@ const FillSpace = styled.div`
 
 const LogoButton = styled(HighlightButton)`
   && {
+    aspect-ratio: 1 / 2;
     position: relative;
-    height: 4em;
-    width: 4em;
-    transform: scale(1.2);
+    height: 2rem;
+    width: 2rem;
+    min-width: 0;
+    min-height: 0;
+    transform: scale(2.2);
     transform-origin: top left;
     margin: 4px;
     border-radius: 50%;
@@ -46,7 +49,7 @@ function TopBar(props) {
         <img src={logo} />
       </LogoButton>
       <FillSpace />
-      <Input label='search' />
+      <Input label='search' size='small'/>
       <Options />
     </TitleBar>
   );
