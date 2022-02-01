@@ -22,7 +22,7 @@ const MenuStyled = styled(Menu)`
 `;
 
 const ButtonImg = styled.img`
-  width: 2em;
+  width: 1.2em;
   height: auto;
 `;
 

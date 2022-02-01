@@ -19,6 +19,7 @@ const signup = (req, res) => {
             `INSERT INTO users (username, password, salt) VALUES ('${req.body.username}', '${password}', '${salt}')`
           )
           .then((x) => {
+            req.session.isLoggedIn = true;
             res.redirect(200, "/login");
           })
           .catch((err) => {
@@ -47,6 +48,8 @@ const login = (req, res) => {
       }
       //IF USERNAME IS IN DB AND PROVIDED PASSWORD HASHED WITH SALT RETURNED FROM QUERY MATCHES PASSWORD STORED IN DB
       else if (utils.compareHash(req.body.password, user.password, user.salt)){
+        console.log('success');
+        req.session.isLoggedIn = true;
         res.redirect(200, '/');
       } else {
         //IF PASSWORDS DON'T MATCH
@@ -55,4 +58,16 @@ const login = (req, res) => {
     });
 };
 
-module.exports = { signup, login };
+const logout = (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      coneole.log(err);
+      return res.redirect('/');
+    } else {
+      res.clearCookie('expressoid');
+      res.redirect('/login');
+    }
+  });
+}
+
+module.exports = { signup, login, logout };

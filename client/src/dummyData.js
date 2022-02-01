@@ -16,7 +16,7 @@ export const dummyShops = [
         price: 26,
       },
       {
-        name: 'milk',
+        name: 'flat white',
         rating: 0,
         price: 7,
       },
@@ -34,7 +34,7 @@ export const dummyShops = [
         price: 16,
       },
       {
-        name: 'latte',
+        name: 'soy latte',
         rating: 4,
         price: 35,
       },
@@ -62,7 +62,7 @@ export const dummyShops = [
         price: 19,
       },
       {
-        name: 'milk',
+        name: 'chocolate milk',
         rating: 0,
         price: 25,
       },
