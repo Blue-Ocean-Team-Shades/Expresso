@@ -11,7 +11,10 @@ const { secret } = require('../config.js');
 const { login, signup, logout } = require('./controllers/userAccounts');
 const { addDrink, rateDrink, getDrinkRatings, getShopsDrinks } = require('./controllers/drinkMenu');
 const { addShopRating, getShopRatings } = require('./controllers/shopRatings');
-const { addUserFavorite, getUserFavorites } = require('./controllers/userFavorites');
+const {
+  addUserFavorite,
+  getUserFavorites,
+} = require('./controllers/userFavorites');
 
 app.use(express.json());
 app.use(express.urlencoded());
@@ -30,9 +33,6 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 24,
   }
 }));
-
-
-
 
 //janky fix, but it's fine because we're replacing all this with subdomains anyways
 const staticPath = '../client/dist';
@@ -58,13 +58,13 @@ app.post('/logout', logout);
 app.post('/drinkmenu', addDrink);
 
 //takes parameters drink_id and rating (1 = upvote, anything-but-1 = downvote)
-app.post('/drinkrating', rateDrink);
+app.post('/ratedrink', rateDrink);
 
 //takes parameter place_id, returns all drink objects (which include drink_name and rating) assoicated with that shop (array of obj)
-app.get('/drinkmenu', getDrinkRatings);
+app.post('/getdrinkratings', getDrinkRatings);
 
 //takes a parameter, shops (an array of place_ids), and returns an array of all drinks serverd by those places
-app.get('/shopsdrinks', getShopsDrinks);
+app.post('/getshopsdrinks', getShopsDrinks);
 
 //////////////*SHOP RATING ROUTEs*//////////////
 
@@ -72,7 +72,7 @@ app.get('/shopsdrinks', getShopsDrinks);
 app.post('/shopratings', addShopRating);
 
 //takes paramater shops (an array of place_ids) and returns an array of shop objects
-app.get('/shopratings', getShopRatings);
+app.post('/getshopratings', getShopRatings);
 
 //////////////*USER FAVORITES ROUTES*//////////////
 
@@ -80,7 +80,7 @@ app.get('/shopratings', getShopRatings);
 app.post('/favorites', addUserFavorite);
 
 //takes parameter user_id and returns an object of arrays of objects (lol) with that user's favorites: {drinks: [{}, {}], shops:[{}, {}]}
-app.get('/userfavorites', getUserFavorites);
+app.post('/getuserfavorites', getUserFavorites);
 
 //////////////////////////////////////////////////
 
