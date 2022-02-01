@@ -61,9 +61,7 @@ function ShopDetails({ currentShop, setCurrentShop }) {
   // sample getting shops
   const [drinks, setDrinks] = useState([]);
   useEffect(() => {
-    getDrinks()
-      .then(({ data }) => setDrinks(data))
-      .catch((err) => console.log(err));
+    getDrinks();
   }, []);
 
   const getDrinks = () => {
@@ -72,7 +70,10 @@ function ShopDetails({ currentShop, setCurrentShop }) {
         place_id: 'ChIJr0p1HSe5QIYRJbI_fFPj6e0',
       },
     };
-    return axios.get('/drinkmenu', optionsConfig);
+    axios
+      .get('/drinkmenu', optionsConfig)
+      .then(({ data }) => setDrinks(data))
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -82,11 +83,16 @@ function ShopDetails({ currentShop, setCurrentShop }) {
         <Inner>
           <ShopInfo shop={dummyCurrentShop || {}} />
           {/* <DrinkList drinks={drinks ? shop.drinks : []} /> */}
-          <DrinkList drinks={drinks || []} />
+          <DrinkList
+            drinks={drinks || []}
+            setDrinks={setDrinks}
+            getDrinks={getDrinks}
+          />
           <AddDrink
             currentShop={dummyCurrentShop}
             setCurrentShop={setCurrentShop}
             setDrinks={setDrinks}
+            getDrinks={getDrinks}
           />
         </Inner>
       </Container>

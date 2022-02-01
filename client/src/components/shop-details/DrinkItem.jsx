@@ -17,7 +17,7 @@ const Row = styled(FlexRow)`
   align-items: center;
 `;
 
-function DrinkItem({ arr }) {
+function DrinkItem({ arr, getDrinks }) {
   const [like, setLike] = useState(null);
 
   const likeClickHandler = () => {
@@ -28,7 +28,7 @@ function DrinkItem({ arr }) {
 
     axios
       .post('/drinkrating', obj)
-      .then((result) => console.log(result))
+      .then(() => getDrinks())
       .catch((err) => console.log(err));
   };
 
@@ -40,7 +40,7 @@ function DrinkItem({ arr }) {
 
     axios
       .post('/drinkrating', obj)
-      .then((result) => console.log(result))
+      .then(() => getDrinks())
       .catch((err) => console.log(err));
   };
 

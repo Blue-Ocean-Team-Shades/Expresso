@@ -52,7 +52,7 @@ const AddDrinkButton = styled(AccentButton)`
 
 let placeholder = `Don't see a drink here? Add it!`;
 
-function AddDrink({ currentShop, setCurrentShop, setDrinks }) {
+function AddDrink({ currentShop, setCurrentShop, setDrinks, getDrinks }) {
   const [drinkValue, setDrinkValue] = useState('');
   const [priceValue, setPriceValue] = useState('');
   const [recommend, seRecommend] = React.useState(true);
@@ -85,16 +85,6 @@ function AddDrink({ currentShop, setCurrentShop, setDrinks }) {
     return axios.post('/drinkmenu', obj);
   };
 
-  const getDrink = () => {
-    let optionsConfig = {
-      params: {
-        place_id: 'ChIJr0p1HSe5QIYRJbI_fFPj6e0',
-      },
-    };
-
-    return axios.get('/drinkmenu', optionsConfig);
-  };
-
   const clickHandler = (event) => {
     event.preventDefault();
     // add drink to database --> /drinkmenu
@@ -103,8 +93,7 @@ function AddDrink({ currentShop, setCurrentShop, setDrinks }) {
     // // get current shop info from database
     // // setcurrentshop
     addDrinkItem()
-      .then(() => getDrink())
-      .then(({ data }) => setDrinks(data))
+      .then(() => getDrinks())
       .catch((err) => console.log(err));
     resetInputFields();
   };
