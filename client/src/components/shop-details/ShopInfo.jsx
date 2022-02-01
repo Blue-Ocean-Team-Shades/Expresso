@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import map from '../../assets/map.svg';
+import backArrow from '../../assets/backArrow.svg';
 
 import {
   Background,
@@ -36,7 +38,7 @@ function ShopInfo({ shop }) {
     <FlexRow>
       <Column>
         <Link to='/'>
-          <img src='https://img.icons8.com/color/48/000000/back--v2.png' />
+          <img src={backArrow} />
         </Link>
       </Column>
       <Column>
@@ -47,10 +49,9 @@ function ShopInfo({ shop }) {
         </Website>
       </Column>
       <Column>
-        {/* <Map>Show on Map</Map> */}
         <Map>
           <Link to='/'>
-            <img src='https://img.icons8.com/external-flatart-icons-outline-flatarticons/64/000000/external-map-hotel-services-and-city-elements-flatart-icons-outline-flatarticons.png' />
+            <img src={map} />
           </Link>
         </Map>
       </Column>

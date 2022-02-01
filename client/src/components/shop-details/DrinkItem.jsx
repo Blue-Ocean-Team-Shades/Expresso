@@ -18,9 +18,9 @@ function DrinkItem({ arr }) {
     <Drink>
       <Row>
         {drink}
-        <img src={thumbDown} />
-        {arr.rating}
         <img src={thumbUp} />
+        {arr.rating}
+        <img src={thumbDown} />
       </Row>
     </Drink>
   );
