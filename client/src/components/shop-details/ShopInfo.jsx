@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import map from '../../assets/map.svg';
+import backArrow from '../../assets/backArrow.svg';
 
 import {
   Background,
@@ -31,12 +33,18 @@ const Map = styled(Accent)`
   text-align: right;
 `;
 
+const Anchor = styled(Accent)`
+  text-align: center;
+`;
+
 function ShopInfo({ shop }) {
+  let address = '928 Fulton St Suite A, Houston, TX 77009, United States';
+  let url = `https://www.google.com/maps/dir/?api=1&destination=${address}&dir_action=navigate`;
   return (
     <FlexRow>
       <Column>
         <Link to='/'>
-          <img src='https://img.icons8.com/color/48/000000/back--v2.png' />
+          <img src={backArrow} />
         </Link>
       </Column>
       <Column>
@@ -47,11 +55,10 @@ function ShopInfo({ shop }) {
         </Website>
       </Column>
       <Column>
-        {/* <Map>Show on Map</Map> */}
         <Map>
-          <Link to='/'>
-            <img src='https://img.icons8.com/external-flatart-icons-outline-flatarticons/64/000000/external-map-hotel-services-and-city-elements-flatart-icons-outline-flatarticons.png' />
-          </Link>
+          <Anchor as='a' href={url} target='_blank'>
+            <img src={map} />
+          </Anchor>
         </Map>
       </Column>
     </FlexRow>
