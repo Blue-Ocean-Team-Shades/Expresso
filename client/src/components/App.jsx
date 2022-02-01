@@ -9,7 +9,6 @@ import TopBar from './top-bar';
 import { dummyShops } from '../dummyData.js';
 import api from '../api.js';
 
-
 const BodyMain = styled.div`
   display: flex;
   flex-direction: column;
@@ -73,7 +72,7 @@ function App() {
       .then((position) => {
         setMessage(null);
         setLocation(position);
-        return api.getShops()
+        return api.getShops();
       })
       .catch((err) => {
         setMessage('Please enable location, or enter a location in the search!');
@@ -133,8 +132,16 @@ function App() {
             }
           />
           {/* TODO: if already signed in, redirect back to home */}
-          <Route path='/login' element={<LoginSignup isLogin={true} updateCookies={updateCookies} />} />
-          <Route path='/signup' element={<LoginSignup isSignup={true} />} />
+          <Route
+            path='/login'
+            element={<LoginSignup isLogin={true} cookies={cookies} updateCookies={updateCookies} />}
+          />
+          <Route
+            path='/signup'
+            element={
+              <LoginSignup isSignup={true} cookies={cookies} updateCookies={updateCookies} />
+            }
+          />
           <Route
             path='/favorites'
             element={

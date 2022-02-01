@@ -8,7 +8,7 @@ import Login from './login.jsx';
 import Register from './register.jsx';
 import api from '../../api.js'
 
-function LoginAndSignup({ isLogin, isSignup, updateCookies }) {
+function LoginAndSignup({ isLogin, isSignup, cookies, updateCookies }) {
   const navigate = useNavigate();
 
   const [user, setUser] = useState('');
@@ -19,6 +19,8 @@ function LoginAndSignup({ isLogin, isSignup, updateCookies }) {
   const [usernameErr, setUsernameErr] = useState(false);
   const [passwordErr, setPasswordErr] = useState(false);
   const [signUpUsernameErr, setSignUpUsernameErr] = useState(false);
+
+  if (cookies.expressoid) navigate('/')
 
   const signUp = () => {
     navigate("/signup");
