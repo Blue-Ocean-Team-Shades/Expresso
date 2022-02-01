@@ -4,7 +4,10 @@ const app = express();
 const port = 3000;
 const path = require('path');
 const { pool } = require('../database');
-
+const utils = require('./hashUtils.js');
+const session = require('express-session');
+const store = require('connect-pg-simple')(session);
+const { secret } = require('../config.js');
 const { login, signup } = require('./controllers/userAccounts');
 const { addDrink, rateDrink, getDrinkRatings, getShopsDrinks } = require('./controllers/drinkMenu');
 const { addShopRating, getShopRatings } = require('./controllers/shopRatings');
@@ -12,6 +15,20 @@ const { addUserFavorite, getUserFavorites } = require('./controllers/userFavorit
 
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(session({
+  store: new store({
+    pool: pool,
+    tableName: 'session',
+    createTableIfMissing: true
+  }),
+  name: 'expressoid',
+  secret: secret,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24
+  }
+}));
 
 
 
