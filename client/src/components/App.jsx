@@ -7,7 +7,8 @@ import LoginSignup from './login-and-signup';
 import ShopDetails from './shop-details';
 import TopBar from './top-bar';
 import { dummyShops } from '../dummyData.js';
-import axios from 'axios';
+import api from '../api.js';
+
 
 const BodyMain = styled.div`
   display: flex;
@@ -52,9 +53,15 @@ function App() {
   const [message, setMessage] = useState('loading');
   const [searchTerm, setSearchTerm] = useState('');
   const [searchLocation, setSearchLocation] = useState('');
+  const [cookies, setCookies] = useState([]);
+
+  useEffect(() => {
+    updateCookies();
+  }, [document.cookie]);
+
   function submitSearch() {
     if (location) {
-      console.log('new location:', searchLocation || location)
+      console.log('new location:', searchLocation || location);
       //TODO: submit search at location
       //TODO: reroute to shops list
     }
@@ -66,13 +73,30 @@ function App() {
       .then((position) => {
         setMessage(null);
         setLocation(position);
-        //TODO: enable the next line when server path is done
-        //axios.get('/search', { body: { location: `${location.latitude} ${location.longitude}` } });
+        return api.getShops()
       })
       .catch((err) => {
         setMessage('Please enable location, or enter a location in the search!');
       });
   }, []);
+
+  function logOut() {
+    axios
+      .post('/logout', { username: 'liam', password: '123' })
+      .then(() => {
+        api.updateCookies();
+      })
+      .catch((err) => console.error(err));
+  }
+
+  function updateCookies() {
+    const newCookies = {};
+    document.cookie.split(';').forEach((cookie) => {
+      const [cookieName, cookieBody] = cookie.split('=');
+      newCookies[cookieName] = cookieBody;
+    });
+    setCookies(newCookies);
+  }
 
   return (
     <BrowserRouter style={{ height: '100vh' }}>
@@ -83,6 +107,8 @@ function App() {
           searchLocation={searchLocation}
           setSearchLocation={setSearchLocation}
           submitSearch={submitSearch}
+          cookies={cookies}
+          updateCookies={updateCookies}
         />
         <Routes>
           <Route
@@ -106,7 +132,7 @@ function App() {
               />
             }
           />
-          <Route path='/login' element={<LoginSignup isLogin={true} />} />
+          <Route path='/login' element={<LoginSignup isLogin={true} updateCookies={updateCookies} />} />
           <Route path='/signup' element={<LoginSignup isSignup={true} />} />
           <Route
             path='/favorites'

@@ -6,9 +6,9 @@ import { inputValidation } from "./inputValidation";
 
 import Login from './login.jsx';
 import Register from './register.jsx';
-import axios from 'axios';
+import api from '../../api.js'
 
-function LoginAndSignup({ isLogin, isSignup }) {
+function LoginAndSignup({ isLogin, isSignup, updateCookies }) {
   const navigate = useNavigate();
 
   const [user, setUser] = useState('');
@@ -51,15 +51,13 @@ function LoginAndSignup({ isLogin, isSignup }) {
   }
 
   const submitLogin = () => {
-    let formData = {
+    const formData = {
       username: user,
-      password: password
-    }
-
-    let currentErrors = inputValidation(formData);
-
+      password: password,
+    };
+    const currentErrors = inputValidation(formData);
     if (currentErrors.length === 0) {
-      axios.post('/login', formData)
+      api.logIn(user, password, updateCookies)
         .then(() => {
           navigate('/');
         })
@@ -77,20 +75,17 @@ function LoginAndSignup({ isLogin, isSignup }) {
     } else {
       alert(`${currentErrors[0]}`);
     }
-
   }
 
   const submitSignUp = () => {
-    let formData = {
+    const formData = {
       username: signUpUser,
-      password: signUpPassword
+      password: signUpPassword,
     }
-
-    let currentErrors = inputValidation(formData);
-
+    const currentErrors = inputValidation(formData);
     if (currentErrors.length === 0) {
       if (signUpPassword === confirmPassword) {
-        axios.post('/signup', formData)
+        api.signUp(formData, updateCookies)
           .then((res) => {
             console.log('this is res', res);
             // navigate('/login');

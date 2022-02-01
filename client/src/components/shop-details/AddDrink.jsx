@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Input, FlexCol, AccentButton, FlexRow, Accent } from '../Styled.jsx';
-import axios from 'axios';
+import api from '../../api.js';
 
 const Row = styled(FlexCol)`
   align-items: center;
@@ -50,8 +50,7 @@ function AddDrink({ currentShop, setCurrentShop }) {
   //     drink_name: 'Late',
   //     recommend: true,
   //   };
-  //   axios
-  //     .post('/drinkmenu', obj)
+  //   api.addDrink(obj)
   //     .then((result) => console.log(result))
   //     .catch((err) => console.log(err));
   // };
