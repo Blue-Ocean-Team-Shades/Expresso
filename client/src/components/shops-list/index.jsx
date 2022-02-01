@@ -26,11 +26,13 @@ const FitWidth = styled(Background)`
   flex: 0;
 `;
 
-const Message = styled(Background)`
+const Message = styled.div`
   display: flex;
   justify-content: center;
   align-elements: center;
   font-size: 2rem;
+  z-index: 10;
+  color: ${colors.highlight}
 `;
 
 const Shops = styled(Background)`
