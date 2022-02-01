@@ -6,7 +6,7 @@ const { placesKey } = require('../config.js');
 const findShops = async (queryString, locationQuery) => {
 
   let {data} = await axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?location=${locationQuery}&query=${queryString}&radius=2000&key=${placesKey}`);
-  return data.results
+  return data.results;
 
 };
 
