@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Accent, FlexRow } from '../Styled.jsx';
+import { Accent, FlexRow, FlexCol } from '../Styled.jsx';
 import thumbDown from '../../assets/thumbDown.svg';
 import thumbUp from '../../assets/thumbUp.svg';
+import axios from 'axios';
 
 const Drink = styled(Accent)`
   // width: 40%;
+`;
+
+const Col = styled(FlexCol)`
+  align-items: center;
 `;
 
 const Row = styled(FlexRow)`
@@ -13,15 +18,43 @@ const Row = styled(FlexRow)`
 `;
 
 function DrinkItem({ arr }) {
-  let drink = arr ? `${arr.name}` : '';
+  const [like, setLike] = useState(null);
+
+  const likeClickHandler = () => {
+    let obj = {
+      drink_id: '2',
+      rating: '1',
+    };
+
+    axios
+      .post('/drinkrating', obj)
+      .then((result) => console.log(result))
+      .catch((err) => console.log(err));
+  };
+
+  const dislikeClickHandler = () => {
+    let obj = {
+      drink_id: '2',
+      rating: '0',
+    };
+
+    axios
+      .post('/drinkrating', obj)
+      .then((result) => console.log(result))
+      .catch((err) => console.log(err));
+  };
+
+  let drink = arr ? `${arr.drink_name}` : '';
   return (
     <Drink>
-      <Row>
+      <Col>
         {drink}
-        <img src={thumbUp} />
-        {arr.rating}
-        <img src={thumbDown} />
-      </Row>
+        <div>rating: {arr.drink_rating}</div>
+        <Row>
+          <img src={thumbUp} onClick={likeClickHandler} />
+          <img src={thumbDown} onClick={dislikeClickHandler} />
+        </Row>
+      </Col>
     </Drink>
   );
 }

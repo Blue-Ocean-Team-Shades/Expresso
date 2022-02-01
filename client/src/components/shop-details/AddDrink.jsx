@@ -52,13 +52,13 @@ const AddDrinkButton = styled(AccentButton)`
 
 let placeholder = `Don't see a drink here? Add it!`;
 
-function AddDrink({ currentShop, setCurrentShop }) {
+function AddDrink({ currentShop, setCurrentShop, setDrinks }) {
   const [drinkValue, setDrinkValue] = useState('');
   const [priceValue, setPriceValue] = useState('');
-  const [alignment, setAlignment] = React.useState('yes');
+  const [recommend, seRecommend] = React.useState(true);
 
-  const handleToggle = (event, newAlignment) => {
-    setAlignment(newAlignment);
+  const handleToggle = (event, newRecommend) => {
+    seRecommend(newRecommend);
   };
 
   const handleDrinkInput = (e) => {
@@ -72,36 +72,27 @@ function AddDrink({ currentShop, setCurrentShop }) {
   const resetInputFields = () => {
     setDrinkValue('');
     setPriceValue('');
+    seRecommend(true);
   };
 
   const addDrinkItem = () => {
     let obj = {
       place_id: 'ChIJr0p1HSe5QIYRJbI_fFPj6e0',
-      drink_name: 'Iced Coffee',
-      recommend: true,
+      drink_name: drinkValue,
+      recommend: recommend,
     };
 
-    axios
-      .post('/drinkmenu', obj)
-      .then((result) => console.log(result))
-      .catch((err) => console.log(err));
+    return axios.post('/drinkmenu', obj);
   };
 
   const getDrink = () => {
-    // let obj = {
-    //   place_id: 'ChIJr0p1HSe5QIYRJbI_fFPj6e0',
-    // };
-
     let optionsConfig = {
       params: {
         place_id: 'ChIJr0p1HSe5QIYRJbI_fFPj6e0',
       },
     };
 
-    axios
-      .get('/drinkmenu', optionsConfig)
-      .then((data) => console.log(data.data))
-      .catch((err) => console.log(err));
+    return axios.get('/drinkmenu', optionsConfig);
   };
 
   const clickHandler = (event) => {
@@ -109,13 +100,12 @@ function AddDrink({ currentShop, setCurrentShop }) {
     // add drink to database --> /drinkmenu
     // // placeid, drink name, recommend
     // setCurrentShop
-    // // use current shop place id
     // // get current shop info from database
     // // setcurrentshop
-    // addDrinkItem();
-    // options.body{obj}
-
-    getDrink();
+    addDrinkItem()
+      .then(() => getDrink())
+      .then(({ data }) => setDrinks(data))
+      .catch((err) => console.log(err));
     resetInputFields();
   };
 
@@ -138,12 +128,12 @@ function AddDrink({ currentShop, setCurrentShop }) {
           <RecommendRow>
             <ToggleButtonGroup
               color='primary'
-              value={alignment}
+              value={recommend}
               exclusive
               onChange={handleToggle}
             >
-              <ToggleButton value='yes'>Yes</ToggleButton>
-              <ToggleButton value='no'>No</ToggleButton>
+              <ToggleButton value={true}>Yes</ToggleButton>
+              <ToggleButton value={false}>No</ToggleButton>
             </ToggleButtonGroup>
           </RecommendRow>
         </FlexCol>

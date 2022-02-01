@@ -66,8 +66,8 @@ const createRows = (arr) => {
     arr.splice(0, 3);
   }
   if (arr.length > 0) {
-    if (arr.length === 1) arr.push('', '');
-    if (arr.length === 2) arr.push('');
+    // if (arr.length === 1) arr.push('', '');
+    // if (arr.length === 2) arr.push('');
     result.push(
       <Row key={arr.length}>
         {arr.map((el, i) => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import {
   Background,
@@ -14,6 +14,7 @@ import ShopInfo from './ShopInfo.jsx';
 import DrinkList from './DrinkList.jsx';
 import AddDrink from './AddDrink.jsx';
 import { dummyShops } from '../../dummyData.js';
+import axios from 'axios';
 
 let dummyCurrentShop = dummyShops[0];
 
@@ -57,14 +58,36 @@ const Image = styled(Accent)`
 `;
 
 function ShopDetails({ currentShop, setCurrentShop }) {
+  // sample getting shops
+  const [drinks, setDrinks] = useState([]);
+  useEffect(() => {
+    getDrinks()
+      .then(({ data }) => setDrinks(data))
+      .catch((err) => console.log(err));
+  }, []);
+
+  const getDrinks = () => {
+    let optionsConfig = {
+      params: {
+        place_id: 'ChIJr0p1HSe5QIYRJbI_fFPj6e0',
+      },
+    };
+    return axios.get('/drinkmenu', optionsConfig);
+  };
+
   return (
     <ListBackground>
       <Image />
       <Container>
         <Inner>
           <ShopInfo shop={dummyCurrentShop || {}} />
-          <DrinkList drinks={dummyCurrentShop ? dummyCurrentShop.drinks : []} />
-          <AddDrink currentShop={currentShop} setCurrentShop={setCurrentShop} />
+          {/* <DrinkList drinks={drinks ? shop.drinks : []} /> */}
+          <DrinkList drinks={drinks || []} />
+          <AddDrink
+            currentShop={dummyCurrentShop}
+            setCurrentShop={setCurrentShop}
+            setDrinks={setDrinks}
+          />
         </Inner>
       </Container>
     </ListBackground>
