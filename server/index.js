@@ -9,7 +9,7 @@ const session = require('express-session');
 const store = require('connect-pg-simple')(session);
 const { secret } = require('../config.js');
 const { login, signup, logout } = require('./controllers/userAccounts');
-const { addDrink, rateDrink, getDrinkRatings } = require('./controllers/drinkMenu');
+const { addDrink, rateDrink, getDrinkRatings, getShopsDrinks } = require('./controllers/drinkMenu');
 const { addShopRating, getShopRatings } = require('./controllers/shopRatings');
 const { addUserFavorite, getUserFavorites } = require('./controllers/userFavorites');
 
@@ -61,6 +61,9 @@ app.post('/drinkrating', rateDrink);
 
 //takes parameter place_id, returns all drink objects (which include drink_name and rating) assoicated with that shop (array of obj)
 app.get('/drinkmenu', getDrinkRatings);
+
+//takes a parameter, shops (an array of place_ids), and returns an array of all drinks serverd by those places
+app.get('/shopsdrinks', getShopsDrinks);
 
 //////////////*SHOP RATING ROUTEs*//////////////
 

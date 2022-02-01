@@ -54,4 +54,18 @@ const getDrinkRatings = (req, res) => {
     });
 };
 
-module.exports = { addDrink, rateDrink, getDrinkRatings };
+const getShopsDrinks = (req, res) => {
+  const queryArg = req.body.shops.replace(/, /g, "', '").replace('[', "('").replace(']', "')");
+
+
+  pool.query(`SELECT * FROM drinks WHERE place_id IN ${queryArg}`)
+    .then(data => {
+      res.status(200).send(data.rows);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send();
+    });
+};
+
+module.exports = { addDrink, rateDrink, getDrinkRatings, getShopsDrinks };
