@@ -35,7 +35,7 @@ export const Main = styled.div`
 export const colors = {
   main: '#974a42',
   mainDark: '#621c15',
-  mainLight: '#ffe0c2',
+  mainLight: '#fed',
   accent: '#a4cfcd',
   accentDark: '#6f9695',
   accentLight: '#d8fffa',

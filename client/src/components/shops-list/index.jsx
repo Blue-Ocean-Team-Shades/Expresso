@@ -64,9 +64,12 @@ function filter(list, filters) {
   return list;
 }
 
-function ShopsList({ shops, isFavorites, setCurrentShop, message }) {
+function ShopsList({ shops, isFavorites, setCurrentShop, message, searchTerm }) {
   const [sort, setSort] = useState('-distance');
   const [filters, setFilters] = useState(defaultFilters);
+
+  //TODO: on searchTerm > 3 characters, filter results by store or drink name contains searchTerm
+
   return (
     <Background>
       {isFavorites ? 'TODO: filter by favorites' : null}

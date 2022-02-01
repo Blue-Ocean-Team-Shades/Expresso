@@ -12,13 +12,12 @@ const FillSpace = styled.div`
 
 const LogoButton = styled(HighlightButton)`
   && {
-    aspect-ratio: 1 / 2;
     position: relative;
     height: 2rem;
     width: 2rem;
     min-width: 0;
     min-height: 0;
-    transform: scale(2.2);
+    transform: scale(2.2) translate(0.15rem, 0.15rem);
     transform-origin: top left;
     margin: 4px;
     border-radius: 50%;
@@ -33,7 +32,7 @@ const LogoButton = styled(HighlightButton)`
 
 const TitleBar = styled.div`
   display: flex;
-  background-color: #fed;
+  background-color: ${colors.mainLight};
   z-index: 100;
 `;
 
@@ -41,10 +40,10 @@ const OverlayCollapse = styled(Collapse)`
   position: absolute;
   left: 0;
   top: 100%;
-  background-color: ${colors.mainLight}
-`
+  background-color: ${colors.mainLight};
+`;
 
-function TopBar(props) {
+function TopBar({ searchTerm, setSearchTerm, searchLocation, setSearchLocation, submitSearch }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [focused, setFocused] = useState(undefined);
@@ -57,9 +56,23 @@ function TopBar(props) {
       <FillSpace />
       <form>
         <FormControl onFocus={(e) => setFocused(e.target)} onBlur={() => setFocused(undefined)}>
-          <Input label='search for' size='small' style={{ zIndex: 10 }} />
-          <OverlayCollapse in={focused}>
-            <Input label='at location' placeholder='near me' size='small' style={{ zIndex: 10 }} />
+          <Input
+            label='search'
+            placeholder='coffee'
+            size='small'
+            style={{ zIndex: 10 }}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <OverlayCollapse in={!!focused}>
+            <Input
+              label='at location'
+              placeholder='near me'
+              size='small'
+              style={{ zIndex: 10 }}
+              value={searchLocation}
+              onChange={(e) => setSearchLocation(e.target.value)}
+            />
           </OverlayCollapse>
         </FormControl>
       </form>
