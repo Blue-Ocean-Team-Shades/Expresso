@@ -4,18 +4,14 @@ const app = express();
 const port = 3000;
 const path = require('path');
 const { pool } = require('../database');
-<<<<<<< HEAD
 const utils = require('./hashUtils.js');
 const session = require('express-session');
 const store = require('connect-pg-simple')(session);
 const { secret } = require('../config.js');
-=======
-
 const { login, signup } = require('./controllers/userAccounts');
 const { addDrink, rateDrink, getDrinkRatings } = require('./controllers/drinkMenu');
 const { addShopRating, getShopRatings } = require('./controllers/shopRatings');
 const { addUserFavorite, getUserFavorites } = require('./controllers/userFavorites');
->>>>>>> main
 
 app.use(express.json());
 app.use(express.urlencoded());
