@@ -13,7 +13,6 @@ import TextField from '@mui/material/TextField'
  * />
  */
 
-
 export const mobileWidth = 768;
 
 export function isMobile () {
@@ -36,12 +35,12 @@ export const Main = styled.div`
 export const colors = {
   main: '#974a42',
   mainDark: '#621c15',
-  mainLight: '#ffe0c2',
+  mainLight: '#fed',
   accent: '#a4cfcd',
-  accentDark: '#6f9695', //replace with darker color
+  accentDark: '#6f9695',
   accentLight: '#d8fffa',
-  highlight: '#ffc700',
-  highlightDark: '#ffc700', //replace with darker color
+  highlight: '#ffd952',
+  highlightDark: '#ffc700',
   highlightLight: '#fff4c8',
 }
 
@@ -49,11 +48,13 @@ export const Background = styled.div`
   width: 100%;
   height: 100%;
   margin: 0;
+  flex: 1;
   background-color: ${colors.main}
 `
 
 //placeholder
 export const Accent = styled.div`
+
 `
 
 //placeholder
@@ -78,14 +79,27 @@ export const AccentButton = styled(Button)`
   ${styleAccentButton}
 `
 
+export const styleHighlightButton = `
+${styleAccentButton}
+&&{
+  background-color: ${colors.highlight};
+  :hover {
+    background-color: ${colors.highlightLight};
+  }
+  :disabled {
+    background-color: ${colors.highlightDark};
+  }
+}
+`
+
 //placeholder
 export const HighlightButton = styled(Button)`
-
+  ${styleHighlightButton}
 `
 
 //placeholder
 export const Input = styled(TextField)`
-
+  margin: 2px;
 `
 
 export const FlexRow = styled.div`
