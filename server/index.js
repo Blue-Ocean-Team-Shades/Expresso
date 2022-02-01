@@ -43,6 +43,7 @@ app.post('/drinkrating', rateDrink);
 //takes parameter place_id, returns all drink objects (which include drink_name and rating) assoicated with that shop (array of obj)
 app.get('/drinkmenu', getDrinkRatings);
 
+//takes an array of place_ids and returns an array of all drinks serverd by those places
 app.get('/shopsdrinks', getShopsDrinks);
 
 //////////////*SHOP RATING ROUTEs*//////////////
