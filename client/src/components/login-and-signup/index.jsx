@@ -57,7 +57,7 @@ function LoginAndSignup({ isLogin, isSignup, updateCookies }) {
     };
     const currentErrors = inputValidation(formData);
     if (currentErrors.length === 0) {
-      api.logIn(user, password, updateCookies)
+      api.logIn(formData, updateCookies)
         .then(() => {
           navigate('/');
         })

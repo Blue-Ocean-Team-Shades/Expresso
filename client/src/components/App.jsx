@@ -132,6 +132,7 @@ function App() {
               />
             }
           />
+          {/* TODO: if already signed in, redirect back to home */}
           <Route path='/login' element={<LoginSignup isLogin={true} updateCookies={updateCookies} />} />
           <Route path='/signup' element={<LoginSignup isSignup={true} />} />
           <Route
