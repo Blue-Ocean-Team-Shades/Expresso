@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import {Background, Accent, Highlight} from '../Styled.jsx';
+import { Background, Accent, Highlight } from '../Styled.jsx';
 import { useNavigate } from "react-router-dom";
 import { inputValidation } from "./inputValidation";
 

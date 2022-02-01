@@ -35,7 +35,7 @@ export const Container = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
   max-height: 80%;
-  box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
 `;
 
@@ -44,8 +44,7 @@ export const Input = styled.input`
   padding: 10px;
   border: 1px solid;
   margin: 3% 5% 0% 5%;
-  minlength: 1
-`
+`;
 
 export const Button = styled.button`
   border: 0px;
@@ -57,7 +56,7 @@ export const Button = styled.button`
   padding: 10px;
   margin-top: 20px;
   margin-bottom: 20px;
-`
+`;
 
 const SignUp = styled.button`
   font-size: 20px;
