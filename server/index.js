@@ -11,7 +11,10 @@ const { secret } = require('../config.js');
 const { login, signup, logout } = require('./controllers/userAccounts');
 const { addDrink, rateDrink, getDrinkRatings, getShopsDrinks } = require('./controllers/drinkMenu');
 const { addShopRating, getShopRatings } = require('./controllers/shopRatings');
-const { addUserFavorite, getUserFavorites } = require('./controllers/userFavorites');
+const {
+  addUserFavorite,
+  getUserFavorites,
+} = require('./controllers/userFavorites');
 
 app.use(express.json());
 app.use(express.urlencoded());
@@ -29,9 +32,6 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 24
   }
 }));
-
-
-
 
 //janky fix, but it's fine because we're replacing all this with subdomains anyways
 const staticPath = '../client/dist';
