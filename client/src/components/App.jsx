@@ -79,15 +79,6 @@ function App() {
       });
   }, []);
 
-  function logOut() {
-    axios
-      .post('/logout', { username: 'liam', password: '123' })
-      .then(() => {
-        api.updateCookies();
-      })
-      .catch((err) => console.error(err));
-  }
-
   function updateCookies() {
     const newCookies = {};
     document.cookie.split(';').forEach((cookie) => {
