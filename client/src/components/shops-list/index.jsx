@@ -60,8 +60,19 @@ const defaultFilters = {
   distance: 1000,
 };
 
-function filter(list, filters) {
-  return list;
+function filter(list, filters, searchTerm) {
+  searchTerm = searchTerm.toLowerCase()
+  return list.filter((shop) => {
+    //TODO: return false if shop doesn't match customizable filter
+
+    if (searchTerm.length < 3) return true;
+    if (shop.name.toLowerCase().includes(searchTerm)) return true;
+    for (const drink of shop.drinks) {
+      if (drink.name.includes(searchTerm)) return true;
+      //TODO: maybe indicate the matching drinks somehow
+    }
+    return false;
+  });
 }
 
 function ShopsList({ shops, isFavorites, setCurrentShop, message, searchTerm }) {
@@ -83,7 +94,7 @@ function ShopsList({ shops, isFavorites, setCurrentShop, message, searchTerm }) 
         ) : (
           <Main style={{flex: 1}}>
             <Shops>
-              {filter(shops, filters)
+              {filter(shops, filters, searchTerm)
                 .sort(sortFunc(sort))
                 .map((shop) => (
                   <ShopEntry shop={shop} key={shop.id} setCurrentShop={setCurrentShop} />
