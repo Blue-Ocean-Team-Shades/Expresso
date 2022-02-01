@@ -41,7 +41,7 @@ const InnerColumn = styled(FlexCol)`
   // height: 100px;
 `;
 
-function DrinkList({ drinks, getDrinks }) {
+function DrinkList({ drinks, getDrinks, placeId }) {
   const createRows = (arr) => {
     let result = [];
     while (arr.length > 2) {
