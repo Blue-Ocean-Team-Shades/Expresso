@@ -13,7 +13,6 @@ import TextField from '@mui/material/TextField'
  * />
  */
 
-
 export const mobileWidth = 768;
 
 export function isMobile () {
@@ -86,7 +85,7 @@ export const HighlightButton = styled(Button)`
 
 //placeholder
 export const Input = styled(TextField)`
-
+  margin: 2px;
 `
 
 export const FlexRow = styled.div`
