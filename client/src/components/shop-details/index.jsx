@@ -16,6 +16,10 @@ import AddDrink from './AddDrink.jsx';
 import { dummyShops } from '../../dummyData.js';
 import axios from 'axios';
 
+const findAustinShops = () => {
+  // findShops('cafe in austin', (results) => console.log(results));
+};
+
 let dummyCurrentShop = dummyShops[0];
 
 const ListBackground = styled(Background)`
@@ -58,9 +62,10 @@ const Image = styled(Accent)`
 `;
 
 function ShopDetails({ currentShop, setCurrentShop }) {
-  // sample getting shops
+  // sample getting shop drinks from test google places shop
   const [drinks, setDrinks] = useState([]);
   useEffect(() => {
+    // findAustinShops();
     getDrinks();
   }, []);
 
