@@ -42,7 +42,9 @@ const InnerColumn = styled(FlexCol)`
 `;
 
 function DrinkList({ drinks, getDrinks, placeId }) {
-  const createRows = (arr) => {
+  console.log(drinks, 'top levvel')
+  const createRows = (array) => {
+    let arr = sortDrinks(array)
     let result = [];
     while (arr.length > 2) {
       result.push(
@@ -88,30 +90,28 @@ function DrinkList({ drinks, getDrinks, placeId }) {
     return result;
   };
 
-  const sortDrinks = (drinks) => {
-    console.log(drinks, '<<BEFORE')
-
+  const sortDrinks = (array) => {
     let result = [];
     let isSorted = false;
-    while(!isSorted && drinks.length > 0) {
+    while(!isSorted && array.length > 0) {
       isSorted = true;
-      for (let i = 0; i < drinks.length; i++) {
-        let drink = drinks[i];
-        let rating = nextDrink ? Number(drink.drink_rating) : undefined
-        let nextDrink = drinks[i + 1];
+      for (let i = 0; i < array.length; i++) {
+        let drink = array[i];
+        let rating = drink ? Number(drink.drink_rating) : undefined
+        let nextDrink = array[i + 1];
         let nextDrinkRating = nextDrink ? Number(nextDrink.drink_rating) : undefined
         if (nextDrink && rating < nextDrinkRating) {
           isSorted = false;
-          drinks[i] = nextDrink
-          drinks[i + 1] = drink
+          array[i] = nextDrink
+          array[i + 1] = drink
         }
       }
       }
-      console.log(drinks, 'the drinks')
+      return array
   }
 
+
   let rows = createRows(drinks);
-  sortDrinks(drinks)
   return <Container>{rows}</Container>;
 }
 
