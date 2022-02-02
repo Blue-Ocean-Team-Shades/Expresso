@@ -28,8 +28,8 @@ export const Container = styled.div`
   position:fixed;
   text-align: center;
   background: ${colors.accent};
-  width: 30%;
-  height: 35%;
+  width: 35%;
+  height: 30%;
   top:50%;
   left:50%;
   transform: translate(-50%,-50%);
@@ -38,10 +38,15 @@ export const Container = styled.div`
   max-height: 80%;
   box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
+  @media screen and (max-width:900px) {
+    width: 85%;
+  }
 `;
 
 export const Input = styled.input`
   text-align: center;
+  height: 50%;
+  width: 50%;
   padding: 10px;
   border: 1px solid;
   margin: 3% 5% 0% 5%;
@@ -60,7 +65,7 @@ export const Button = styled.button`
   margin-top: 20px;
   margin-bottom: 20px;
   background-color: #fbeee0;
-  border: 2px solid #422800;
+  border: 1px solid #422800;
   border-radius: 10px;
   color: #422800;
 `;
@@ -74,5 +79,7 @@ const SignUp = styled.p`
 `;
 
 export default Login;
+
+
 
 

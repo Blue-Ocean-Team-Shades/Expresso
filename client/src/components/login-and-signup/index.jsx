@@ -110,13 +110,6 @@ function LoginAndSignup({ isLogin, isSignup }) {
 
   }
 
-  // const [token, setToken] = useState();
-
-  // if(!token) {
-  //   return <Login setToken={setToken} />
-  // }
-
-
   if (isLogin) {
     return (
       <Background>
