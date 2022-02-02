@@ -32,4 +32,5 @@ const getShopList = async (req, res) => {
   }
 }
 
-module.exports = { listsOfShops, getShopImage, getShopList }
+module.exports = { listsOfShops, getShopImage, listsOfShopsByLocation, getShopList }
+
