@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS user_drink_votes (
 DROP TABLE IF EXISTS user_shop_votes;
 CREATE TABLE IF NOT EXISTS user_shop_votes (
   id SERIAL PRIMARY KEY,
-  shop_id INT REFERENCES shops(id),
+  place_id INT REFERENCES shops(place_id),
   user_id INT REFERENCES users(id),
   upvoted BOOLEAN DEFAULT false,
   downvoted BOOLEAN DEFAULT false
