@@ -12,7 +12,7 @@ const { login, signup, logout } = require('./controllers/userAccounts');
 const { addDrink, rateDrink, getDrinkRatings, getShopsDrinks } = require('./controllers/drinkMenu');
 const { addShopRating, getShopRatings } = require('./controllers/shopRatings');
 const { addUserFavorite, getUserFavorites } = require('./controllers/userFavorites');
-const { getShopList } = require('./controllers/shopListings');
+const { getShopList, getShopImage } = require('./controllers/shopListings');
 
 app.use(express.json());
 app.use(express.urlencoded());
@@ -74,6 +74,9 @@ app.post('/shopratings', addShopRating);
 
 //takes paramater shops (an array of place_ids) and returns an array of shop objects
 app.post('/getshopratings', getShopRatings);
+
+//takes a parameter, shop (a shop object from state), and returns the associated image
+app.post('/getshopimage',getShopImage);
 
 //////////////*USER FAVORITES ROUTES*//////////////
 
