@@ -18,7 +18,8 @@ const Row = styled(FlexRow)`
 
 const DrinkInput = styled(Accent)`
   // width: 40%;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
+  margin-bottom: 2vh;
 `;
 
 const DrinkName = styled(Input)`
@@ -52,7 +53,13 @@ const AddDrinkButton = styled(AccentButton)`
 
 let placeholder = `Don't see a drink here? Add it!`;
 
-function AddDrink({ currentShop, setCurrentShop, setDrinks, getDrinks }) {
+function AddDrink({
+  currentShop,
+  setCurrentShop,
+  setDrinks,
+  getDrinks,
+  placeId,
+}) {
   const [drinkValue, setDrinkValue] = useState('');
   const [priceValue, setPriceValue] = useState('');
   const [recommend, seRecommend] = React.useState(true);
@@ -75,7 +82,7 @@ function AddDrink({ currentShop, setCurrentShop, setDrinks, getDrinks }) {
     seRecommend(true);
   };
 
-  const addDrinkItem = () => {
+  const addDrinkItem = (id) => {
     let obj = {
       place_id: currentShop.place_id,
       drink_name: drinkValue,
@@ -92,7 +99,8 @@ function AddDrink({ currentShop, setCurrentShop, setDrinks, getDrinks }) {
     // setCurrentShop
     // // get current shop info from database
     // // setcurrentshop
-    addDrinkItem()
+
+    addDrinkItem(placeId)
       .then(() => getDrinks())
       .catch((err) => console.log(err));
     resetInputFields();

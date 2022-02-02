@@ -54,7 +54,6 @@ const rateDrink = (req, res) => {
 };
 
 const getDrinkRatings = (req, res) => {
-  console.log(req.body.place_id)
   pool.query(`SELECT * FROM drinks WHERE place_id = '${req.body.place_id}'`)
     .then(data => {
       res.status(200).send(data.rows);

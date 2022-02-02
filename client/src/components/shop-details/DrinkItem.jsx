@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { Accent, FlexRow, FlexCol } from '../Styled.jsx';
 import thumbDown from '../../assets/thumbDown.svg';
@@ -17,17 +17,31 @@ const Row = styled(FlexRow)`
   align-items: center;
 `;
 
-function DrinkItem({ arr, getDrinks }) {
+const Img = styled.img`
+  cursor: pointer;
+`;
+
+function DrinkItem({ arr, getDrinks, placeId }) {
   const [like, setLike] = useState(null);
+  const [isLikeClicked, setLikeIsClicked] = useState(false);
+  const [isDislikeClicked, setDislikeIsClicked] = useState(false);
 
   const likeClickHandler = () => {
-    api.likeDrink(2)
+    setLikeIsClicked(true);
+    setDislikeIsClicked(false);
+
+    api
+      .likeDrink(arr.id)
       .then(() => getDrinks())
       .catch((err) => console.log(err));
   };
 
   const dislikeClickHandler = () => {
-    api.dislikeDrink(2)
+    setDislikeIsClicked(true);
+    setLikeIsClicked(false);
+
+    api
+      .dislikeDrink(arr.id)
       .then(() => getDrinks())
       .catch((err) => console.log(err));
   };
@@ -39,8 +53,14 @@ function DrinkItem({ arr, getDrinks }) {
         {drink}
         <div>rating: {arr.drink_rating}</div>
         <Row>
-          <img src={thumbUp} onClick={likeClickHandler} />
-          <img src={thumbDown} onClick={dislikeClickHandler} />
+          <Img
+            src={thumbUp}
+            onClick={!isLikeClicked ? likeClickHandler : null}
+          />
+          <Img
+            src={thumbDown}
+            onClick={!isDislikeClicked ? dislikeClickHandler : null}
+          />
         </Row>
       </Col>
     </Drink>
