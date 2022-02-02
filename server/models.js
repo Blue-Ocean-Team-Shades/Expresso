@@ -5,10 +5,17 @@ const { placesKey } = require('../config.js');
 
 const findShops = async (queryString, locationQuery) => {
 
-  let {data} = await axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?location=${locationQuery}&query=${queryString}&radius=2000&key=${placesKey}`);
-  return data.results;
+  let { data } = await axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?location=${locationQuery}&query=${queryString}&radius=2000&key=${placesKey}`);
+  return data.results
 
 };
+
+const findLocation = async (locationString) => {
+
+  let { data } = await axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${locationString}&key=${placesKey}`)
+  return data
+
+}
 
 const getPhotosOfShops = async (photoReference) => {
 
@@ -18,5 +25,4 @@ const getPhotosOfShops = async (photoReference) => {
 };
 
 
-module.exports.findShops = findShops;
-module.exports.getPhotosOfShops = getPhotosOfShops;
+module.exports = { findShops, findLocation, getPhotosOfShops }
