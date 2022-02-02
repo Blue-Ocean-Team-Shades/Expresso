@@ -18,7 +18,8 @@ const Row = styled(FlexRow)`
 
 const DrinkInput = styled(Accent)`
   // width: 40%;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
+  margin-bottom: 2vh;
 `;
 
 const DrinkName = styled(Input)`
@@ -83,7 +84,7 @@ function AddDrink({
 
   const addDrinkItem = (id) => {
     let obj = {
-      place_id: id,
+      place_id: currentShop.place_id,
       drink_name: drinkValue,
       recommend: recommend,
     };

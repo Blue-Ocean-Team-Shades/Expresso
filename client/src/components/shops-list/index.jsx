@@ -71,7 +71,7 @@ function filter(list, filters, searchTerm) {
     if (shop.name.toLowerCase().includes(searchTerm)) return true;
     if (shop.drinks) {
       for (const drink of shop.drinks) {
-        if (drink.name.includes(searchTerm)) return true;
+        if (drink.drink_name.includes(searchTerm)) return true;
         //TODO: maybe indicate the matching drinks somehow
       }
     }

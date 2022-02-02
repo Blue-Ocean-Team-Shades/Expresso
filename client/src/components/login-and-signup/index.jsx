@@ -3,14 +3,12 @@ import styled from 'styled-components';
 import { Background, Accent, Highlight } from '../Styled.jsx';
 import { useNavigate } from "react-router-dom";
 import { inputValidation } from "./inputValidation";
-
 import Login from './login.jsx';
 import Register from './register.jsx';
-import api from '../../api.js'
+import api from '../../api.js';
 
 function LoginAndSignup({ isLogin, isSignup, cookies, updateCookies }) {
   const navigate = useNavigate();
-
   const [user, setUser] = useState('');
   const [password, setPassword] = useState();
   const [signUpUser, setSignUpUser] = useState('');
@@ -86,8 +84,7 @@ function LoginAndSignup({ isLogin, isSignup, cookies, updateCookies }) {
       if (signUpPassword === confirmPassword) {
         api.signUp(formData, updateCookies)
           .then((res) => {
-            console.log('this is res', res);
-            // navigate('/login');
+            navigate('/login');
           })
           .catch((err) => {
             if (err.response.status === 500) {
@@ -101,7 +98,6 @@ function LoginAndSignup({ isLogin, isSignup, cookies, updateCookies }) {
     } else {
       alert(`${currentErrors[0]}`);
     }
-
   }
 
   if (isLogin) {

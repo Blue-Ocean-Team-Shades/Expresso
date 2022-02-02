@@ -46,11 +46,9 @@ const addShopRating = (req, res) => {
 };
 
 const getShopRatings = (req, res) => {
-  let queryArg = req.body.shops.replace(/, /g, "', '").replace('[', "('").replace(']', "')");
-
-  pool.query(`SELECT * FROM shops WHERE place_id IN ${queryArg}`)
+  shopsRatingsQuery(req.body.shops)
     .then(data => {
-      res.status(200).send(data.rows);
+      res.status(200).send(data);
     })
     .catch(err => {
       console.error(err);
@@ -58,4 +56,10 @@ const getShopRatings = (req, res) => {
     });
 };
 
-module.exports = { addShopRating, getShopRatings };
+const shopsRatingsQuery = (shops) => {
+  let queryArg = shops.replace(/, /g, "', '").replace('[', "('").replace(']', "')");
+  return pool.query(`SELECT * FROM shops WHERE place_id IN ${queryArg}`)
+    .then((data) => data.rows);
+}
+
+module.exports = { addShopRating, getShopRatings, shopsRatingsQuery };

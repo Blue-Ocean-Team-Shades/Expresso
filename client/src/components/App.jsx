@@ -124,6 +124,8 @@ function App() {
                 shops={shops}
                 setCurrentShop={setCurrentShop}
                 currentShop={currentShop}
+                shops={shops}
+                setShops={setShops}
               />
             }
           />
