@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import {
   Background,
@@ -14,6 +14,11 @@ import ShopInfo from './ShopInfo.jsx';
 import DrinkList from './DrinkList.jsx';
 import AddDrink from './AddDrink.jsx';
 import { dummyShops } from '../../dummyData.js';
+import axios from 'axios';
+
+const findAustinShops = () => {
+  // findShops('cafe in austin', (results) => console.log(results));
+};
 
 let dummyCurrentShop = dummyShops[0];
 
@@ -43,6 +48,7 @@ const Inner = styled(FlexCol)`
   // height: 1200px;
   background-color: white;
   border: gray solid 1px;
+  border-radius: 8px;
 `;
 
 const Image = styled(Accent)`
@@ -56,14 +62,38 @@ const Image = styled(Accent)`
 `;
 
 function ShopDetails({ currentShop, setCurrentShop }) {
+  // sample getting shop drinks from test google places shop
+  const [drinks, setDrinks] = useState([]);
+  useEffect(() => {
+    // findAustinShops();
+    getDrinks();
+  }, []);
+
+  const getDrinks = () => {
+    let optionsConfig = {
+      data: {
+        place_id: 'ChIJr0p1HSe5QIYRJbI_fFPj6e0',
+      },
+    };
+    axios
+      .get('/drinkmenu', optionsConfig)
+      .then(({ data }) => setDrinks(data))
+      .catch((err) => console.log(err, '<<<<<<<'));
+  };
+
   return (
     <ListBackground>
       <Image />
       <Container>
         <Inner>
           <ShopInfo shop={dummyCurrentShop || {}} />
-          <DrinkList drinks={dummyCurrentShop ? dummyCurrentShop.drinks : []} />
-          <AddDrink currentShop={currentShop} setCurrentShop={setCurrentShop} />
+          {/* <DrinkList drinks={drinks ? shop.drinks : []} /> */}
+          <DrinkList drinks={drinks || []} getDrinks={getDrinks} />
+          <AddDrink
+            currentShop={dummyCurrentShop}
+            setCurrentShop={setCurrentShop}
+            getDrinks={getDrinks}
+          />
         </Inner>
       </Container>
     </ListBackground>

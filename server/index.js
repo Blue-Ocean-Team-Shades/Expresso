@@ -31,9 +31,6 @@ app.use(session({
   }
 }));
 
-
-
-
 //janky fix, but it's fine because we're replacing all this with subdomains anyways
 const staticPath = '../client/dist';
 app.use('/', express.static(path.resolve(__dirname, staticPath)));
