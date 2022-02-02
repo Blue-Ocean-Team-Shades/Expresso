@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import {Background, Accent, Highlight} from '../Styled.jsx';
+import { Background, Accent, Highlight } from '../Styled.jsx';
 import { useNavigate } from "react-router-dom";
 import { inputValidation } from "./inputValidation";
 
@@ -44,12 +44,10 @@ function LoginAndSignup({ isLogin, isSignup, cookies, updateCookies }) {
 
   const signUpPw = (e) => {
     setSignUpPassword(e.target.value)
-    console.log(signUpPassword)
   }
 
   const confirmPasswordChange = (e) => {
     setConfirmPassword(e.target.value)
-    console.log(confirmPassword)
   }
 
   const submitLogin = () => {
@@ -64,7 +62,6 @@ function LoginAndSignup({ isLogin, isSignup, cookies, updateCookies }) {
           navigate('/');
         })
         .catch((err) => {
-          console.log(document.getElementsByClassName('loginUser')[0].style.border)
           if (err.response.status === 404) {
             setUsernameErr(true);
             document.getElementsByClassName('loginUser')[0].style.border = '1px solid red';
@@ -106,13 +103,6 @@ function LoginAndSignup({ isLogin, isSignup, cookies, updateCookies }) {
     }
 
   }
-
-  // const [token, setToken] = useState();
-
-  // if(!token) {
-  //   return <Login setToken={setToken} />
-  // }
-
 
   if (isLogin) {
     return (
