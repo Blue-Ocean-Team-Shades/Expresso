@@ -86,6 +86,20 @@ app.post('/favorites', addUserFavorite);
 //takes parameter user_id and returns an object of arrays of objects (lol) with that user's favorites: {drinks: [{}, {}], shops:[{}, {}]}
 app.post('/getuserfavorites', getUserFavorites);
 
+
+app.get('/cookiedata', (req, res) => {
+  pool.query(`SELECT * FROM session WHERE sid = '${req.query.sid}'`)
+    .then(data => {
+      let session = data.rows[0].sess;
+      let user = {
+        user_id: session.user_id,
+        username: session.username
+      };
+      res.status(200).send(user);
+    })
+    .catch(err => res.status(500).send(err));
+});
+
 //////////////////////////////////////////////////
 
 app.listen(port, () => {
