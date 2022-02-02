@@ -39,7 +39,7 @@ const Anchor = styled(Accent)`
 
 function ShopInfo({ shop }) {
   let address = '928 Fulton St Suite A, Houston, TX 77009, United States';
-  let url = `https://www.google.com/maps/dir/?api=1&destination=${address}&dir_action=navigate`;
+  let url = `https://www.google.com/maps/dir/?api=1&destination=${shop.formatted_address}&dir_action=navigate`;
   return (
     <FlexRow>
       <Column>
@@ -49,10 +49,7 @@ function ShopInfo({ shop }) {
       </Column>
       <Column>
         <Text>{shop.name}</Text>
-        <Text>201 Octavia St, San Francisco, CA 94102</Text>
-        <Website as='a' href='http://www.mercurycafe.net/'>
-          mercurycafe.net
-        </Website>
+        <Text>{shop.formatted_address}</Text>
       </Column>
       <Column>
         <Map>

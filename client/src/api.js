@@ -27,7 +27,7 @@ function likeDrink(drink_id) {
     drink_id,
     rating: '1',
   };
-  return axios.post('/drinkrating', obj);
+  return axios.post('/ratedrink', obj);
 }
 
 function dislikeDrink(drink_id) {
@@ -35,19 +35,26 @@ function dislikeDrink(drink_id) {
     drink_id,
     rating: '0',
   };
-  return axios.post('/drinkrating', obj);
+  return axios.post('/ratedrink', obj);
 }
 
 function getDrinks(place_id) {
-  return axios.post('/getdrinkratings', { place_id })
-    .then((response) => {
-      console.log(place_id, response)
-      return response
-    })
+  return axios.post('/getdrinkratings', { place_id }).then((response) => {
+    return response;
+  });
 }
 
 function addDrink(drinkObj) {
   return axios.post('/drinkmenu', drinkObj);
 }
 
-export default { getShops, logIn, logOut, signUp, addDrink, likeDrink, dislikeDrink, getDrinks };
+export default {
+  getShops,
+  logIn,
+  logOut,
+  signUp,
+  addDrink,
+  likeDrink,
+  dislikeDrink,
+  getDrinks,
+};
