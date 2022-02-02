@@ -63,14 +63,14 @@ function App() {
       .then((position) => {
         setMessage(null);
         setLocation(position);
-        return api.getShops(position)
+        return api.getShops(position);
       })
       .then(({ data }) => {
-        setShops(data)
-        console.log(data)
+        setShops(data);
+        console.log(data);
       })
       .catch((err) => {
-        console.error(err)
+        console.error(err);
         setMessage('Please enable location, or enter a location in the search!');
       });
   }, []);
@@ -83,27 +83,24 @@ function App() {
     }
   }
 
-
   function updateCookies() {
-    const newCookies = {
-      user_id: undefined,
-      username: undefined
-    };
+    const newCookies = {};
     document.cookie.split(';').forEach((cookie) => {
       let [cookieName, cookieBody] = cookie.split('=');
-      if (cookieBody) {
-        cookieBody = cookieBody.slice(4).split('.');
-        api.getCookieData(cookieBody[0])
-          .then(response => {
+      if (cookieName === 'expressoid') {
+        const slicedBody = cookieBody.slice(4).split('.');
+        api
+          .getCookieData(slicedBody[0])
+          .then((response) => {
             newCookies.user_id = response.user_id;
             newCookies.username = response.username;
             setCookies(newCookies);
           })
-          .catch(err => console.log(err));
-      } else {
-        setCookies(newCookies);
+          .catch((err) => console.log(err));
       }
+      newCookies[cookieName] = cookieBody;
     });
+    setCookies(newCookies);
   }
 
   return (
