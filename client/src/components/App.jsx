@@ -75,6 +75,10 @@ function App() {
       });
   }, []);
 
+  function isLoggedIn() {
+    return cookies.username;
+  }
+
   function submitSearch() {
     if (location) {
       console.log('new location:', searchLocation || location);
@@ -114,6 +118,7 @@ function App() {
           submitSearch={submitSearch}
           cookies={cookies}
           updateCookies={updateCookies}
+          isLoggedIn={isLoggedIn}
         />
         <Routes>
           <Route

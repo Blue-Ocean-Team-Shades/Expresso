@@ -60,7 +60,7 @@ const EmptySpace = styled.div`
   height: 8rem;
 `;
 
-function Options({ cookies, updateCookies }) {
+function Options({ cookies, updateCookies, isLoggedIn }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [anchorWidth, setAnchorWidth] = useState(64);
@@ -87,10 +87,6 @@ function Options({ cookies, updateCookies }) {
   function goToPage(page) {
     navigate(page);
     handleClose();
-  }
-
-  function isLoggedIn() {
-    return cookies.username;
   }
 
   function logOut() {
