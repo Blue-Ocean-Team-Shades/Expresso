@@ -65,7 +65,7 @@ function App() {
         setLocation(position);
         return api.getShops(position)
       })
-      .then(({data}) => {
+      .then(({ data }) => {
         setShops(data)
         console.log(data)
       })
@@ -85,12 +85,25 @@ function App() {
 
 
   function updateCookies() {
-    const newCookies = {};
+    const newCookies = {
+      user_id: undefined,
+      username: undefined
+    };
     document.cookie.split(';').forEach((cookie) => {
-      const [cookieName, cookieBody] = cookie.split('=');
-      newCookies[cookieName] = cookieBody;
+      let [cookieName, cookieBody] = cookie.split('=');
+      if (cookieBody) {
+        cookieBody = cookieBody.slice(4).split('.');
+        api.getCookieData(cookieBody[0])
+          .then(response => {
+            newCookies.user_id = response.user_id;
+            newCookies.username = response.username;
+            setCookies(newCookies);
+          })
+          .catch(err => console.log(err));
+      } else {
+        setCookies(newCookies);
+      }
     });
-    setCookies(newCookies);
   }
 
   return (
