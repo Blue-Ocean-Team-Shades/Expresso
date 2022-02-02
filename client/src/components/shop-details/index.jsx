@@ -58,7 +58,7 @@ const Image = styled(Accent)`
   background-repeat: no-repeat;
 `;
 
-function ShopDetails({ currentShop, setCurrentShop }) {
+function ShopDetails({ currentShop, setCurrentShop, shops, setShops }) {
   // sample getting shop drinks from test google places shop
   const [drinks, setDrinks] = useState([]);
   useEffect(() => {
@@ -67,8 +67,11 @@ function ShopDetails({ currentShop, setCurrentShop }) {
   }, []);
 
   const getDrinks = () => {
-    api.getDrinks(currentShop.shop_id)
-      .then(({ data }) => currentShop.drinks = data)
+    api.getDrinks(currentShop.place_id)
+      .then(({ data }) => {
+        currentShop.drinks = data
+        setShops(Object.assign({}, shops))
+      })
       .catch((err) => console.log(err, '<<<<<<<'));
   };
 

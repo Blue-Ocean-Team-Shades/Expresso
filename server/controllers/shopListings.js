@@ -45,6 +45,7 @@ const addRatingsAndMenus = async (shops) => {
     }
     shop.drinks = [];
     for (const drink of shopMenus) {
+      console.log(drink)
       if (shop.place_id === drink.place_id) {
         shop.drinks.push(drink)
       }

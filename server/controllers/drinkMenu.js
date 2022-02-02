@@ -54,6 +54,7 @@ const rateDrink = (req, res) => {
 };
 
 const getDrinkRatings = (req, res) => {
+  console.log(req.body.place_id)
   pool.query(`SELECT * FROM drinks WHERE place_id = '${req.body.place_id}'`)
     .then(data => {
       res.status(200).send(data.rows);
@@ -76,7 +77,12 @@ const getShopsDrinks = (req, res) => {
 };
 
 const shopsDrinksQuery = (shops) => {
-  const queryArg = shops.replace(/, /g, "', '").replace('[', "('").replace(']', "')");
+  const queryArg = shops
+    .replaceAll(',"', ", ")
+    .replaceAll('"', '')
+    .replace(/, /g, "', '")
+    .replace('[', "('")
+    .replace(']', "')");
   return pool.query(`SELECT * FROM drinks WHERE place_id IN ${queryArg}`)
     .then(data => data.rows);
 
