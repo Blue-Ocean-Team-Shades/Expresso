@@ -126,11 +126,11 @@ function ShopDetails({ currentShop, setCurrentShop, shops, setShops }) {
 
   return (
     <ListBackground>
+      {console.log(currentShop)}
       <Image />
       <Container>
         <Inner>
           <ShopInfo shop={currentShop || {}} />
-          {/* <DrinkList drinks={drinks ? shop.drinks : []} /> */}
           <DrinkList
             drinks={currentShop.drinks || []}
             getDrinks={getDrinks}

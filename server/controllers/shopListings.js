@@ -77,4 +77,3 @@ const getShopImage = async (req, res) => {
 };
 
 module.exports = { listsOfShops, getShopImage, listsOfShopsByLocation, getShopList }
-
