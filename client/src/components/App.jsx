@@ -101,19 +101,28 @@ function App() {
     const newCookies = {};
     document.cookie.split(';').forEach((cookie) => {
       let [cookieName, cookieBody] = cookie.split('=').map(item => item.trim());
-      if (cookieName === 'expressoid') {
-        const slicedBody = cookieBody.slice(4).split('.');
-        api
-          .getCookieData(slicedBody[0])
-          .then((response) => {
-            newCookies.user_id = response.user_id;
-            newCookies.username = response.username;
-            setCookies(newCookies);
-          })
-          .catch((err) => console.log(err));
-      }
       newCookies[cookieName] = cookieBody;
     });
+    if (newCookies.expressoid){
+      if (cookies.expressoid) {
+        //session already exists in state, no need to get username
+        newCookies.user_id = cookies.user_id;
+        newCookies.username = cookies.username;
+      } else {
+      const session = newCookies.expressoid.slice(4).split('.');
+      api
+        .getCookieData(session[0])
+        .then((response) => {
+          console.log('getting username')
+          setCookies(oldCookies => {
+            oldCookies.user_id = response.user_id;
+            oldCookies.username = response.username;
+            setCookies(oldCookies);
+          })
+        })
+        .catch((err) => console.log(err));
+      }
+    }
     setCookies(newCookies);
   }
 
