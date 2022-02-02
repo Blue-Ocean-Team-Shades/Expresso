@@ -13,7 +13,6 @@ import {
 import ShopInfo from './ShopInfo.jsx';
 import DrinkList from './DrinkList.jsx';
 import AddDrink from './AddDrink.jsx';
-import axios from 'axios';
 import api from '../../api.js';
 
 // name
@@ -109,7 +108,7 @@ const Image = styled(Accent)`
   background-repeat: no-repeat;
 `;
 
-function ShopDetails({ currentShop, setCurrentShop }) {
+function ShopDetails({ currentShop, setCurrentShop, shops, setShops }) {
   // sample getting shop drinks from test google places shop
   const [drinks, setDrinks] = useState([]);
   useEffect(() => {
@@ -117,9 +116,11 @@ function ShopDetails({ currentShop, setCurrentShop }) {
   }, []);
 
   const getDrinks = () => {
-    api
-      .getDrinks(houstonCafe.place_id)
-      .then(({ data }) => setDrinks(data))
+    api.getDrinks(currentShop.place_id)
+      .then(({ data }) => {
+        currentShop.drinks = data
+        setShops(shops.slice())
+      })
       .catch((err) => console.log(err, '<<<<<<<'));
   };
 
@@ -128,18 +129,18 @@ function ShopDetails({ currentShop, setCurrentShop }) {
       <Image />
       <Container>
         <Inner>
-          <ShopInfo shop={houstonCafe || {}} />
+          <ShopInfo shop={currentShop || {}} />
           {/* <DrinkList drinks={drinks ? shop.drinks : []} /> */}
           <DrinkList
-            drinks={drinks || []}
+            drinks={currentShop.drinks || []}
             getDrinks={getDrinks}
-            placeId={houstonCafe.place_id}
+            placeId={currentShop.place_id}
           />
           <AddDrink
-            currentShop={houstonCafe}
+            currentShop={currentShop}
             setCurrentShop={setCurrentShop}
             getDrinks={getDrinks}
-            placeId={houstonCafe.place_id}
+            placeId={currentShop.place_id}
           />
         </Inner>
       </Container>
