@@ -70,6 +70,7 @@ function App() {
         console.log(data);
       })
       .catch((err) => {
+        //TODO: catch separate error for location services earlier
         console.error(err);
         setMessage('Please enable location, or enter a location in the search!');
       });
@@ -81,7 +82,16 @@ function App() {
 
   function submitSearch() {
     if (location) {
-      console.log('new location:', searchLocation || location);
+      if (searchLocation) {
+        api.getShopsAtLocation(searchLocation)
+          .then(({data}) => setShops(data))
+          .catch((err) => console.error(err))
+
+      } else {
+        api.getShops(location)
+        .then(({data}) => setShops(data))
+        .catch((err) => console.error(err))
+      }
       //TODO: submit search at location
       //TODO: reroute to shops list
     }
