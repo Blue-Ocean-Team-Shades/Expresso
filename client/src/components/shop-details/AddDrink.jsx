@@ -4,6 +4,7 @@ import { Input, FlexCol, AccentButton, FlexRow, Accent } from '../Styled.jsx';
 import api from '../../api.js';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import Stack from '@mui/material/Stack';
 
 const Col = styled(FlexCol)`
   align-items: center;
@@ -52,6 +53,7 @@ const AddDrinkButton = styled(AccentButton)`
 `;
 
 const Form = styled.form`
+width: -webkit-fill-available;
 `
 
 let placeholder = `Don't see a drink here? Add it!`;

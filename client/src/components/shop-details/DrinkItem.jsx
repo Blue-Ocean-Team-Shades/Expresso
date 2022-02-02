@@ -4,6 +4,8 @@ import { Accent, FlexRow, FlexCol } from '../Styled.jsx';
 import thumbDown from '../../assets/thumbDown.svg';
 import thumbUp from '../../assets/thumbUp.svg';
 import api from '../../api.js';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 
 const Drink = styled(Accent)`
   // width: 40%;
@@ -49,6 +51,8 @@ function DrinkItem({ arr, getDrinks, placeId }) {
   let drink = arr ? `${arr.drink_name}` : '';
   return (
     <Drink>
+    {/* <Card>
+    <CardContent> */}
       <Col>
         {drink}
         <div>rating: {arr.drink_rating}</div>
@@ -63,6 +67,8 @@ function DrinkItem({ arr, getDrinks, placeId }) {
           />
         </Row>
       </Col>
+      {/* </CardContent> */}
+      {/* // </Card> */}
     </Drink>
   );
 }
