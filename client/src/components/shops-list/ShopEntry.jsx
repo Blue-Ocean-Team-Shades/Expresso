@@ -11,7 +11,7 @@ const HighlightDot = styled.div`
   content: '&nbsp;'
 `
 
-function ShopEntry ({shop, setCurrentShop}) {
+function ShopEntry ({shop, setCurrentShop, cookies}) {
   const navigate = useNavigate()
   function viewShop() {
     setCurrentShop(shop)
@@ -31,7 +31,7 @@ function ShopEntry ({shop, setCurrentShop}) {
       </div>
       <HighlightDot />
       <div>
-        Distance: {shop.distance}
+        Distance: {Math.round(shop.distance * 10) / 10} km
       </div>
     </AccentButton>
   )

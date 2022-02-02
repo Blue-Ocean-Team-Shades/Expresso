@@ -139,6 +139,7 @@ function App() {
                 setCurrentShop={setCurrentShop}
                 message={message}
                 searchTerm={searchTerm}
+                cookies={cookies}
               />
             }
           />
@@ -171,10 +172,10 @@ function App() {
               <ShopsList
                 isFavorites={true}
                 shops={shops}
-                shops={shops}
                 setCurrentShop={setCurrentShop}
                 message={message}
                 searchTerm={searchTerm}
+                cookies={cookies}
               />
             }
           />
