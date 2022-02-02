@@ -105,7 +105,7 @@ function App() {
     });
     if (newCookies.expressoid){
       if (cookies.expressoid) {
-        //session already exists in state, no need to get username
+        //session already exists in state, no need to get username; just copy them over
         newCookies.user_id = cookies.user_id;
         newCookies.username = cookies.username;
       } else {
@@ -113,7 +113,6 @@ function App() {
       api
         .getCookieData(session[0])
         .then((response) => {
-          console.log('getting username')
           setCookies(oldCookies => {
             oldCookies.user_id = response.user_id;
             oldCookies.username = response.username;

@@ -97,7 +97,7 @@ function Options({ cookies, updateCookies, isLoggedIn }) {
     } else {
       document.cookie = 'units_miles=true; path=/';
     }
-    updateCookies()
+    updateCookies();
   }
 
   return (
@@ -126,7 +126,14 @@ function Options({ cookies, updateCookies, isLoggedIn }) {
               <div style={{ textAlign: 'center' }}>Welcome, {cookies.username}!</div>
             ) : null}
             <MenuItem onClick={() => goToPage('/favorites/')}>My Favorites</MenuItem>
-            Miles: <Switch checked={!!cookies.units_miles} onChange={toggleDistanceUnits} />
+            <FlexRow>
+              <label htmlFor='toggleDistanceUnits'>Miles</label>
+              <Switch
+                id='toggleDistanceUnits'
+                checked={!!cookies.units_miles}
+                onChange={toggleDistanceUnits}
+              />
+            </FlexRow>
             <EmptySpace />
             {isLoggedIn() ? (
               <MenuRight onClick={logOut}>Log Out</MenuRight>
