@@ -72,6 +72,6 @@ export default {
   likeDrink,
   dislikeDrink,
   getDrinks,
-  getImage
+  getImage,
   getCookieData
 };

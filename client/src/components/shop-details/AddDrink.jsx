@@ -51,6 +51,9 @@ const AddDrinkButton = styled(AccentButton)`
   // background-color: white;
 `;
 
+const Form = styled.form`
+`
+
 let placeholder = `Don't see a drink here? Add it!`;
 
 function AddDrink({
@@ -109,6 +112,7 @@ function AddDrink({
   return (
     <Col>
       <DrinkInput>{placeholder}</DrinkInput>
+      <Form>
       <Row>
         <FlexCol>
           <RecommendRow>
@@ -134,8 +138,9 @@ function AddDrink({
             </ToggleButtonGroup>
           </RecommendRow>
         </FlexCol>
-        <AddDrinkButton onClick={clickHandler}>Add Drink</AddDrinkButton>
+        <AddDrinkButton type='submit' onClick={clickHandler}>Add Drink</AddDrinkButton>
       </Row>
+      </Form>
     </Col>
   );
 }
