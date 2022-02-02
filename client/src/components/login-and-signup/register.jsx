@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Container, Input, Button } from './login.jsx';
 
+
 const Register = ({ logIn, signUp, signUpName, signUpPassword, confirmPassword, signUpUsernameErr }) => {
   return (
     <Container>
@@ -25,11 +26,12 @@ const Register = ({ logIn, signUp, signUpName, signUpPassword, confirmPassword, 
   )
 }
 
-const Login = styled.button`
+const Login = styled.p`
   font-size: 20px;
   position: absolute;
   right: 0;
   bottom: 0;
+  cursor: pointer;
 `;
 
 export default Register;

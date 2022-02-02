@@ -1,3 +1,4 @@
+
 const { findShops, findLocation, getPhotosOfShops } = require('../models');
 
 const listsOfShops = async (query, location) => {
@@ -8,7 +9,6 @@ const listsOfShops = async (query, location) => {
   let locationQuery = `${location.lat}%2C${location.lng}`;
   let shops = await findShops(queryString, locationQuery);
   return shops
-
 };
 
 const listsOfShopsByLocation = async (query, location) => {
@@ -27,4 +27,16 @@ const getShopImage = async (shop) => {
 
 }
 
-module.exports = { listsOfShops, getShopImage, listsOfShopsByLocation }
+const getShopList = async (req, res) => {
+  let jsonStr = req.body.location.replace('{', '{"').replaceAll(':', '":').replace(', l', ', "l');
+  let newLocationObj = JSON.parse(jsonStr);
+
+  let data = await listsOfShops('coffee shops', newLocationObj);
+
+  if (data) { res.status(200).send(data) } else {
+    res.status(500).send();
+  }
+}
+
+module.exports = { listsOfShops, getShopImage, listOfShopsByLocation, getShopList }
+

@@ -8,6 +8,7 @@ import Collapse from '@mui/material/Collapse';
 import hamburger from '../../assets/hamburger.svg';
 import hamburgerOpen from '../../assets/hamburgerOpen.svg';
 import IconButton from '@mui/material/IconButton';
+import api from '../../api.js'
 
 const MenuStyled = styled(Menu)`
   && {
@@ -59,7 +60,7 @@ const EmptySpace = styled.div`
   height: 8rem;
 `;
 
-function Options(props) {
+function Options({ cookies, updateCookies }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [anchorWidth, setAnchorWidth] = useState(64);
@@ -88,6 +89,14 @@ function Options(props) {
     handleClose();
   }
 
+  function isLoggedIn() {
+    return cookies.expressoid;
+  }
+
+  function logOut() {
+    api.logOut(updateCookies)
+  }
+
   return (
     <div style={{ margin: 0 }}>
       <ButtonClosed onClick={setAnchor} disableRipple={true} size='small' open={open}>
@@ -112,7 +121,11 @@ function Options(props) {
           <FlexCol style={{ margin: '4px', flex: 1 }}>
             <MenuItem onClick={() => goToPage('/favorites/')}>My Favorites</MenuItem>
             <EmptySpace />
-            <MenuRight onClick={() => goToPage('/login')}>Log in</MenuRight>
+            {isLoggedIn() ? (
+              <MenuRight onClick={logOut}>Log Out</MenuRight>
+            ) : (
+              <MenuRight onClick={() => goToPage('/login')}>Log in</MenuRight>
+            )}
           </FlexCol>
           <MenuSide as='div' width={anchorWidth}></MenuSide>
         </FlexRow>
