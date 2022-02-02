@@ -48,6 +48,10 @@ function addDrink(drinkObj) {
   return axios.post('/drinkmenu', drinkObj);
 }
 
+function getImage(shopObj) {
+  return axios.post('/getshopimage', shopObj);
+}
+
 export default {
   getShops,
   logIn,
@@ -57,4 +61,5 @@ export default {
   likeDrink,
   dislikeDrink,
   getDrinks,
+  getImage
 };
