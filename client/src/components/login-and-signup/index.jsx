@@ -42,12 +42,10 @@ function LoginAndSignup({ isLogin, isSignup }) {
 
   const signUpPw = (e) => {
     setSignUpPassword(e.target.value)
-    console.log(signUpPassword)
   }
 
   const confirmPasswordChange = (e) => {
     setConfirmPassword(e.target.value)
-    console.log(confirmPassword)
   }
 
   const submitLogin = () => {
@@ -64,7 +62,6 @@ function LoginAndSignup({ isLogin, isSignup }) {
           navigate('/');
         })
         .catch((err) => {
-          console.log(document.getElementsByClassName('loginUser')[0].style.border)
           if (err.response.status === 404) {
             setUsernameErr(true);
             document.getElementsByClassName('loginUser')[0].style.border = '1px solid red';
@@ -91,9 +88,8 @@ function LoginAndSignup({ isLogin, isSignup }) {
     if (currentErrors.length === 0) {
       if (signUpPassword === confirmPassword) {
         axios.post('/signup', formData)
-          .then((res) => {
-            console.log('this is res', res);
-            // navigate('/login');
+          .then(() => {
+            navigate('/login');
           })
           .catch((err) => {
             if (err.response.status === 500) {
