@@ -17,6 +17,10 @@ const Row = styled(FlexRow)`
   align-items: center;
 `;
 
+const Img = styled.img`
+  cursor: pointer;
+`;
+
 function DrinkItem({ arr, getDrinks, placeId }) {
   const [like, setLike] = useState(null);
   const [isLikeClicked, setLikeIsClicked] = useState(false);
@@ -49,11 +53,11 @@ function DrinkItem({ arr, getDrinks, placeId }) {
         {drink}
         <div>rating: {arr.drink_rating}</div>
         <Row>
-          <img
+          <Img
             src={thumbUp}
             onClick={!isLikeClicked ? likeClickHandler : null}
           />
-          <img
+          <Img
             src={thumbDown}
             onClick={!isDislikeClicked ? dislikeClickHandler : null}
           />
