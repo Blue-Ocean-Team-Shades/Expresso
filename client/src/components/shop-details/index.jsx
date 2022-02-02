@@ -13,13 +13,12 @@ import {
 import ShopInfo from './ShopInfo.jsx';
 import DrinkList from './DrinkList.jsx';
 import AddDrink from './AddDrink.jsx';
-import { dummyShops } from '../../dummyData.js';
 import axios from 'axios';
 
 // name
 // formatted_address
 // place_id
-
+// real cafe info returnd by google places... used as dummy datta
 let houstonCafe = {
   business_status: 'OPERATIONAL',
   formatted_address:
@@ -70,8 +69,6 @@ let houstonCafe = {
   user_ratings_total: 92,
 };
 
-let dummyCurrentShop = dummyShops[0];
-
 const ListBackground = styled(Background)`
   position: relative;
 `;
@@ -115,7 +112,6 @@ function ShopDetails({ currentShop, setCurrentShop }) {
   // sample getting shop drinks from test google places shop
   const [drinks, setDrinks] = useState([]);
   useEffect(() => {
-    // findAustinShops();
     getDrinks();
   }, []);
 

@@ -49,17 +49,17 @@ function DrinkList({ drinks, getDrinks, placeId }) {
         <Row key={arr.length}>
           <Column>
             <InnerColumn>
-              <DrinkItem arr={arr[0]} getDrinks={getDrinks} />
+              <DrinkItem arr={arr[0]} getDrinks={getDrinks} placeId={placeId} />
             </InnerColumn>
           </Column>
           <Column>
             <InnerColumn>
-              <DrinkItem arr={arr[1]} getDrinks={getDrinks} />
+              <DrinkItem arr={arr[1]} getDrinks={getDrinks} placeId={placeId} />
             </InnerColumn>
           </Column>
           <Column>
             <InnerColumn>
-              <DrinkItem arr={arr[2]} getDrinks={getDrinks} />
+              <DrinkItem arr={arr[2]} getDrinks={getDrinks} placeId={placeId} />
             </InnerColumn>
           </Column>
         </Row>
@@ -75,7 +75,11 @@ function DrinkList({ drinks, getDrinks, placeId }) {
             return (
               <Column key={i}>
                 <InnerColumn>
-                  <DrinkItem arr={arr[i]} getDrinks={getDrinks} />
+                  <DrinkItem
+                    arr={arr[i]}
+                    getDrinks={getDrinks}
+                    placeId={placeId}
+                  />
                 </InnerColumn>
               </Column>
             );

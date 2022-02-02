@@ -37,9 +37,9 @@ const Anchor = styled(Accent)`
   text-align: center;
 `;
 
-function ShopInfo({ name, place_id, formatted_address }) {
+function ShopInfo({ shop }) {
   let address = '928 Fulton St Suite A, Houston, TX 77009, United States';
-  let url = `https://www.google.com/maps/dir/?api=1&destination=${formatted_address}&dir_action=navigate`;
+  let url = `https://www.google.com/maps/dir/?api=1&destination=${shop.formatted_address}&dir_action=navigate`;
   return (
     <FlexRow>
       <Column>
@@ -48,8 +48,8 @@ function ShopInfo({ name, place_id, formatted_address }) {
         </Link>
       </Column>
       <Column>
-        <Text>{name}</Text>
-        <Text>201 Octavia St, San Francisco, CA 94102</Text>
+        <Text>{shop.name}</Text>
+        <Text>{shop.formatted_address}</Text>
       </Column>
       <Column>
         <Map>

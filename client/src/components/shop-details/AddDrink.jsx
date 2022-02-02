@@ -98,7 +98,7 @@ function AddDrink({
     // setCurrentShop
     // // get current shop info from database
     // // setcurrentshop
-    console.log(placeId, drinkValue, recommend);
+
     addDrinkItem(placeId)
       .then(() => getDrinks())
       .catch((err) => console.log(err));

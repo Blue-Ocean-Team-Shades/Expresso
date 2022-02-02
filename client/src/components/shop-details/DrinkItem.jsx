@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { Accent, FlexRow, FlexCol } from '../Styled.jsx';
 import thumbDown from '../../assets/thumbDown.svg';
@@ -17,29 +17,36 @@ const Row = styled(FlexRow)`
   align-items: center;
 `;
 
-function DrinkItem({ arr, getDrinks }) {
+function DrinkItem({ arr, getDrinks, placeId }) {
   const [like, setLike] = useState(null);
+  const [isLikeClicked, setLikeIsClicked] = useState(false);
+  const [isDislikeClicked, setDislikeIsClicked] = useState(false);
 
   const likeClickHandler = () => {
+    setLikeIsClicked(true);
+    setDislikeIsClicked(false);
+
     let obj = {
-      drink_id: '2',
+      drink_id: arr.id,
       rating: '1',
     };
 
     axios
-      .post('/drinkrating', obj)
+      .post('/ratedrink', obj)
       .then(() => getDrinks())
       .catch((err) => console.log(err));
   };
 
   const dislikeClickHandler = () => {
+    setDislikeIsClicked(true);
+    setLikeIsClicked(false);
     let obj = {
-      drink_id: '2',
+      drink_id: arr.id,
       rating: '0',
     };
 
     axios
-      .post('/drinkrating', obj)
+      .post('/ratedrink', obj)
       .then(() => getDrinks())
       .catch((err) => console.log(err));
   };
@@ -51,8 +58,14 @@ function DrinkItem({ arr, getDrinks }) {
         {drink}
         <div>rating: {arr.drink_rating}</div>
         <Row>
-          <img src={thumbUp} onClick={likeClickHandler} />
-          <img src={thumbDown} onClick={dislikeClickHandler} />
+          <img
+            src={thumbUp}
+            onClick={!isLikeClicked ? likeClickHandler : null}
+          />
+          <img
+            src={thumbDown}
+            onClick={!isDislikeClicked ? dislikeClickHandler : null}
+          />
         </Row>
       </Col>
     </Drink>
