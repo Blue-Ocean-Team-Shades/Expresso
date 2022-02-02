@@ -77,8 +77,6 @@ const getShopsDrinks = (req, res) => {
 
 const shopsDrinksQuery = (shops) => {
   const queryArg = shops
-    .replaceAll(',"', ", ")
-    .replaceAll('"', '')
     .replace(/, /g, "', '")
     .replace('[', "('")
     .replace(']', "')");

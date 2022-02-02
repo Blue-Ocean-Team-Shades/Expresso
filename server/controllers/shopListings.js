@@ -33,6 +33,8 @@ const getShopImage = async (shop) => {
 //saturates shops with ratings and drinks
 const addRatingsAndMenus = async (shops) => {
   const shopIds = JSON.stringify(shops.map((shop) => shop.place_id))
+    .replaceAll(',"', ", ")
+    .replaceAll('"', '')
   const shopRatings = await shopsRatingsQuery(shopIds);
   const shopMenus = await shopsDrinksQuery(shopIds);
   for (const shop of shops) {
