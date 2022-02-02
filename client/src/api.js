@@ -48,6 +48,17 @@ function addDrink(drinkObj) {
   return axios.post('/drinkmenu', drinkObj);
 }
 
+function getCookieData(sid) {
+  return axios.get(`/cookiedata`, {params: {sid: sid}})
+    .then(response => {
+      return {
+        user_id: response.data.user_id,
+        username: response.data.username
+      };
+    })
+    .catch(err => console.log(err));
+}
+
 export default {
   getShops,
   logIn,
@@ -57,4 +68,5 @@ export default {
   likeDrink,
   dislikeDrink,
   getDrinks,
+  getCookieData
 };
