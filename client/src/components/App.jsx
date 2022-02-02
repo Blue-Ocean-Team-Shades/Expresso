@@ -6,7 +6,6 @@ import ShopsList from './shops-list';
 import LoginSignup from './login-and-signup';
 import ShopDetails from './shop-details';
 import TopBar from './top-bar';
-import { dummyShops } from '../dummyData.js';
 import api from '../api.js';
 
 const BodyMain = styled.div`
@@ -46,7 +45,7 @@ function getLocation() {
 }
 
 function App() {
-  const [shops, setShops] = useState(dummyShops);
+  const [shops, setShops] = useState([]);
   const [currentShop, setCurrentShop] = useState(null);
   const [location, setLocation] = useState(null);
   const [message, setMessage] = useState('loading');
@@ -58,6 +57,24 @@ function App() {
     updateCookies();
   }, [document.cookie]);
 
+  useEffect(() => {
+    setMessage('Fetching location');
+    getLocation()
+      .then((position) => {
+        setMessage(null);
+        setLocation(position);
+        return api.getShops(position)
+      })
+      .then(({data}) => {
+        setShops(data)
+        console.log(data)
+      })
+      .catch((err) => {
+        console.error(err)
+        setMessage('Please enable location, or enter a location in the search!');
+      });
+  }, []);
+
   function submitSearch() {
     if (location) {
       console.log('new location:', searchLocation || location);
@@ -66,18 +83,6 @@ function App() {
     }
   }
 
-  useEffect(() => {
-    setMessage('Fetching location');
-    getLocation()
-      .then((position) => {
-        setMessage(null);
-        setLocation(position);
-        return api.getShops();
-      })
-      .catch((err) => {
-        setMessage('Please enable location, or enter a location in the search!');
-      });
-  }, []);
 
   function updateCookies() {
     const newCookies = {};

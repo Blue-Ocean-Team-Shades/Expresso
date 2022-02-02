@@ -69,9 +69,11 @@ function filter(list, filters, searchTerm) {
 
     if (searchTerm.length < 3) return true;
     if (shop.name.toLowerCase().includes(searchTerm)) return true;
-    for (const drink of shop.drinks) {
-      if (drink.name.includes(searchTerm)) return true;
-      //TODO: maybe indicate the matching drinks somehow
+    if (shop.drinks) {
+      for (const drink of shop.drinks) {
+        if (drink.name.includes(searchTerm)) return true;
+        //TODO: maybe indicate the matching drinks somehow
+      }
     }
     return false;
   });
@@ -80,8 +82,6 @@ function filter(list, filters, searchTerm) {
 function ShopsList({ shops, isFavorites, setCurrentShop, message, searchTerm }) {
   const [sort, setSort] = useState('-distance');
   const [filters, setFilters] = useState(defaultFilters);
-
-  //TODO: on searchTerm > 3 characters, filter results by store or drink name contains searchTerm
 
   return (
     <Background>
@@ -99,7 +99,7 @@ function ShopsList({ shops, isFavorites, setCurrentShop, message, searchTerm }) 
               {filter(shops, filters, searchTerm)
                 .sort(sortFunc(sort))
                 .map((shop) => (
-                  <ShopEntry shop={shop} key={shop.id} setCurrentShop={setCurrentShop} />
+                  <ShopEntry shop={shop} key={shop.place_id} setCurrentShop={setCurrentShop} />
                 ))}
             </Shops>
             <div>
