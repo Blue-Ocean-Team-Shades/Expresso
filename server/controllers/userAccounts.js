@@ -19,7 +19,15 @@ const signup = (req, res) => {
             `INSERT INTO users (username, password, salt) VALUES ('${req.body.username}', '${password}', '${salt}')`
           )
           .then((x) => {
-            req.session.isLoggedIn = true;
+            pool.query(`SELECT * FROM users WHERE username = '${req.body.username}'`)
+              .then(data => {
+                req.session.user_id = data.rows[0].id;
+                req.session.isLoggedIn = true;
+                req.session.username = req.body.username;
+              })
+              .catch(err => {
+                throw err;
+              });
             res.redirect(200, "/login");
           })
           .catch((err) => {
@@ -49,6 +57,8 @@ const login = (req, res) => {
       //IF USERNAME IS IN DB AND PROVIDED PASSWORD HASHED WITH SALT RETURNED FROM QUERY MATCHES PASSWORD STORED IN DB
       else if (utils.compareHash(req.body.password, user.password, user.salt)){
         console.log('success');
+        req.session.username = req.body.username;
+        req.session.user_id = user.id;
         req.session.isLoggedIn = true;
         res.redirect(200, '/');
       } else {
