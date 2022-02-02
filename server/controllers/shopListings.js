@@ -19,9 +19,11 @@ const listsOfShopsByLocation = async (query, location) => {
 
 }
 
-const getShopImage = async (shop) => {
+const shopImage = async (shop) => {
 
-  let reference = shop.photos[0].photo_reference;
+  let shopObj = JSON.parse(shop);
+  let reference = shopObj.photos[0].photo_reference;
+
   let imageURL = await getPhotosOfShops(reference);
   return imageURL
 
@@ -37,6 +39,14 @@ const getShopList = async (req, res) => {
     res.status(500).send();
   }
 }
+
+const getShopImage = async (req, res) => {
+  let data = await shopImage(req.body.shop);
+
+  if (data) { res.status(200).send(data) } else {
+    res.status(500).send();
+  }
+};
 
 module.exports = { listsOfShops, getShopImage, listsOfShopsByLocation, getShopList }
 
