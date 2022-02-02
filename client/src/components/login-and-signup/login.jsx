@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { colors } from '../Styled.jsx';
 
 const Login = ({ usernameChange, passwordChange, submitLogin, signUp, usernameErr, passwordErr }) => {
   return (
@@ -26,7 +27,7 @@ export const Container = styled.div`
   z-index: 200;
   position:fixed;
   text-align: center;
-  background: white;
+  background: ${colors.accent};
   width: 30%;
   height: 35%;
   top:50%;
@@ -44,27 +45,34 @@ export const Input = styled.input`
   padding: 10px;
   border: 1px solid;
   margin: 3% 5% 0% 5%;
+  background-color: ${colors.mainLight};
 `;
 
 export const Button = styled.button`
-  border: 0px;
+
   :hover {
     opacity: 0.8;
+    background-color: #fff;
   }
   cursor: pointer;
   text-transform: uppercase;
   padding: 10px;
   margin-top: 20px;
   margin-bottom: 20px;
+  background-color: #fbeee0;
+  border: 2px solid #422800;
+  border-radius: 10px;
+  color: #422800;
 `;
 
-const SignUp = styled.button`
+const SignUp = styled.p`
   font-size: 20px;
   position: absolute;
   right: 0;
   bottom: 0;
+  cursor: pointer;
 `;
 
-
-
 export default Login;
+
+
