@@ -44,7 +44,15 @@ const OverlayCollapse = styled(Collapse)`
   border-radius: 0 0 4px 4px;
 `;
 
-function TopBar({ searchTerm, setSearchTerm, searchLocation, setSearchLocation, submitSearch }) {
+function TopBar({
+  searchTerm,
+  setSearchTerm,
+  searchLocation,
+  setSearchLocation,
+  submitSearch,
+  cookies,
+  updateCookies,
+}) {
   const location = useLocation();
   const navigate = useNavigate();
   const [focused, setFocused] = useState(undefined);
@@ -81,11 +89,13 @@ function TopBar({ searchTerm, setSearchTerm, searchLocation, setSearchLocation, 
               autoComplete='off'
               onChange={(e) => setSearchLocation(e.target.value)}
             />
-            <HighlightButton type='submit' fullWidth style={{margin: 0}}>search</HighlightButton>
+            <HighlightButton type='submit' fullWidth style={{ margin: 0 }}>
+              search
+            </HighlightButton>
           </OverlayCollapse>
         </FormControl>
       </form>
-      <Options />
+      <Options cookies={cookies} updateCookies={updateCookies} />
     </TitleBar>
   );
 }

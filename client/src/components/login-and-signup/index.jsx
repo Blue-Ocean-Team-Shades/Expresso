@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import {Background, Accent, Highlight} from '../Styled.jsx';
+import { Background, Accent, Highlight } from '../Styled.jsx';
 import { useNavigate } from "react-router-dom";
 import { inputValidation } from "./inputValidation";
 
 import Login from './login.jsx';
 import Register from './register.jsx';
-import axios from 'axios';
+import api from '../../api.js'
 
-function LoginAndSignup({ isLogin, isSignup }) {
+function LoginAndSignup({ isLogin, isSignup, cookies, updateCookies }) {
   const navigate = useNavigate();
 
   const [user, setUser] = useState('');
@@ -19,6 +19,8 @@ function LoginAndSignup({ isLogin, isSignup }) {
   const [usernameErr, setUsernameErr] = useState(false);
   const [passwordErr, setPasswordErr] = useState(false);
   const [signUpUsernameErr, setSignUpUsernameErr] = useState(false);
+
+  if (cookies.expressoid) navigate('/')
 
   const signUp = () => {
     navigate("/signup");
@@ -42,29 +44,24 @@ function LoginAndSignup({ isLogin, isSignup }) {
 
   const signUpPw = (e) => {
     setSignUpPassword(e.target.value)
-    console.log(signUpPassword)
   }
 
   const confirmPasswordChange = (e) => {
     setConfirmPassword(e.target.value)
-    console.log(confirmPassword)
   }
 
   const submitLogin = () => {
-    let formData = {
+    const formData = {
       username: user,
-      password: password
-    }
-
-    let currentErrors = inputValidation(formData);
-
+      password: password,
+    };
+    const currentErrors = inputValidation(formData);
     if (currentErrors.length === 0) {
-      axios.post('/login', formData)
+      api.logIn(formData, updateCookies)
         .then(() => {
           navigate('/');
         })
         .catch((err) => {
-          console.log(document.getElementsByClassName('loginUser')[0].style.border)
           if (err.response.status === 404) {
             setUsernameErr(true);
             document.getElementsByClassName('loginUser')[0].style.border = '1px solid red';
@@ -77,20 +74,17 @@ function LoginAndSignup({ isLogin, isSignup }) {
     } else {
       alert(`${currentErrors[0]}`);
     }
-
   }
 
   const submitSignUp = () => {
-    let formData = {
+    const formData = {
       username: signUpUser,
-      password: signUpPassword
+      password: signUpPassword,
     }
-
-    let currentErrors = inputValidation(formData);
-
+    const currentErrors = inputValidation(formData);
     if (currentErrors.length === 0) {
       if (signUpPassword === confirmPassword) {
-        axios.post('/signup', formData)
+        api.signUp(formData, updateCookies)
           .then((res) => {
             console.log('this is res', res);
             // navigate('/login');
@@ -109,13 +103,6 @@ function LoginAndSignup({ isLogin, isSignup }) {
     }
 
   }
-
-  // const [token, setToken] = useState();
-
-  // if(!token) {
-  //   return <Login setToken={setToken} />
-  // }
-
 
   if (isLogin) {
     return (

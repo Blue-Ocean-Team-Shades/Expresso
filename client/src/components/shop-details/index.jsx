@@ -14,7 +14,7 @@ import ShopInfo from './ShopInfo.jsx';
 import DrinkList from './DrinkList.jsx';
 import AddDrink from './AddDrink.jsx';
 import { dummyShops } from '../../dummyData.js';
-import axios from 'axios';
+import api from '../../api.js';
 
 const findAustinShops = () => {
   // findShops('cafe in austin', (results) => console.log(results));
@@ -70,13 +70,7 @@ function ShopDetails({ currentShop, setCurrentShop }) {
   }, []);
 
   const getDrinks = () => {
-    let optionsConfig = {
-      data: {
-        place_id: 'ChIJr0p1HSe5QIYRJbI_fFPj6e0',
-      },
-    };
-    axios
-      .get('/drinkmenu', optionsConfig)
+    api.getDrinks('ChIJr0p1HSe5QIYRJbI_fFPj6e0')
       .then(({ data }) => setDrinks(data))
       .catch((err) => console.log(err, '<<<<<<<'));
   };
