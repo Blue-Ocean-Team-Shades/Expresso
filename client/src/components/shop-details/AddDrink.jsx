@@ -77,7 +77,7 @@ function AddDrink({ currentShop, setCurrentShop, setDrinks, getDrinks }) {
 
   const addDrinkItem = () => {
     let obj = {
-      place_id: 'ChIJr0p1HSe5QIYRJbI_fFPj6e0',
+      place_id: currentShop.place_id,
       drink_name: drinkValue,
       recommend: recommend,
     };

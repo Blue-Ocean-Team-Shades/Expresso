@@ -65,12 +65,9 @@ const getDrinkRatings = (req, res) => {
 };
 
 const getShopsDrinks = (req, res) => {
-  const queryArg = req.body.shops.replace(/, /g, "', '").replace('[', "('").replace(']', "')");
-
-
-  pool.query(`SELECT * FROM drinks WHERE place_id IN ${queryArg}`)
+  shopsDrinksQuery(req.body.shops)
     .then(data => {
-      res.status(200).send(data.rows);
+      res.status(200).send(data);
     })
     .catch(err => {
       console.error(err);
@@ -78,4 +75,11 @@ const getShopsDrinks = (req, res) => {
     });
 };
 
-module.exports = { addDrink, rateDrink, getDrinkRatings, getShopsDrinks };
+const shopsDrinksQuery = (shops) => {
+  const queryArg = shops.replace(/, /g, "', '").replace('[', "('").replace(']', "')");
+  return pool.query(`SELECT * FROM drinks WHERE place_id IN ${queryArg}`)
+    .then(data => data.rows);
+
+}
+
+module.exports = { addDrink, rateDrink, getDrinkRatings, getShopsDrinks, shopsDrinksQuery };

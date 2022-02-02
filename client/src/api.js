@@ -47,6 +47,7 @@ function getDrinks(place_id) {
 }
 
 function addDrink(drinkObj) {
+  console.log(drinkObj)
   return axios.post('/drinkmenu', drinkObj);
 }
 

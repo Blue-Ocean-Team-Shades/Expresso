@@ -13,14 +13,11 @@ import {
 import ShopInfo from './ShopInfo.jsx';
 import DrinkList from './DrinkList.jsx';
 import AddDrink from './AddDrink.jsx';
-import { dummyShops } from '../../dummyData.js';
 import api from '../../api.js';
 
 const findAustinShops = () => {
   // findShops('cafe in austin', (results) => console.log(results));
 };
-
-let dummyCurrentShop = dummyShops[0];
 
 const ListBackground = styled(Background)`
   position: relative;
@@ -70,8 +67,8 @@ function ShopDetails({ currentShop, setCurrentShop }) {
   }, []);
 
   const getDrinks = () => {
-    api.getDrinks('ChIJr0p1HSe5QIYRJbI_fFPj6e0')
-      .then(({ data }) => setDrinks(data))
+    api.getDrinks(currentShop.shop_id)
+      .then(({ data }) => currentShop.drinks = data)
       .catch((err) => console.log(err, '<<<<<<<'));
   };
 
@@ -80,11 +77,11 @@ function ShopDetails({ currentShop, setCurrentShop }) {
       <Image />
       <Container>
         <Inner>
-          <ShopInfo shop={dummyCurrentShop || {}} />
+          <ShopInfo shop={currentShop || {}} />
           {/* <DrinkList drinks={drinks ? shop.drinks : []} /> */}
-          <DrinkList drinks={drinks || []} getDrinks={getDrinks} />
+          <DrinkList drinks={currentShop.drinks} getDrinks={getDrinks} />
           <AddDrink
-            currentShop={dummyCurrentShop}
+            currentShop={currentShop}
             setCurrentShop={setCurrentShop}
             getDrinks={getDrinks}
           />
