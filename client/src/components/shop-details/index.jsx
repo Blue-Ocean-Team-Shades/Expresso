@@ -139,7 +139,6 @@ function ShopDetails({ currentShop, setCurrentShop, shops, setShops }) {
 
   return (
     <ListBackground>
-      {console.log(currentShop.drinks, 'what im feeding')}
       <Image image={currentShop.image || {}}/>
       <Container>
         <Inner>

@@ -42,7 +42,6 @@ const InnerColumn = styled(FlexCol)`
 `;
 
 function DrinkList({ drinks, getDrinks, placeId }) {
-  console.log(drinks, 'top levvel')
   const createRows = (array) => {
     let arr = sortDrinks(array)
     let result = [];
@@ -109,7 +108,6 @@ function DrinkList({ drinks, getDrinks, placeId }) {
       }
       return array
   }
-
 
   let rows = createRows(drinks);
   return <Container>{rows}</Container>;
