@@ -100,7 +100,7 @@ function App() {
   function updateCookies() {
     const newCookies = {};
     document.cookie.split(';').forEach((cookie) => {
-      let [cookieName, cookieBody] = cookie.split('=');
+      let [cookieName, cookieBody] = cookie.split('=').map(item => item.trim());
       if (cookieName === 'expressoid') {
         const slicedBody = cookieBody.slice(4).split('.');
         api
