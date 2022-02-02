@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Accent, FlexRow, FlexCol } from '../Styled.jsx';
 import thumbDown from '../../assets/thumbDown.svg';
 import thumbUp from '../../assets/thumbUp.svg';
-import axios from 'axios';
+import api from '../../api.js';
 
 const Drink = styled(Accent)`
   // width: 40%;
@@ -26,13 +26,8 @@ function DrinkItem({ arr, getDrinks, placeId }) {
     setLikeIsClicked(true);
     setDislikeIsClicked(false);
 
-    let obj = {
-      drink_id: arr.id,
-      rating: '1',
-    };
-
-    axios
-      .post('/ratedrink', obj)
+    api
+      .likeDrink(arr.id)
       .then(() => getDrinks())
       .catch((err) => console.log(err));
   };
@@ -40,13 +35,9 @@ function DrinkItem({ arr, getDrinks, placeId }) {
   const dislikeClickHandler = () => {
     setDislikeIsClicked(true);
     setLikeIsClicked(false);
-    let obj = {
-      drink_id: arr.id,
-      rating: '0',
-    };
 
-    axios
-      .post('/ratedrink', obj)
+    api
+      .dislikeDrink(arr.id)
       .then(() => getDrinks())
       .catch((err) => console.log(err));
   };

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Input, FlexCol, AccentButton, FlexRow, Accent } from '../Styled.jsx';
-import axios from 'axios';
+import api from '../../api.js';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
@@ -88,7 +88,7 @@ function AddDrink({
       recommend: recommend,
     };
 
-    return axios.post('/drinkmenu', obj);
+    return api.addDrink(obj);
   };
 
   const clickHandler = (event) => {

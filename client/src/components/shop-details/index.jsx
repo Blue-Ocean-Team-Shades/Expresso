@@ -14,6 +14,7 @@ import ShopInfo from './ShopInfo.jsx';
 import DrinkList from './DrinkList.jsx';
 import AddDrink from './AddDrink.jsx';
 import axios from 'axios';
+import api from '../../api.js';
 
 // name
 // formatted_address
@@ -116,11 +117,8 @@ function ShopDetails({ currentShop, setCurrentShop }) {
   }, []);
 
   const getDrinks = () => {
-    let shopPlaceId = {
-      place_id: houstonCafe.place_id,
-    };
-    axios
-      .post('/getdrinkratings', shopPlaceId)
+    api
+      .getDrinks(houstonCafe.place_id)
       .then(({ data }) => setDrinks(data))
       .catch((err) => console.log(err, '<<<<<<<'));
   };
