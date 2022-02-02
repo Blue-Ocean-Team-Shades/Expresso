@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-function getShops() {
-  return true;
+function getShops(location) {
+  return axios.post('/findshops', {location: `{loc:${location.latitude}, lng:${location.longitude}}`});
 }
 
 function logIn(formData, updateCookies) {
