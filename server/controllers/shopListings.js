@@ -1,4 +1,4 @@
-const models = require('./models');
+const models = require('../models');
 
 const listsOfShops = async (query, location, callback) => {
 
@@ -10,7 +10,6 @@ const listsOfShops = async (query, location, callback) => {
   let shops = await models.findShops(queryString, locationQuery);
 
   return shops
-
 };
 
 const getShopImage = async (shop) => {
@@ -22,4 +21,15 @@ const getShopImage = async (shop) => {
 
 }
 
-module.exports = { listsOfShops, getShopImage }
+const getShopList = async (req, res) => {
+  let jsonStr = req.body.location.replace('{', '{"').replaceAll(':', '":').replace(', l', ', "l');
+  let newLocationObj = JSON.parse(jsonStr);
+
+  let data = await listsOfShops('coffee shops', newLocationObj);
+
+  if (data) { res.status(200).send(data) } else {
+    res.status(500).send();
+  }
+}
+
+module.exports = { listsOfShops, getShopImage, getShopList }
