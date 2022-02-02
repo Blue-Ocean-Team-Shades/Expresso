@@ -75,6 +75,8 @@ const SignUp = styled.p`
   position: absolute;
   right: 0;
   bottom: 0;
+  margin-right: 5px;
+  margin-bottom: 5px;
   cursor: pointer;
 `;
 
