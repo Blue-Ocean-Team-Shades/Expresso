@@ -22,29 +22,32 @@ function signUp(formData, updateCookies) {
   });
 }
 
-function addDrink(drinkObj) {
-  return axios.post('/drinkmenu', drinkObj);
-}
-
-function likeDrink(drinkId) {
+function likeDrink(drink_id) {
   const obj = {
-    drink_id: drinkId,
+    drink_id,
     rating: '1',
   };
   return axios.post('/drinkrating', obj);
 }
 
-function dislikeDrink(drinkId) {
+function dislikeDrink(drink_id) {
   const obj = {
-    drink_id: drinkId,
+    drink_id,
     rating: '0',
   };
   return axios.post('/drinkrating', obj);
 }
 
 function getDrinks(place_id) {
-  const optionsConfig = { data: { place_id } };
-  return axios.get('/drinkmenu', optionsConfig);
+  return axios.post('/getdrinkratings', { place_id })
+    .then((response) => {
+      console.log(place_id, response)
+      return response
+    })
 }
 
-export default { getShops, logIn, logOut, signUp, addDrink };
+function addDrink(drinkObj) {
+  return axios.post('/drinkmenu', drinkObj);
+}
+
+export default { getShops, logIn, logOut, signUp, addDrink, likeDrink, dislikeDrink, getDrinks };
