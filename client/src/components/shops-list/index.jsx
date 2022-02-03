@@ -71,7 +71,7 @@ const defaultFilters = {
   distance: 1000,
 };
 
-function filter(list, filters, searchTerm, cookies) {
+function filter(list, searchTerm, cookies) {
   searchTerm = searchTerm.toLowerCase();
   return list.filter((shop) => {
     //TODO: return false if shop doesn't match customizable filter
@@ -100,7 +100,6 @@ function ShopsList({
   setFavoriteShops,
 }) {
   const [sort, setSort] = useState('distance');
-  const [filters, setFilters] = useState(defaultFilters);
 
   return (
     <Background>
@@ -115,7 +114,7 @@ function ShopsList({
         ) : (
           <Main style={{ flex: 1 }}>
             <Shops>
-              {filter(shops, filters, searchTerm, cookies)
+              {filter(shops, searchTerm, cookies)
                 .sort(sortFunc(sort, favoriteShops, !cookies.favorites_not_at_top))
                 .map((shop) => (
                   <ShopEntry
@@ -138,9 +137,6 @@ function ShopsList({
                 <AccentButton disabled={sort === '-rating'} onClick={() => setSort('-rating')}>
                   rating
                 </AccentButton>
-                Show
-                <AccentButton>open</AccentButton>
-                <AccentButton>nearby</AccentButton>
               </FlexCol>
             </div>
           </Main>
