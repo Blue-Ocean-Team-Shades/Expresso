@@ -8,14 +8,17 @@ import starEmpty from '../../assets/star-empty.svg';
 import starFull from '../../assets/star-full.svg';
 
 const StyledImg = styled.img`
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1rem;
+  height: 1rem;
 `
 
 const ButtonStar = styled(IconButton)`
   ${styleHighlightButton}
-  &&:disabled {
-    background-color: ${colors.highlightLight}
+  &&{
+    border-radius: 50%;
+    :disabled {
+      background-color: ${colors.highlightLight}
+    }
   }
 `
 
