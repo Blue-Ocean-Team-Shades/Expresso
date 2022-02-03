@@ -5,6 +5,7 @@ import api from '../../api.js';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Stack from '@mui/material/Stack';
+import Switch from '@mui/material/Switch';
 
 const Col = styled(FlexCol)`
   align-items: center;
@@ -132,15 +133,11 @@ function AddDrink({
           <FlexCol>
             <RecommendLabel>Recommend?</RecommendLabel>
             <RecommendRow>
-              <ToggleButtonGroup
-                color='primary'
+              <Switch
                 value={recommend}
-                exclusive
                 onChange={handleToggle}
-              >
-                <ToggleButton value={true}>Yes</ToggleButton>
-                <ToggleButton value={false}>No</ToggleButton>
-              </ToggleButtonGroup>
+                color='primary'
+              />
             </RecommendRow>
           </FlexCol>
           <AddDrinkButton type='submit' onClick={clickHandler}>
@@ -176,4 +173,18 @@ export default AddDrink;
           value={priceValue}
           onChange={handlePriceInput}
         />
+*/
+
+/* yes not toggles
+
+   <ToggleButtonGroup
+                color='primary'
+                value={recommend}
+                exclusive
+                onChange={handleToggle}
+              >
+                <ToggleButton value={true}>Yes</ToggleButton>
+                <ToggleButton value={false}>No</ToggleButton>
+              </ToggleButtonGroup>
+
 */
