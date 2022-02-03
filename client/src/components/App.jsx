@@ -52,8 +52,8 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchLocation, setSearchLocation] = useState('');
   const [cookies, setCookies] = useState([]);
-  const [favoriteShops, setFavoriteShops] = useState([]);
-  const [favoriteDrinks, setFavoriteDrinks] = useState([]);
+  const [favoriteShops, setFavoriteShops] = useState({});
+  const [favoriteDrinks, setFavoriteDrinks] = useState({});
 
   useEffect(() => {
     updateCookies();
@@ -122,8 +122,17 @@ function App() {
             return api.getUserFavorites(response.user_id);
           })
           .then(({data}) => {
-            setFavoriteShops(data.favoriteShops);
-            setFavoriteDrinks(data.favoriteDrinks);
+            const newFavoriteShops = {};
+            for (const shop of data.favoriteShops) {
+              newFavoriteShops[shop.place_id] = true;
+            }
+            setFavoriteShops(newFavoriteShops);
+            const newFavoriteDrinks = {}
+            for (const drink of data.favoriteDrinks) {
+              if (!newFavoriteDrinks[drink.place_id]) newFavoriteDrinks[drink.place_id] = {};
+              newFavoriteDrinks[drink.place_id][drink.drink_id] = true;
+            }
+            setFavoriteDrinks(newFavoriteDrinks);
           })
           .catch((err) => console.log(err));
       }

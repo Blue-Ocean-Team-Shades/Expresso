@@ -11,27 +11,13 @@ function LikeShop({
   favoriteShops,
   setFavoriteShops,
 }) {
-  const [isFavorite, setIsFavorite] = useState(false);
-
-  useEffect(() => {
-    if (favoriteShops && currentShop) {
-      for (const favorite of favoriteShops) {
-        if (favorite.place_id === currentShop.place_id) {
-          setIsFavorite(true);
-          return;
-        }
-        setIsFavorite(false);
-      }
-    }
-  }, [currentShop, favoriteShops]);
-
   if (!isLoggedIn()) return null;
 
   function likeHandler(e) {
     api.likeShop(currentShop.place_id, cookies.user_id)
       .then(() => {
-        const newFavoriteShops = favoriteShops.slice()
-        newFavoriteShops.push(currentShop);
+        const newFavoriteShops = Object.assign({}, favoriteShops)
+        newFavoriteShops[currentShop.place_id] = true;
         setFavoriteShops(newFavoriteShops)
       })
       .catch((err) => {
@@ -39,7 +25,7 @@ function LikeShop({
       })
   }
 
-  return <HighlightButton disabled={isFavorite} onClick={likeHandler}>Favorite</HighlightButton>;
+  return <HighlightButton disabled={favoriteShops[currentShop.place_id]} onClick={likeHandler}>Favorite</HighlightButton>;
 }
 
 export default LikeShop;
