@@ -8,8 +8,8 @@ const Login = ({ usernameChange, passwordChange, submitLogin, signUp, usernameEr
     <Container>
       <div>
         <InputArea>
-          {usernameErr === false && <Input className='loginUser' fullWidth label='username' type="text" onChange={usernameChange}></Input>}
-          {usernameErr === true && <Input error className='loginUser' fullWidth label='username' type="text" onChange={usernameChange} helperText='username not exist'></Input>}
+          {usernameErr === false && <Input className='loginUser' label='username' type="text" onChange={usernameChange}></Input>}
+          {usernameErr === true && <Input error className='loginUser' label='username' type="text" onChange={usernameChange} helperText='username not exist'></Input>}
         </InputArea>
         <InputArea>
           {passwordErr === false && <Input className='loginPassword' label='password' type="password" onChange={passwordChange}></Input>}
