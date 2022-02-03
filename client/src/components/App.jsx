@@ -169,6 +169,10 @@ function App() {
                 currentShop={currentShop}
                 shops={shops}
                 setShops={setShops}
+                cookies={cookies}
+                isLoggedIn={isLoggedIn}
+                favoriteShops={favoriteShops}
+                setFavoriteShops={setFavoriteShops}
               />
             }
           />

@@ -15,6 +15,7 @@ import DrinkList from './DrinkList.jsx';
 import AddDrink from './AddDrink.jsx';
 import api from '../../api.js';
 import Image from './Image.jsx'
+import LikeShop from '../shared/LikeShop.jsx';
 
 // name
 // formatted_address
@@ -109,7 +110,7 @@ const Inner = styled(FlexCol)`
 //   background-repeat: no-repeat;
 // `;
 
-function ShopDetails({ currentShop, setCurrentShop, shops, setShops }) {
+function ShopDetails({ currentShop, setCurrentShop, shops, setShops, cookies, isLoggedIn, favoriteShops, setFavoriteShops }) {
   // sample getting shop drinks from test google places shop
   const [drinks, setDrinks] = useState([]);
   useEffect(() => {
@@ -146,6 +147,13 @@ function ShopDetails({ currentShop, setCurrentShop, shops, setShops }) {
       <Container>
         <Inner>
           <ShopInfo shop={currentShop || {}} />
+          <LikeShop
+            currentShop={currentShop}
+            cookies={cookies}
+            isLoggedIn={isLoggedIn}
+            favoriteShops={favoriteShops}
+            setFavoriteShops={setFavoriteShops}
+          />
           <DrinkList
             drinks={currentShop.drinks || []}
             getDrinks={getDrinks}
