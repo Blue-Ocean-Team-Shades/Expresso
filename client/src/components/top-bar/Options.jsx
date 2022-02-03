@@ -104,10 +104,10 @@ function Options({ cookies, updateCookies, isLoggedIn }) {
   }
 
   function toggleFavorites() {
-    if (cookies.favorites_at_top) {
-      document.cookie = 'favorites_at_top=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    if (cookies.favorites_not_at_top) {
+      document.cookie = 'favorites_not_at_top=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     } else {
-      document.cookie = 'favorites_at_top=true; path=/';
+      document.cookie = 'favorites_not_at_top=true; path=/';
     }
     updateCookies();
   }
@@ -131,7 +131,6 @@ function Options({ cookies, updateCookies, isLoggedIn }) {
             {isLoggedIn() ? (
               <div style={{ textAlign: 'center' }}>Welcome, {cookies.username}!</div>
             ) : null}
-            <MenuItem onClick={() => goToPage('/favorites/')}>My Favorites</MenuItem>
             <FlexRow>
               <label htmlFor='toggleDistanceUnits'>Miles</label>
               <Switch
@@ -144,7 +143,7 @@ function Options({ cookies, updateCookies, isLoggedIn }) {
                 <label htmlFor='toggleFavorites'>Favorites at top</label>
                 <Switch
                   id='toggleFavorites'
-                  checked={!!cookies.favorites_at_top}
+                  checked={!cookies.favorites_not_at_top}
                   onChange={toggleFavorites}
                 />
             </FlexRow>

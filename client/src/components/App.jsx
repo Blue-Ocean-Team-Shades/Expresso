@@ -195,19 +195,6 @@ function App() {
               <LoginSignup isSignup={true} cookies={cookies} updateCookies={updateCookies} />
             }
           />
-          <Route
-            path='/favorites'
-            element={
-              <ShopsList
-                isFavorites={true}
-                shops={shops}
-                setCurrentShop={setCurrentShop}
-                message={message}
-                searchTerm={searchTerm}
-                cookies={cookies}
-              />
-            }
-          />
         </Routes>
       </BodyMain>
     </BrowserRouter>
