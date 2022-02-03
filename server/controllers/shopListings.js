@@ -44,9 +44,7 @@ const listsOfShopsByLocation = async (query, location) => {
 }
 
 const shopImage = async (shop) => {
-
-  let shopObj = JSON.parse(shop);
-  let reference = shopObj.photos[0].photo_reference;
+  let reference = shop.photos[0].photo_reference;
 
   let imageURL = await getPhotosOfShops(reference);
   return imageURL
@@ -94,7 +92,7 @@ const getShopList = async (req, res) => {
 }
 
 const getShopImage = async (req, res) => {
-  let data = await shopImage(req.body.shop);
+  let data = await shopImage(req.body);
 
   if (data) { res.status(200).send(data) } else {
     res.status(500).send();
@@ -102,4 +100,3 @@ const getShopImage = async (req, res) => {
 };
 
 module.exports = { listsOfShops, getShopImage, listsOfShopsByLocation, getShopList }
-
