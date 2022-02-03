@@ -159,6 +159,7 @@ function App() {
                 currentShop={currentShop}
                 shops={shops}
                 setShops={setShops}
+                isLoggedIn={isLoggedIn}
               />
             }
           />
