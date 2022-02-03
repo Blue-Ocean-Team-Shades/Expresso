@@ -67,6 +67,14 @@ function getImage(shopObj) {
   return axios.post('/getshopimage', shopObj);
 }
 
+function likeShop(place_id, user_id) {
+  return axios.post('/favorites', {place_id, rating: 1})
+}
+
+function getUserFavorites(user_id) {
+  return axios.post('/getuserfavorites', {user_id})
+}
+
 export default {
   getShops,
   logIn,
@@ -79,4 +87,6 @@ export default {
   getShopsAtLocation,
   getImage,
   getCookieData,
+  likeShop,
+  getUserFavorites,
 };

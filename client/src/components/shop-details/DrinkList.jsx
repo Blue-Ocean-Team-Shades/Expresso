@@ -43,7 +43,7 @@ const InnerColumn = styled(FlexCol)`
 
 function DrinkList({ drinks, getDrinks, placeId }) {
   const createRows = (array) => {
-    let arr = sortDrinks(array)
+    let arr = sortDrinks(array).slice()
     let result = [];
     while (arr.length > 2) {
       result.push(

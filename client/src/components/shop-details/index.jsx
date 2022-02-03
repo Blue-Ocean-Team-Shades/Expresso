@@ -122,6 +122,8 @@ function ShopDetails({ currentShop, setCurrentShop, shops, setShops }) {
     return api.getDrinks(currentShop.place_id)
       .then(({ data }) => {
         currentShop.drinks = data
+        console.log('drinks, after reloading drinks:', currentShop.drinks.slice())
+        console.log('from shops:', shops[0].drinks.slice())
         if (refresh) setShops(shops.slice())
       })
       .catch((err) => console.log(err, '<<<<<<<'));
@@ -132,6 +134,7 @@ function ShopDetails({ currentShop, setCurrentShop, shops, setShops }) {
       .then(({ data }) => {
         currentShop.image = data
         let tempShops = shops.slice()
+        console.log('drinks, after loading image:', tempShops[0].drinks.slice())
         setShops(tempShops)
       })
       .catch((err) => console.log(err, '<<<<<<<'));

@@ -63,9 +63,14 @@ function TopBar({
     submitSearch();
   }
 
+  function goHome() {
+    setSearchTerm('')
+    navigate('/')
+  }
+
   return (
     <TitleBar>
-      <LogoButton onClick={() => navigate('/')} disableRipple={true}>
+      <LogoButton onClick={goHome} disableRipple={true}>
         <img src={logo} />
       </LogoButton>
       <FillSpace />
@@ -96,7 +101,7 @@ function TopBar({
           </OverlayCollapse>
         </FormControl>
       </form>
-      <Options cookies={cookies} updateCookies={updateCookies} isLoggedIn={isLoggedIn} />
+      <Options cookies={cookies} updateCookies={updateCookies} isLoggedIn={isLoggedIn} setSearchTerm={setSearchTerm} />
     </TitleBar>
   );
 }
