@@ -70,7 +70,13 @@ const Inner = styled(FlexCol)`
 //   background-repeat: no-repeat;
 // `;
 
-function ShopDetails({ currentShop, setCurrentShop, shops, setShops }) {
+function ShopDetails({
+  currentShop,
+  setCurrentShop,
+  shops,
+  setShops,
+  isLoggedIn,
+}) {
   // sample getting shop drinks from test google places shop
   const [drinks, setDrinks] = useState([]);
   useEffect(() => {
@@ -108,12 +114,14 @@ function ShopDetails({ currentShop, setCurrentShop, shops, setShops }) {
             drinks={currentShop.drinks || []}
             getDrinks={getDrinks}
             placeId={currentShop.place_id}
+            isLoggedIn={isLoggedIn}
           />
           <AddDrink
             currentShop={currentShop}
             setCurrentShop={setCurrentShop}
             getDrinks={getDrinks}
             placeId={currentShop.place_id}
+            isLoggedIn={isLoggedIn}
           />
         </Inner>
       </Container>

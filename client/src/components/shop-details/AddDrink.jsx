@@ -53,8 +53,8 @@ const AddDrinkButton = styled(AccentButton)`
 `;
 
 const Form = styled.form`
-width: -webkit-fill-available;
-`
+  width: -webkit-fill-available;
+`;
 
 let placeholder = `Don't see a drink here? Add it!`;
 
@@ -64,6 +64,7 @@ function AddDrink({
   setDrinks,
   getDrinks,
   placeId,
+  isLoggedIn,
 }) {
   const [drinkValue, setDrinkValue] = useState('');
   const [priceValue, setPriceValue] = useState('');
@@ -111,37 +112,41 @@ function AddDrink({
     resetInputFields();
   };
 
-  return (
+  return !isLoggedIn() ? (
+    ''
+  ) : (
     <Col>
       <DrinkInput>{placeholder}</DrinkInput>
       <Form>
-      <Row>
-        <FlexCol>
-          <RecommendRow>
-            <DrinkName
-              placeholder='Drink Name'
-              value={drinkValue}
-              onChange={handleDrinkInput}
-            />
-          </RecommendRow>
-        </FlexCol>
+        <Row>
+          <FlexCol>
+            <RecommendRow>
+              <DrinkName
+                placeholder='Drink Name'
+                value={drinkValue}
+                onChange={handleDrinkInput}
+              />
+            </RecommendRow>
+          </FlexCol>
 
-        <FlexCol>
-          <RecommendLabel>Recommend?</RecommendLabel>
-          <RecommendRow>
-            <ToggleButtonGroup
-              color='primary'
-              value={recommend}
-              exclusive
-              onChange={handleToggle}
-            >
-              <ToggleButton value={true}>Yes</ToggleButton>
-              <ToggleButton value={false}>No</ToggleButton>
-            </ToggleButtonGroup>
-          </RecommendRow>
-        </FlexCol>
-        <AddDrinkButton type='submit' onClick={clickHandler}>Add Drink</AddDrinkButton>
-      </Row>
+          <FlexCol>
+            <RecommendLabel>Recommend?</RecommendLabel>
+            <RecommendRow>
+              <ToggleButtonGroup
+                color='primary'
+                value={recommend}
+                exclusive
+                onChange={handleToggle}
+              >
+                <ToggleButton value={true}>Yes</ToggleButton>
+                <ToggleButton value={false}>No</ToggleButton>
+              </ToggleButtonGroup>
+            </RecommendRow>
+          </FlexCol>
+          <AddDrinkButton type='submit' onClick={clickHandler}>
+            Add Drink
+          </AddDrinkButton>
+        </Row>
       </Form>
     </Col>
   );

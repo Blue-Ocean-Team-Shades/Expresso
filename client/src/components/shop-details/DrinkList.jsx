@@ -46,7 +46,7 @@ const InnerColumn = styled(FlexCol)`
   // height: 100px;
 `;
 
-function DrinkList({ drinks, getDrinks, placeId }) {
+function DrinkList({ drinks, getDrinks, placeId, isLoggedIn }) {
   const createRows = (array) => {
     let arr = sortDrinks(array);
     let result = [];
@@ -55,17 +55,32 @@ function DrinkList({ drinks, getDrinks, placeId }) {
         <Row key={arr.length}>
           <Column>
             <InnerColumn>
-              <DrinkItem arr={arr[0]} getDrinks={getDrinks} placeId={placeId} />
+              <DrinkItem
+                arr={arr[0]}
+                getDrinks={getDrinks}
+                placeId={placeId}
+                isLoggedIn={isLoggedIn}
+              />
             </InnerColumn>
           </Column>
           <Column>
             <InnerColumn>
-              <DrinkItem arr={arr[1]} getDrinks={getDrinks} placeId={placeId} />
+              <DrinkItem
+                arr={arr[1]}
+                getDrinks={getDrinks}
+                placeId={placeId}
+                isLoggedIn={isLoggedIn}
+              />
             </InnerColumn>
           </Column>
           <Column>
             <InnerColumn>
-              <DrinkItem arr={arr[2]} getDrinks={getDrinks} placeId={placeId} />
+              <DrinkItem
+                arr={arr[2]}
+                getDrinks={getDrinks}
+                placeId={placeId}
+                isLoggedIn={isLoggedIn}
+              />
             </InnerColumn>
           </Column>
         </Row>
@@ -83,6 +98,7 @@ function DrinkList({ drinks, getDrinks, placeId }) {
                     arr={arr[i]}
                     getDrinks={getDrinks}
                     placeId={placeId}
+                    isLoggedIn={isLoggedIn}
                   />
                 </InnerColumn>
               </Column>
