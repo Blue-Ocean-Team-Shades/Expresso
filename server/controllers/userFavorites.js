@@ -28,7 +28,6 @@ const addUserFavorite = (req, res) => {
         })
         .catch(err => {
           console.error(err)
-          console.log(req.session.user_id, req.body.place_id)
           res.status(500).send()
         })
     }
