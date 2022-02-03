@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FlexRow, FlexCol, colors, AccentButton, styleAccentButton } from '../Styled.jsx';
 import { useNavigate } from 'react-router-dom';
@@ -16,6 +16,8 @@ const MenuStyled = styled(Menu)`
     .MuiPaper-root {
       background-color: lightgrey;
       border-top-right-radius: 0;
+      right: ${({fixright}) => fixright}px;
+      left: ${({fixright}) => window.innerWidth - fixright - 250}px !important;
     }
   }
 `;
@@ -73,10 +75,12 @@ function Options({ cookies, updateCookies, isLoggedIn }) {
 
   function setAnchor(e) {
     if (e) {
-      setAnchorEl(e.currentTarget);
-      const rect = e.currentTarget.getBoundingClientRect();
+      const target = e.currentTarget;
+      // const target = e.currentTarget;
+      setAnchorEl(target);
+      const rect = target.getBoundingClientRect();
       setFixRight(window.innerWidth - rect.right);
-      setAnchorWidth(e.currentTarget.offsetWidth);
+      setAnchorWidth(target.offsetWidth);
     } else {
       setAnchorEl(null);
     }
@@ -107,18 +111,12 @@ function Options({ cookies, updateCookies, isLoggedIn }) {
       </ButtonClosed>
       <MenuStyled
         open={open}
-        id='settings'
         onClose={handleClose}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         anchorEl={anchorEl}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         disableScrollLock={true}
-        PaperProps={{
-          style: {
-            right: `${fixRight}px`,
-          },
-        }}
-        //TODO: fix menu breaks on window resize
+        fixright={fixRight}
       >
         <FlexRow>
           <FlexCol style={{ margin: '4px', flex: 1 }}>
@@ -135,14 +133,14 @@ function Options({ cookies, updateCookies, isLoggedIn }) {
               />
             </FlexRow>
             <EmptySpace />
-            {isLoggedIn() ? (
-              <MenuRight onClick={logOut}>Log Out</MenuRight>
-            ) : (
-              <MenuRight onClick={() => goToPage('/login')}>Log in</MenuRight>
-            )}
           </FlexCol>
           <MenuSide as='div' width={anchorWidth}></MenuSide>
         </FlexRow>
+        {isLoggedIn() ? (
+          <MenuRight onClick={logOut}>Log Out</MenuRight>
+        ) : (
+          <MenuRight onClick={() => goToPage('/login')}>Log in</MenuRight>
+        )}
       </MenuStyled>
     </div>
   );
