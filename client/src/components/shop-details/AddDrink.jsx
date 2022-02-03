@@ -7,6 +7,18 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Stack from '@mui/material/Stack';
 import Switch from '@mui/material/Switch';
 
+const RecommendSwitch = styled(Switch)(({ theme }) => ({
+  '& .MuiSwitch-switchBase.Mui-checked': {
+    color: '#621c15',
+    '&:hover': {
+      backgroundColor: '#621c154a',
+    },
+  },
+  '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+    backgroundColor: '#621c15',
+  },
+}));
+
 const Col = styled(FlexCol)`
   align-items: center;
   // justify-content: center;
@@ -50,7 +62,10 @@ const RecommendLabel = styled(Accent)`
 `;
 
 const AddDrinkButton = styled(AccentButton)`
-  // background-color: white;
+  && {
+    background-color: #621c15;
+    color: white;
+  }
 `;
 
 const Form = styled.form`
@@ -70,6 +85,7 @@ function AddDrink({
   const [drinkValue, setDrinkValue] = useState('');
   const [priceValue, setPriceValue] = useState('');
   const [recommend, seRecommend] = React.useState(true);
+  // const [checked, setChecked] = React.useState(true);
 
   const handleToggle = (event, newRecommend) => {
     seRecommend(newRecommend);
@@ -123,9 +139,11 @@ function AddDrink({
           <FlexCol>
             <RecommendRow>
               <DrinkName
+                required
                 placeholder='Drink Name'
                 value={drinkValue}
                 onChange={handleDrinkInput}
+                variant='standard'
               />
             </RecommendRow>
           </FlexCol>
@@ -133,7 +151,9 @@ function AddDrink({
           <FlexCol>
             <RecommendLabel>Recommend?</RecommendLabel>
             <RecommendRow>
-              <Switch
+              <RecommendSwitch
+                // {...label}
+                defaultChecked
                 value={recommend}
                 onChange={handleToggle}
                 color='primary'
