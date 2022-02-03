@@ -1,19 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 import { colors } from '../Styled.jsx';
+import TextField from '@mui/material/TextField';
 
 const Login = ({ usernameChange, passwordChange, submitLogin, signUp, usernameErr, passwordErr }) => {
   return (
     <Container>
       <div>
-        <div>
-          <Input className='loginUser' placeholder='Username' type="text" onChange={usernameChange}></Input>
-          {usernameErr === true && <p>Username not exist.</p>}
-        </div>
-        <div>
-          <Input className='loginPassword' placeholder='Password' type="password" onChange={passwordChange}></Input>
-          {passwordErr === true && <p>Incorrect password</p>}
-        </div>
+        <InputArea>
+          {usernameErr === false && <Input className='loginUser' fullWidth label='username' type="text" onChange={usernameChange}></Input>}
+          {usernameErr === true && <Input error className='loginUser' fullWidth label='username' type="text" onChange={usernameChange} helperText='username not exist'></Input>}
+        </InputArea>
+        <InputArea>
+          {passwordErr === false && <Input className='loginPassword' label='password' type="password" onChange={passwordChange}></Input>}
+          {passwordErr === true && <Input error className='loginPassword' label='password' type="password" onChange={passwordChange} helperText='password is incorrect'></Input>}
+        </InputArea>
         <div>
           <Button onClick={submitLogin}>Log in</Button>
         </div>
@@ -27,9 +28,9 @@ export const Container = styled.div`
   z-index: 200;
   position:fixed;
   text-align: center;
-  background: ${colors.accent};
+  background-color: ${colors.mainLight};
   width: 35%;
-  height: 30%;
+  height: 38%;
   top:50%;
   left:50%;
   transform: translate(-50%,-50%);
@@ -43,14 +44,14 @@ export const Container = styled.div`
   }
 `;
 
-export const Input = styled.input`
+const InputArea = styled.div`
+  margin: 3% 5% 0% 5%;
+`;
+
+export const Input = styled(TextField)`
   text-align: center;
   height: 50%;
   width: 50%;
-  padding: 10px;
-  border: 1px solid;
-  margin: 3% 5% 0% 5%;
-  background-color: ${colors.mainLight};
 `;
 
 export const Button = styled.button`

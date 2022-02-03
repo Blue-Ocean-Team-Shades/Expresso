@@ -1,7 +1,11 @@
 import axios from 'axios';
 
 function getShops(location) {
-  return axios.post('/findshops', {location: `{loc:${location.latitude}, lng:${location.longitude}}`});
+  return axios.post('/findshops', {location: `{lat:${location.latitude}, lng:${location.longitude}}`});
+}
+
+function getShopsAtLocation(location) {
+  return axios.post('/findshops', {customLocation: location});
 }
 
 function logIn(formData, updateCookies) {
@@ -59,6 +63,10 @@ function getCookieData(sid) {
     .catch(err => console.log(err));
 }
 
+function getImage(shopObj) {
+  return axios.post('/getshopimage', shopObj);
+}
+
 export default {
   getShops,
   logIn,
@@ -68,5 +76,7 @@ export default {
   likeDrink,
   dislikeDrink,
   getDrinks,
-  getCookieData
+  getShopsAtLocation,
+  getImage,
+  getCookieData,
 };

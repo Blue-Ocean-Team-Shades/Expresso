@@ -4,6 +4,7 @@ import { Input, FlexCol, AccentButton, FlexRow, Accent } from '../Styled.jsx';
 import api from '../../api.js';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import Stack from '@mui/material/Stack';
 
 const Col = styled(FlexCol)`
   align-items: center;
@@ -50,6 +51,10 @@ const RecommendLabel = styled(Accent)`
 const AddDrinkButton = styled(AccentButton)`
   // background-color: white;
 `;
+
+const Form = styled.form`
+width: -webkit-fill-available;
+`
 
 let placeholder = `Don't see a drink here? Add it!`;
 
@@ -109,6 +114,7 @@ function AddDrink({
   return (
     <Col>
       <DrinkInput>{placeholder}</DrinkInput>
+      <Form>
       <Row>
         <FlexCol>
           <RecommendRow>
@@ -134,8 +140,9 @@ function AddDrink({
             </ToggleButtonGroup>
           </RecommendRow>
         </FlexCol>
-        <AddDrinkButton onClick={clickHandler}>Add Drink</AddDrinkButton>
+        <AddDrinkButton type='submit' onClick={clickHandler}>Add Drink</AddDrinkButton>
       </Row>
+      </Form>
     </Col>
   );
 }

@@ -66,7 +66,7 @@ app.post('/getshopsdrinks', getShopsDrinks);
 
 //////////////*SHOP RATING ROUTEs*//////////////
 
-//takes one parameter, location object {lat: 1234532, lng: 123124235}, and returns an array of shop objects
+//takes one of two parameters: either customLocation (string, location search terms) or location (object, {lat: 1234532, lng: 123124235}), and returns an array of shop objects
 app.post('/findshops', getShopList);
 
 //takes parameters place_id and rating (1 = upvote, anything-but-1 = downvote) - if place does not exist, inserts place into DB with inital rating of 1 or 0 depending on passed parameter - if place does exist, increments/decrements its rating

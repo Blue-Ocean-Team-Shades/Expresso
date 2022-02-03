@@ -3,6 +3,22 @@ const { findShops, findLocation, getPhotosOfShops } = require('../models');
 const { shopsRatingsQuery } = require('./shopRatings.js');
 const { shopsDrinksQuery } = require('./drinkMenu.js');
 
+const distanceToDestination = ({lat: lat1, lng: lng1}, {lat: lat2, lng: lng2}) => {
+  const earthRadius = 6371e3; // metres
+  const lat1Rad = lat1 * Math.PI / 180;
+  const lat2Rad = lat2 * Math.PI / 180;
+  const deltaLat = (lat2 - lat1) * Math.PI / 180;
+  const deltaLng = (lng2 - lng1) * Math.PI / 180;
+
+  const a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+            Math.cos(lat1Rad) * Math.cos(lat2Rad) *
+            Math.sin(deltaLng / 2) * Math.sin(deltaLng / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  const distance = earthRadius * c / 1000; // km
+  return distance; //km
+}
+
 const listsOfShops = async (query, location) => {
 
   // query is the string typed by the user on the client side.
@@ -10,6 +26,9 @@ const listsOfShops = async (query, location) => {
   let queryString = query.split(' ').join('+');
   let locationQuery = `${location.lat}%2C${location.lng}`;
   let shops = await findShops(queryString, locationQuery);
+  for (const shop of shops) {
+    shop.distance = distanceToDestination(location, shop.geometry.location)
+  }
   return addRatingsAndMenus(shops)
 };
 
@@ -18,14 +37,14 @@ const listsOfShopsByLocation = async (query, location) => {
   let locationString = location.split(' ').join('+');
   let data =  await findLocation(locationString);
   const shops = await listsOfShops(query, data.results[0].geometry.location);
-  return addRatingsAndMenus(shops)
-
+  for (const shop of shops) {
+    shop.distance = distanceToDestination(data.results[0].geometry.location, shop.geometry.location)
+  }
+  return shops
 }
 
 const shopImage = async (shop) => {
-
-  let shopObj = JSON.parse(shop);
-  let reference = shopObj.photos[0].photo_reference;
+  let reference = shop.photos[0].photo_reference;
 
   let imageURL = await getPhotosOfShops(reference);
   return imageURL
@@ -58,10 +77,14 @@ const addRatingsAndMenus = async (shops) => {
 }
 
 const getShopList = async (req, res) => {
-  let jsonStr = req.body.location.replace('{', '{"').replaceAll(':', '":').replace(', l', ', "l');
-  let newLocationObj = JSON.parse(jsonStr);
-
-  let data = await listsOfShops('coffee shops', newLocationObj);
+  let data;
+  if (req.body.customLocation){
+    data = await listsOfShopsByLocation('coffee shops', req.body.customLocation)
+  } else {
+    let jsonStr = req.body.location.replace('{', '{"').replaceAll(':', '":').replace(', l', ', "l');
+    let newLocationObj = JSON.parse(jsonStr);
+    data = await listsOfShops('coffee shops', newLocationObj);
+  }
 
   if (data) { res.status(200).send(data) } else {
     res.status(500).send();
@@ -69,7 +92,7 @@ const getShopList = async (req, res) => {
 }
 
 const getShopImage = async (req, res) => {
-  let data = await shopImage(req.body.shop);
+  let data = await shopImage(req.body);
 
   if (data) { res.status(200).send(data) } else {
     res.status(500).send();
@@ -77,4 +100,3 @@ const getShopImage = async (req, res) => {
 };
 
 module.exports = { listsOfShops, getShopImage, listsOfShopsByLocation, getShopList }
-

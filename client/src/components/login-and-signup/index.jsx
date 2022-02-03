@@ -62,11 +62,11 @@ function LoginAndSignup({ isLogin, isSignup, cookies, updateCookies }) {
         .catch((err) => {
           if (err.response.status === 404) {
             setUsernameErr(true);
-            document.getElementsByClassName('loginUser')[0].style.border = '1px solid red';
+            // document.getElementsByClassName('loginUser')[0].style.border = '1px solid red';
           }
           if (err.response.status === 400) {
             setPasswordErr(true);
-            document.getElementsByClassName('loginPassword')[0].style.border = '1px solid red';
+            // document.getElementsByClassName('loginPassword')[0].style.border = '1px solid red';
           }
         })
     } else {
@@ -89,7 +89,7 @@ function LoginAndSignup({ isLogin, isSignup, cookies, updateCookies }) {
           .catch((err) => {
             if (err.response.status === 500) {
               setSignUpUsernameErr(true);
-              document.getElementsByClassName('signUpUser')[0].style.border = '1px solid red';
+              // document.getElementsByClassName('signUpUser')[0].style.border = '1px solid red';
             }
           })
       } else {
