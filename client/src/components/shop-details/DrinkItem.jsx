@@ -23,6 +23,14 @@ const Img = styled.img`
   cursor: pointer;
 `;
 
+const DrinkName = styled(Accent)`
+  font-size: 1.5rem;
+`;
+
+const Rating = styled(Accent)`
+  font-size: 1rem;
+`;
+
 function DrinkItem({ arr, getDrinks, placeId, isLoggedIn }) {
   const [like, setLike] = useState(null);
   const [isLikeClicked, setLikeIsClicked] = useState(false);
@@ -48,6 +56,15 @@ function DrinkItem({ arr, getDrinks, placeId, isLoggedIn }) {
       .catch((err) => console.log(err));
   };
 
+  const capitalize = (string) => {
+    let result = [];
+    let strArr = string.split(' ');
+    strArr.map((word) =>
+      result.push(word.charAt(0).toUpperCase() + word.slice(1))
+    );
+    return result.join(' ');
+  };
+
   let drink = arr ? `${arr.drink_name}` : '';
   let thumbs = isLoggedIn() ? (
     <Row>
@@ -63,15 +80,11 @@ function DrinkItem({ arr, getDrinks, placeId, isLoggedIn }) {
 
   return (
     <Drink>
-      {/* <Card>
-    <CardContent> */}
       <Col>
-        {drink}
-        <div>rating: {arr.drink_rating}</div>
+        <DrinkName>{capitalize(drink)}</DrinkName>
+        <Rating>Rating: {arr.drink_rating}</Rating>
         {thumbs}
       </Col>
-      {/* </CardContent> */}
-      {/* // </Card> */}
     </Drink>
   );
 }
