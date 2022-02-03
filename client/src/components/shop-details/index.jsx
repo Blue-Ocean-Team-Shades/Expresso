@@ -73,6 +73,7 @@ let houstonCafe = {
 
 const ListBackground = styled(Background)`
   position: relative;
+  background-color: ${colors.mainDark}
 `;
 
 const Column = styled(FlexCol)`
