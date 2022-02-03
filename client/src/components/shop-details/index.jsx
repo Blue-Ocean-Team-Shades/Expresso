@@ -9,6 +9,7 @@ import {
   Input,
   FlexRow,
   FlexCol,
+  colors
 } from '../Styled.jsx';
 import ShopInfo from './ShopInfo.jsx';
 import DrinkList from './DrinkList.jsx';
@@ -94,7 +95,7 @@ const Inner = styled(FlexCol)`
   height: 60vh;
   // max-height: 50vh;
   // height: 1200px;
-  background-color: white;
+  background-color: ${colors.highlightLight};
   border: gray solid 1px;
   border-radius: 8px;
 `;

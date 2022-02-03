@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
-import { Accent, FlexRow, FlexCol } from '../Styled.jsx';
+import { Accent, FlexRow, FlexCol, colors } from '../Styled.jsx';
 import thumbDown from '../../assets/thumbDown.svg';
 import thumbUp from '../../assets/thumbUp.svg';
 import api from '../../api.js';
@@ -9,6 +9,7 @@ import CardContent from '@mui/material/CardContent';
 
 const Drink = styled(Accent)`
   // width: 40%;
+
 `;
 
 const Col = styled(FlexCol)`

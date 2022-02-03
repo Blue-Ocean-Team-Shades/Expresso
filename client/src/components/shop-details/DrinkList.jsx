@@ -11,10 +11,9 @@ const Container = styled(Accent)`
   // height: 80vh;
   // min-height; 60vh;
   // max-height: 50vh;
-  // background-color: purple;
   overflow: auto;
   height: inherit;
-  border: gray solid 1px;
+  // border: gray solid 1px;
   margin: 2vw;
 `;
 
@@ -32,8 +31,9 @@ const Column = styled(FlexCol)`
   flex: 1;
   margin: 4px;
   border-radius: 5px;
-  background-color: ${colors.accent};
+  background-color: ${colors.mainDark};
   padding: 7px;
+  color: white;
 `;
 
 const InnerColumn = styled(FlexCol)`
