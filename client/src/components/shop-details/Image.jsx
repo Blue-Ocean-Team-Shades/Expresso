@@ -6,7 +6,7 @@ function Image({ image }) {
   const Image = styled(Accent)`
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url('${image || ''}');
-  height: 40vh;
+  height: 70vh;
   width: 100vw;
   background-size: cover;
   background-position: center;
