@@ -40,7 +40,7 @@ export const colors = {
   accentDark: '#6f9695',
   accentLight: '#d8fffa',
   highlight: '#ffd952',
-  highlightDark: '#ffc700',
+  highlightDark: '#cc8800',
   highlightLight: '#fff4c8',
 }
 
