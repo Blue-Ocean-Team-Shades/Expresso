@@ -1,31 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { HighlightButton } from '../Styled.jsx';
+import { styleHighlightButton, colors } from '../Styled.jsx';
+import { IconButton } from '@mui/material/';
 import likeShop from '../../api.js';
 import api from '../../api.js';
+import starEmpty from '../../assets/star-empty.svg';
+import starFull from '../../assets/star-full.svg';
 
-function LikeShop({
-  currentShop,
-  cookies,
-  isLoggedIn,
-  favoriteShops,
-  setFavoriteShops,
-}) {
+const StyledImg = styled.img`
+  width: 1.5rem;
+  height: 1.5rem;
+`
+
+const ButtonStar = styled(IconButton)`
+  ${styleHighlightButton}
+  &&:disabled {
+    background-color: ${colors.highlightLight}
+  }
+`
+
+function LikeShop({ currentShop, cookies, isLoggedIn, favoriteShops, setFavoriteShops }) {
   if (!isLoggedIn()) return null;
 
   function likeHandler(e) {
-    api.likeShop(currentShop.place_id, cookies.user_id)
+    api
+      .likeShop(currentShop.place_id, cookies.user_id)
       .then(() => {
-        const newFavoriteShops = Object.assign({}, favoriteShops)
+        const newFavoriteShops = Object.assign({}, favoriteShops);
         newFavoriteShops[currentShop.place_id] = true;
-        setFavoriteShops(newFavoriteShops)
+        setFavoriteShops(newFavoriteShops);
       })
       .catch((err) => {
         console.error(err);
-      })
+      });
   }
 
-  return <HighlightButton disabled={favoriteShops[currentShop.place_id]} onClick={likeHandler}>Favorite</HighlightButton>;
+  if (favoriteShops[currentShop.place_id]) {
+    return <ButtonStar disabled={true}><StyledImg src={starFull} /></ButtonStar>;
+  }
+  return <ButtonStar onClick={likeHandler}><StyledImg src={starEmpty} /></ButtonStar>;
 }
 
 export default LikeShop;
