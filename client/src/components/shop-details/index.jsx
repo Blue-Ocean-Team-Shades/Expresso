@@ -9,70 +9,18 @@ import {
   Input,
   FlexRow,
   FlexCol,
+  colors,
 } from '../Styled.jsx';
 import ShopInfo from './ShopInfo.jsx';
 import DrinkList from './DrinkList.jsx';
 import AddDrink from './AddDrink.jsx';
 import api from '../../api.js';
-import Image from './Image.jsx'
 import LikeShop from '../shared/LikeShop.jsx';
-
-// name
-// formatted_address
-// place_id
-// real cafe info returnd by google places... used as dummy datta
-let houstonCafe = {
-  business_status: 'OPERATIONAL',
-  formatted_address:
-    '3201 Allen Pkwy Suite 170, Houston, TX 77019, United States',
-  geometry: {
-    location: {
-      lat: 29.7600652,
-      lng: -95.39919689999999,
-    },
-    viewport: {
-      northeast: {
-        lat: 29.76140937989272,
-        lng: -95.39778912010726,
-      },
-      southwest: {
-        lat: 29.75870972010728,
-        lng: -95.40048877989271,
-      },
-    },
-  },
-  icon: 'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/cafe-71.png',
-  icon_background_color: '#FF9E67',
-  icon_mask_base_uri:
-    'https://maps.gstatic.com/mapfiles/place_api/icons/v2/cafe_pinlet',
-  name: 'BlendIn Coffee Club',
-  opening_hours: {
-    open_now: true,
-  },
-  photos: [
-    {
-      height: 1080,
-      html_attributions: [
-        '<a href="https://maps.google.com/maps/contrib/115468397199544586832">Antonio Gianola</a>',
-      ],
-      photo_reference:
-        'Aap_uEDh0ENxMXVlmdxmdpM2VgWnLNpO-4NRJsOPmcK1cuPt7hlX0iBnbFUesraUTmkxCcoT5JCP5N4a0YViHkam6oG0dqKO4FvYfdk0JQGJ9DSY5O4y2_mpH84xYM7b55Rgg4YMFlHdPn7kcTjeHXyZtdsrGmMX_OUU1FyvXts_dIrtR8Xf',
-      width: 1920,
-    },
-  ],
-  place_id: 'ChIJHXAcSOLBQIYR-wYdO-W20zE',
-  plus_code: {
-    compound_code: 'QJ62+28 Montrose, Houston, TX',
-    global_code: '76X6QJ62+28',
-  },
-  rating: 4.6,
-  reference: 'ChIJHXAcSOLBQIYR-wYdO-W20zE',
-  types: ['cafe', 'food', 'point_of_interest', 'store', 'establishment'],
-  user_ratings_total: 92,
-};
+import Image from './Image.jsx';
 
 const ListBackground = styled(Background)`
   position: relative;
+  background-color: ${colors.mainDark};
 `;
 
 const Column = styled(FlexCol)`
@@ -88,6 +36,15 @@ const Container = styled(FlexRow)`
   left: 50%;
   top: 0%;
   transform: translateX(-50%);
+  @media (max-width: 768px) {
+    position: inherit;
+    padding: inherit;
+    left: inherit;
+    top: inherit;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: inherit;
+  }
 `;
 
 const Inner = styled(FlexCol)`
@@ -95,9 +52,13 @@ const Inner = styled(FlexCol)`
   height: 60vh;
   // max-height: 50vh;
   // height: 1200px;
-  background-color: white;
+  background-color: ${colors.highlightLight};
   border: gray solid 1px;
   border-radius: 8px;
+  @media (max-width: 768px) {
+    width: -webkit-fill-available;
+    height: inherit;
+  }
 `;
 
 // const Image = styled(Accent)`
@@ -110,40 +71,46 @@ const Inner = styled(FlexCol)`
 //   background-repeat: no-repeat;
 // `;
 
-function ShopDetails({ currentShop, setCurrentShop, shops, setShops, cookies, isLoggedIn, favoriteShops, setFavoriteShops }) {
+function ShopDetails({
+  currentShop,
+  setCurrentShop,
+  shops,
+  setShops,
+  isLoggedIn,
+  cookies,
+  favoriteShops,
+  setFavoriteShops,
+}) {
   // sample getting shop drinks from test google places shop
   const [drinks, setDrinks] = useState([]);
   useEffect(() => {
-    getDrinks(false).then(() => getImage())
-
+    getDrinks(false).then(() => getImage());
   }, []);
 
-  const getDrinks = (refresh=true) => {
-
-    return api.getDrinks(currentShop.place_id)
+  const getDrinks = (refresh = true) => {
+    return api
+      .getDrinks(currentShop.place_id)
       .then(({ data }) => {
-        currentShop.drinks = data
-        console.log('drinks, after reloading drinks:', currentShop.drinks.slice())
-        console.log('from shops:', shops[0].drinks.slice())
-        if (refresh) setShops(shops.slice())
+        currentShop.drinks = data;
+        if (refresh) setShops(shops.slice());
       })
       .catch((err) => console.log(err, '<<<<<<<'));
   };
 
   const getImage = () => {
-    api.getImage(currentShop)
+    api
+      .getImage(currentShop)
       .then(({ data }) => {
-        currentShop.image = data
-        let tempShops = shops.slice()
-        console.log('drinks, after loading image:', tempShops[0].drinks.slice())
-        setShops(tempShops)
+        currentShop.image = data;
+        let tempShops = shops.slice();
+        setShops(tempShops);
       })
       .catch((err) => console.log(err, '<<<<<<<'));
   };
 
   return (
     <ListBackground>
-      <Image image={currentShop.image || {}}/>
+      <Image image={currentShop.image || {}} />
       <Container>
         <Inner>
           <ShopInfo shop={currentShop || {}} />
@@ -158,12 +125,14 @@ function ShopDetails({ currentShop, setCurrentShop, shops, setShops, cookies, is
             drinks={currentShop.drinks || []}
             getDrinks={getDrinks}
             placeId={currentShop.place_id}
+            isLoggedIn={isLoggedIn}
           />
           <AddDrink
             currentShop={currentShop}
             setCurrentShop={setCurrentShop}
             getDrinks={getDrinks}
             placeId={currentShop.place_id}
+            isLoggedIn={isLoggedIn}
           />
         </Inner>
       </Container>

@@ -11,10 +11,9 @@ const Container = styled(Accent)`
   // height: 80vh;
   // min-height; 60vh;
   // max-height: 50vh;
-  // background-color: purple;
   overflow: auto;
   height: inherit;
-  border: gray solid 1px;
+  // border: gray solid 1px;
   margin: 2vw;
 `;
 
@@ -25,6 +24,11 @@ const Container = styled(Accent)`
 const Row = styled(FlexRow)`
   flex-wrap: wrap;
   // width: 100%;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    margin: auto;
+  }
 `;
 
 const Column = styled(FlexCol)`
@@ -32,8 +36,9 @@ const Column = styled(FlexCol)`
   flex: 1;
   margin: 4px;
   border-radius: 5px;
-  background-color: ${colors.accent};
+  background-color: ${colors.mainDark};
   padding: 7px;
+  color: white;
 `;
 
 const InnerColumn = styled(FlexCol)`
@@ -41,26 +46,41 @@ const InnerColumn = styled(FlexCol)`
   // height: 100px;
 `;
 
-function DrinkList({ drinks, getDrinks, placeId }) {
+function DrinkList({ drinks, getDrinks, placeId, isLoggedIn }) {
   const createRows = (array) => {
-    let arr = sortDrinks(array).slice()
+    let arr = sortDrinks(array).slice();
     let result = [];
     while (arr.length > 2) {
       result.push(
         <Row key={arr.length}>
           <Column>
             <InnerColumn>
-              <DrinkItem arr={arr[0]} getDrinks={getDrinks} placeId={placeId} />
+              <DrinkItem
+                arr={arr[0]}
+                getDrinks={getDrinks}
+                placeId={placeId}
+                isLoggedIn={isLoggedIn}
+              />
             </InnerColumn>
           </Column>
           <Column>
             <InnerColumn>
-              <DrinkItem arr={arr[1]} getDrinks={getDrinks} placeId={placeId} />
+              <DrinkItem
+                arr={arr[1]}
+                getDrinks={getDrinks}
+                placeId={placeId}
+                isLoggedIn={isLoggedIn}
+              />
             </InnerColumn>
           </Column>
           <Column>
             <InnerColumn>
-              <DrinkItem arr={arr[2]} getDrinks={getDrinks} placeId={placeId} />
+              <DrinkItem
+                arr={arr[2]}
+                getDrinks={getDrinks}
+                placeId={placeId}
+                isLoggedIn={isLoggedIn}
+              />
             </InnerColumn>
           </Column>
         </Row>
@@ -78,6 +98,7 @@ function DrinkList({ drinks, getDrinks, placeId }) {
                     arr={arr[i]}
                     getDrinks={getDrinks}
                     placeId={placeId}
+                    isLoggedIn={isLoggedIn}
                   />
                 </InnerColumn>
               </Column>
@@ -92,22 +113,24 @@ function DrinkList({ drinks, getDrinks, placeId }) {
   const sortDrinks = (array) => {
     let result = [];
     let isSorted = false;
-    while(!isSorted && array.length > 0) {
+    while (!isSorted && array.length > 0) {
       isSorted = true;
       for (let i = 0; i < array.length; i++) {
         let drink = array[i];
-        let rating = drink ? Number(drink.drink_rating) : undefined
+        let rating = drink ? Number(drink.drink_rating) : undefined;
         let nextDrink = array[i + 1];
-        let nextDrinkRating = nextDrink ? Number(nextDrink.drink_rating) : undefined
+        let nextDrinkRating = nextDrink
+          ? Number(nextDrink.drink_rating)
+          : undefined;
         if (nextDrink && rating < nextDrinkRating) {
           isSorted = false;
-          array[i] = nextDrink
-          array[i + 1] = drink
+          array[i] = nextDrink;
+          array[i + 1] = drink;
         }
       }
-      }
-      return array
-  }
+    }
+    return array;
+  };
 
   let rows = createRows(drinks);
   return <Container>{rows}</Container>;
