@@ -79,7 +79,7 @@ function filter(list, filters, searchTerm) {
   });
 }
 
-function ShopsList({ shops, isFavorites, setCurrentShop, message, searchTerm }) {
+function ShopsList({ shops, isFavorites, setCurrentShop, message, searchTerm, cookies }) {
   const [sort, setSort] = useState('-distance');
   const [filters, setFilters] = useState(defaultFilters);
 
@@ -99,7 +99,7 @@ function ShopsList({ shops, isFavorites, setCurrentShop, message, searchTerm }) 
               {filter(shops, filters, searchTerm)
                 .sort(sortFunc(sort))
                 .map((shop) => (
-                  <ShopEntry shop={shop} key={shop.place_id} setCurrentShop={setCurrentShop} />
+                  <ShopEntry shop={shop} key={shop.place_id} setCurrentShop={setCurrentShop} cookies={cookies} />
                 ))}
             </Shops>
             <div>

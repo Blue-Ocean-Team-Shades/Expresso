@@ -99,20 +99,28 @@ function App() {
   function updateCookies() {
     const newCookies = {};
     document.cookie.split(';').forEach((cookie) => {
-      let [cookieName, cookieBody] = cookie.split('=');
-      if (cookieName === 'expressoid') {
-        const slicedBody = cookieBody.slice(4).split('.');
-        api
-          .getCookieData(slicedBody[0])
-          .then((response) => {
-            newCookies.user_id = response.user_id;
-            newCookies.username = response.username;
-            setCookies(newCookies);
-          })
-          .catch((err) => console.log(err));
-      }
+      let [cookieName, cookieBody] = cookie.split('=').map(item => item.trim());
       newCookies[cookieName] = cookieBody;
     });
+    if (newCookies.expressoid){
+      if (cookies.expressoid) {
+        //session already exists in state, no need to get username; just copy them over
+        newCookies.user_id = cookies.user_id;
+        newCookies.username = cookies.username;
+      } else {
+      const session = newCookies.expressoid.slice(4).split('.');
+      api
+        .getCookieData(session[0])
+        .then((response) => {
+          setCookies(oldCookies => {
+            oldCookies.user_id = response.user_id;
+            oldCookies.username = response.username;
+            setCookies(oldCookies);
+          })
+        })
+        .catch((err) => console.log(err));
+      }
+    }
     setCookies(newCookies);
   }
 
@@ -138,6 +146,7 @@ function App() {
                 setCurrentShop={setCurrentShop}
                 message={message}
                 searchTerm={searchTerm}
+                cookies={cookies}
               />
             }
           />
@@ -170,10 +179,10 @@ function App() {
               <ShopsList
                 isFavorites={true}
                 shops={shops}
-                shops={shops}
                 setCurrentShop={setCurrentShop}
                 message={message}
                 searchTerm={searchTerm}
+                cookies={cookies}
               />
             }
           />
