@@ -67,7 +67,6 @@ function App() {
       })
       .then(({ data }) => {
         setShops(data);
-        console.log(data);
       })
       .catch((err) => {
         //TODO: catch separate error for location services earlier

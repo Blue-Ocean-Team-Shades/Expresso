@@ -63,6 +63,10 @@ function getCookieData(sid) {
     .catch(err => console.log(err));
 }
 
+function getImage(shopObj) {
+  return axios.post('/getshopimage', shopObj);
+}
+
 export default {
   getShops,
   logIn,
@@ -72,6 +76,7 @@ export default {
   likeDrink,
   dislikeDrink,
   getDrinks,
-  getCookieData,
   getShopsAtLocation,
+  getImage,
+  getCookieData,
 };
