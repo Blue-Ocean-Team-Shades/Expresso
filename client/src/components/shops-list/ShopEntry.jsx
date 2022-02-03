@@ -20,6 +20,11 @@ const HighlightDot = styled.div`
   content: '&nbsp;';
 `;
 
+const Em = styled.div`
+  font-size: 1.1em;
+  font-weight: 600;
+`
+
 function ShopEntry({ shop, setCurrentShop, cookies, isLoggedIn, favoriteShops, setFavoriteShops }) {
   const [hovered, setHovered] = useState(false);
 
@@ -38,16 +43,20 @@ function ShopEntry({ shop, setCurrentShop, cookies, isLoggedIn, favoriteShops, s
       onMouseLeave={() => setHovered(false)}
     >
       <AccentButton onClick={() => viewShop(shop)} style={{ flex: 1 }}>
-        <FlexCol style={{ margin: 0 }}>
-          <FlexRow style={{ justifyContent: 'space-around', alignItems: 'center' }}>
+        <FlexCol style={{ margin: 0, width: '100%' }}>
+          <FlexRow style={{ justifyContent: 'center', alignItems: 'center', margin:0 }}>
             <HighlightDot />
-            <em>{shop.name}</em>
-            <HighlightDot />
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <Em>{shop.name}</Em>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+               <HighlightDot />
           </FlexRow>
-          <FlexRow style={{ justifyContent: 'space-around', alignItems: 'center' }}>
-            <div>Rating: {shop.rating}</div>
+          <FlexRow style={{ justifyContent: 'center', alignItems: 'center', margin:0 }}>
+            <div style={{flex: 1, textAlign: 'end'}}>Rating: {shop.rating}</div>
+            &nbsp;&nbsp;&nbsp;&nbsp;
             <HighlightDot />
-            <div>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <div style={{flex: 1, textAlign: 'start'}}>
               Distance: {Math.round(shop.distance * mi * 10) / 10}{' '}
               {cookies.units_miles ? ' mi' : ' km'}
             </div>
