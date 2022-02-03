@@ -8,7 +8,7 @@ import Collapse from '@mui/material/Collapse';
 import hamburger from '../../assets/hamburger.svg';
 import hamburgerOpen from '../../assets/hamburgerOpen.svg';
 import IconButton from '@mui/material/IconButton';
-import api from '../../api.js'
+import api from '../../api.js';
 
 const MenuStyled = styled(Menu)`
   && {
@@ -60,7 +60,7 @@ const EmptySpace = styled.div`
   height: 8rem;
 `;
 
-function Options({ cookies, updateCookies }) {
+function Options({ cookies, updateCookies, isLoggedIn }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [anchorWidth, setAnchorWidth] = useState(64);
@@ -89,12 +89,8 @@ function Options({ cookies, updateCookies }) {
     handleClose();
   }
 
-  function isLoggedIn() {
-    return cookies.expressoid;
-  }
-
   function logOut() {
-    api.logOut(updateCookies)
+    api.logOut(updateCookies);
   }
 
   return (
@@ -119,6 +115,9 @@ function Options({ cookies, updateCookies }) {
       >
         <FlexRow>
           <FlexCol style={{ margin: '4px', flex: 1 }}>
+            {isLoggedIn() ? (
+              <div style={{ textAlign: 'center' }}>Welcome, {cookies.username}!</div>
+            ) : null}
             <MenuItem onClick={() => goToPage('/favorites/')}>My Favorites</MenuItem>
             <EmptySpace />
             {isLoggedIn() ? (

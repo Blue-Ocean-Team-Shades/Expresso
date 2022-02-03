@@ -52,6 +52,7 @@ function TopBar({
   submitSearch,
   cookies,
   updateCookies,
+  isLoggedIn,
 }) {
   const location = useLocation();
   const navigate = useNavigate();
@@ -95,7 +96,7 @@ function TopBar({
           </OverlayCollapse>
         </FormControl>
       </form>
-      <Options cookies={cookies} updateCookies={updateCookies} />
+      <Options cookies={cookies} updateCookies={updateCookies} isLoggedIn={isLoggedIn} />
     </TitleBar>
   );
 }
