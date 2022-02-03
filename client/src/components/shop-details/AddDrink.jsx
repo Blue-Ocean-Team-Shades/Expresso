@@ -4,6 +4,20 @@ import { Input, FlexCol, AccentButton, FlexRow, Accent } from '../Styled.jsx';
 import api from '../../api.js';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import Stack from '@mui/material/Stack';
+import Switch from '@mui/material/Switch';
+
+const RecommendSwitch = styled(Switch)(({ theme }) => ({
+  '& .MuiSwitch-switchBase.Mui-checked': {
+    color: '#621c15',
+    '&:hover': {
+      backgroundColor: '#621c154a',
+    },
+  },
+  '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+    backgroundColor: '#621c15',
+  },
+}));
 
 const Col = styled(FlexCol)`
   align-items: center;
@@ -48,7 +62,14 @@ const RecommendLabel = styled(Accent)`
 `;
 
 const AddDrinkButton = styled(AccentButton)`
-  // background-color: white;
+  && {
+    background-color: #621c15;
+    color: white;
+  }
+`;
+
+const Form = styled.form`
+  width: -webkit-fill-available;
 `;
 
 let placeholder = `Don't see a drink here? Add it!`;
@@ -59,10 +80,12 @@ function AddDrink({
   setDrinks,
   getDrinks,
   placeId,
+  isLoggedIn,
 }) {
   const [drinkValue, setDrinkValue] = useState('');
   const [priceValue, setPriceValue] = useState('');
   const [recommend, seRecommend] = React.useState(true);
+  // const [checked, setChecked] = React.useState(true);
 
   const handleToggle = (event, newRecommend) => {
     seRecommend(newRecommend);
@@ -106,36 +129,42 @@ function AddDrink({
     resetInputFields();
   };
 
-  return (
+  return !isLoggedIn() ? (
+    ''
+  ) : (
     <Col>
       <DrinkInput>{placeholder}</DrinkInput>
-      <Row>
-        <FlexCol>
-          <RecommendRow>
-            <DrinkName
-              placeholder='Drink Name'
-              value={drinkValue}
-              onChange={handleDrinkInput}
-            />
-          </RecommendRow>
-        </FlexCol>
+      <Form>
+        <Row>
+          <FlexCol>
+            <RecommendRow>
+              <DrinkName
+                required
+                placeholder='Drink Name'
+                value={drinkValue}
+                onChange={handleDrinkInput}
+                variant='standard'
+              />
+            </RecommendRow>
+          </FlexCol>
 
-        <FlexCol>
-          <RecommendLabel>Recommend?</RecommendLabel>
-          <RecommendRow>
-            <ToggleButtonGroup
-              color='primary'
-              value={recommend}
-              exclusive
-              onChange={handleToggle}
-            >
-              <ToggleButton value={true}>Yes</ToggleButton>
-              <ToggleButton value={false}>No</ToggleButton>
-            </ToggleButtonGroup>
-          </RecommendRow>
-        </FlexCol>
-        <AddDrinkButton onClick={clickHandler}>Add Drink</AddDrinkButton>
-      </Row>
+          <FlexCol>
+            <RecommendLabel>Recommend?</RecommendLabel>
+            <RecommendRow>
+              <RecommendSwitch
+                // {...label}
+                defaultChecked
+                value={recommend}
+                onChange={handleToggle}
+                color='primary'
+              />
+            </RecommendRow>
+          </FlexCol>
+          <AddDrinkButton type='submit' onClick={clickHandler}>
+            Add Drink
+          </AddDrinkButton>
+        </Row>
+      </Form>
     </Col>
   );
 }
@@ -164,4 +193,18 @@ export default AddDrink;
           value={priceValue}
           onChange={handlePriceInput}
         />
+*/
+
+/* yes not toggles
+
+   <ToggleButtonGroup
+                color='primary'
+                value={recommend}
+                exclusive
+                onChange={handleToggle}
+              >
+                <ToggleButton value={true}>Yes</ToggleButton>
+                <ToggleButton value={false}>No</ToggleButton>
+              </ToggleButtonGroup>
+
 */

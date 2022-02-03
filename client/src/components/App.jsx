@@ -63,33 +63,64 @@ function App() {
       .then((position) => {
         setMessage(null);
         setLocation(position);
-        return api.getShops(position)
+        return api.getShops(position);
       })
-      .then(({data}) => {
-        setShops(data)
-        console.log(data)
+      .then(({ data }) => {
+        setShops(data);
       })
       .catch((err) => {
-        console.error(err)
+        //TODO: catch separate error for location services earlier
+        console.error(err);
         setMessage('Please enable location, or enter a location in the search!');
       });
   }, []);
 
+  function isLoggedIn() {
+    return cookies.username;
+  }
+
   function submitSearch() {
     if (location) {
-      console.log('new location:', searchLocation || location);
+      if (searchLocation) {
+        api.getShopsAtLocation(searchLocation)
+          .then(({data}) => setShops(data))
+          .catch((err) => console.error(err))
+
+      } else {
+        api.getShops(location)
+        .then(({data}) => setShops(data))
+        .catch((err) => console.error(err))
+      }
       //TODO: submit search at location
       //TODO: reroute to shops list
     }
   }
 
-
   function updateCookies() {
     const newCookies = {};
     document.cookie.split(';').forEach((cookie) => {
-      const [cookieName, cookieBody] = cookie.split('=');
+      let [cookieName, cookieBody] = cookie.split('=').map(item => item.trim());
       newCookies[cookieName] = cookieBody;
     });
+    if (newCookies.expressoid){
+      if (cookies.expressoid) {
+        //session already exists in state, no need to get username; just copy them over
+        newCookies.user_id = cookies.user_id;
+        newCookies.username = cookies.username;
+      } else {
+      const session = newCookies.expressoid.slice(4).split('.');
+      api
+        .getCookieData(session[0])
+        .then((response) => {
+          setCookies(oldCookies => {
+            oldCookies.user_id = response.user_id;
+            oldCookies.username = response.username;
+            setCookies(oldCookies);
+          })
+        })
+        .catch((err) => console.log(err));
+      }
+    }
     setCookies(newCookies);
   }
 
@@ -104,6 +135,7 @@ function App() {
           submitSearch={submitSearch}
           cookies={cookies}
           updateCookies={updateCookies}
+          isLoggedIn={isLoggedIn}
         />
         <Routes>
           <Route
@@ -114,6 +146,7 @@ function App() {
                 setCurrentShop={setCurrentShop}
                 message={message}
                 searchTerm={searchTerm}
+                cookies={cookies}
               />
             }
           />
@@ -126,6 +159,7 @@ function App() {
                 currentShop={currentShop}
                 shops={shops}
                 setShops={setShops}
+                isLoggedIn={isLoggedIn}
               />
             }
           />
@@ -146,10 +180,10 @@ function App() {
               <ShopsList
                 isFavorites={true}
                 shops={shops}
-                shops={shops}
                 setCurrentShop={setCurrentShop}
                 message={message}
                 searchTerm={searchTerm}
+                cookies={cookies}
               />
             }
           />

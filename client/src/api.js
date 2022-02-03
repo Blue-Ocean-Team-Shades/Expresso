@@ -1,7 +1,11 @@
 import axios from 'axios';
 
 function getShops(location) {
-  return axios.post('/findshops', {location: `{loc:${location.latitude}, lng:${location.longitude}}`});
+  return axios.post('/findshops', {location: `{lat:${location.latitude}, lng:${location.longitude}}`});
+}
+
+function getShopsAtLocation(location) {
+  return axios.post('/findshops', {customLocation: location});
 }
 
 function logIn(formData, updateCookies) {
@@ -48,6 +52,21 @@ function addDrink(drinkObj) {
   return axios.post('/drinkmenu', drinkObj);
 }
 
+function getCookieData(sid) {
+  return axios.get(`/cookiedata`, {params: {sid: sid}})
+    .then(response => {
+      return {
+        user_id: response.data.user_id,
+        username: response.data.username
+      };
+    })
+    .catch(err => console.log(err));
+}
+
+function getImage(shopObj) {
+  return axios.post('/getshopimage', shopObj);
+}
+
 export default {
   getShops,
   logIn,
@@ -57,4 +76,7 @@ export default {
   likeDrink,
   dislikeDrink,
   getDrinks,
+  getShopsAtLocation,
+  getImage,
+  getCookieData,
 };

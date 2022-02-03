@@ -1,14 +1,12 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FlexRow, FlexCol, colors, AccentButton, styleAccentButton } from '../Styled.jsx';
 import { useNavigate } from 'react-router-dom';
 import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Collapse from '@mui/material/Collapse';
+import { MenuItem, Collapse, IconButton, Switch } from '@mui/material/';
 import hamburger from '../../assets/hamburger.svg';
 import hamburgerOpen from '../../assets/hamburgerOpen.svg';
-import IconButton from '@mui/material/IconButton';
-import api from '../../api.js'
+import api from '../../api.js';
 
 const MenuStyled = styled(Menu)`
   && {
@@ -18,6 +16,8 @@ const MenuStyled = styled(Menu)`
     .MuiPaper-root {
       background-color: lightgrey;
       border-top-right-radius: 0;
+      right: ${({fixright}) => fixright}px;
+      left: ${({fixright}) => window.innerWidth - fixright - 250}px !important;
     }
   }
 `;
@@ -60,7 +60,7 @@ const EmptySpace = styled.div`
   height: 8rem;
 `;
 
-function Options({ cookies, updateCookies }) {
+function Options({ cookies, updateCookies, isLoggedIn }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [anchorWidth, setAnchorWidth] = useState(64);
@@ -75,10 +75,12 @@ function Options({ cookies, updateCookies }) {
 
   function setAnchor(e) {
     if (e) {
-      setAnchorEl(e.currentTarget);
-      const rect = e.currentTarget.getBoundingClientRect();
+      const target = e.currentTarget;
+      // const target = e.currentTarget;
+      setAnchorEl(target);
+      const rect = target.getBoundingClientRect();
       setFixRight(window.innerWidth - rect.right);
-      setAnchorWidth(e.currentTarget.offsetWidth);
+      setAnchorWidth(target.offsetWidth);
     } else {
       setAnchorEl(null);
     }
@@ -89,12 +91,17 @@ function Options({ cookies, updateCookies }) {
     handleClose();
   }
 
-  function isLoggedIn() {
-    return cookies.expressoid;
+  function logOut() {
+    api.logOut(updateCookies);
   }
 
-  function logOut() {
-    api.logOut(updateCookies)
+  function toggleDistanceUnits() {
+    if (cookies.units_miles) {
+      document.cookie = 'units_miles=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    } else {
+      document.cookie = 'units_miles=true; path=/';
+    }
+    updateCookies();
   }
 
   return (
@@ -104,31 +111,36 @@ function Options({ cookies, updateCookies }) {
       </ButtonClosed>
       <MenuStyled
         open={open}
-        id='settings'
         onClose={handleClose}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         anchorEl={anchorEl}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         disableScrollLock={true}
-        PaperProps={{
-          style: {
-            right: `${fixRight}px`,
-          },
-        }}
-        //TODO: fix menu breaks on window resize
+        fixright={fixRight}
       >
         <FlexRow>
           <FlexCol style={{ margin: '4px', flex: 1 }}>
-            <MenuItem onClick={() => goToPage('/favorites/')}>My Favorites</MenuItem>
-            <EmptySpace />
             {isLoggedIn() ? (
-              <MenuRight onClick={logOut}>Log Out</MenuRight>
-            ) : (
-              <MenuRight onClick={() => goToPage('/login')}>Log in</MenuRight>
-            )}
+              <div style={{ textAlign: 'center' }}>Welcome, {cookies.username}!</div>
+            ) : null}
+            <MenuItem onClick={() => goToPage('/favorites/')}>My Favorites</MenuItem>
+            <FlexRow>
+              <label htmlFor='toggleDistanceUnits'>Miles</label>
+              <Switch
+                id='toggleDistanceUnits'
+                checked={!!cookies.units_miles}
+                onChange={toggleDistanceUnits}
+              />
+            </FlexRow>
+            <EmptySpace />
           </FlexCol>
           <MenuSide as='div' width={anchorWidth}></MenuSide>
         </FlexRow>
+        {isLoggedIn() ? (
+          <MenuRight onClick={logOut}>Log Out</MenuRight>
+        ) : (
+          <MenuRight onClick={() => goToPage('/login')}>Log in</MenuRight>
+        )}
       </MenuStyled>
     </div>
   );
