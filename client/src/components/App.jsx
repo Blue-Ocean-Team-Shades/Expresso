@@ -52,6 +52,8 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchLocation, setSearchLocation] = useState('');
   const [cookies, setCookies] = useState([]);
+  const [favoriteShops, setFavoriteShops] = useState([]);
+  const [favoriteDrinks, setFavoriteDrinks] = useState([]);
 
   useEffect(() => {
     updateCookies();
@@ -82,16 +84,16 @@ function App() {
   function submitSearch() {
     if (location) {
       if (searchLocation) {
-        api.getShopsAtLocation(searchLocation)
-          .then(({data}) => setShops(data))
-          .catch((err) => console.error(err))
-
+        api
+          .getShopsAtLocation(searchLocation)
+          .then(({ data }) => setShops(data))
+          .catch((err) => console.error(err));
       } else {
-        api.getShops(location)
-        .then(({data}) => setShops(data))
-        .catch((err) => console.error(err))
+        api
+          .getShops(location)
+          .then(({ data }) => setShops(data))
+          .catch((err) => console.error(err));
       }
-      //TODO: submit search at location
       //TODO: reroute to shops list
     }
   }
@@ -99,26 +101,31 @@ function App() {
   function updateCookies() {
     const newCookies = {};
     document.cookie.split(';').forEach((cookie) => {
-      let [cookieName, cookieBody] = cookie.split('=').map(item => item.trim());
+      let [cookieName, cookieBody] = cookie.split('=').map((item) => item.trim());
       newCookies[cookieName] = cookieBody;
     });
-    if (newCookies.expressoid){
+    if (newCookies.expressoid) {
       if (cookies.expressoid) {
-        //session already exists in state, no need to get username; just copy them over
+        //if session already exists in state, no need to get username; just copy them over
         newCookies.user_id = cookies.user_id;
         newCookies.username = cookies.username;
       } else {
-      const session = newCookies.expressoid.slice(4).split('.');
-      api
-        .getCookieData(session[0])
-        .then((response) => {
-          setCookies(oldCookies => {
-            oldCookies.user_id = response.user_id;
-            oldCookies.username = response.username;
-            setCookies(oldCookies);
+        const session = newCookies.expressoid.slice(4).split('.');
+        api
+          .getCookieData(session[0])
+          .then((response) => {
+            setCookies((oldCookies) => {
+              oldCookies.user_id = response.user_id;
+              oldCookies.username = response.username;
+              setCookies(oldCookies);
+            });
+            return api.getUserFavorites(response.user_id);
           })
-        })
-        .catch((err) => console.log(err));
+          .then(({data}) => {
+            setFavoriteShops(data.favoriteShops);
+            setFavoriteDrinks(data.favoriteDrinks);
+          })
+          .catch((err) => console.log(err));
       }
     }
     setCookies(newCookies);
@@ -147,6 +154,9 @@ function App() {
                 message={message}
                 searchTerm={searchTerm}
                 cookies={cookies}
+                isLoggedIn={isLoggedIn}
+                favoriteShops={favoriteShops}
+                setFavoriteShops={setFavoriteShops}
               />
             }
           />
@@ -159,11 +169,13 @@ function App() {
                 currentShop={currentShop}
                 shops={shops}
                 setShops={setShops}
+                cookies={cookies}
                 isLoggedIn={isLoggedIn}
+                favoriteShops={favoriteShops}
+                setFavoriteShops={setFavoriteShops}
               />
             }
           />
-          {/* TODO: if already signed in, redirect back to home */}
           <Route
             path='/login'
             element={<LoginSignup isLogin={true} cookies={cookies} updateCookies={updateCookies} />}

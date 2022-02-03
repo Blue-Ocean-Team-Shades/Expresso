@@ -25,7 +25,11 @@ const addUserFavorite = (req, res) => {
                 res.status(500).send();
               });
           }
-        });
+        })
+        .catch(err => {
+          console.error(err)
+          res.status(500).send()
+        })
     }
   } else {
     alert('Must be logged in to favorite shops and drinks');
