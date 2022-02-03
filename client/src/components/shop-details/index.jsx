@@ -86,9 +86,8 @@ function ShopDetails({
   const [drinks, setDrinks] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
-    if (currentShop) {
-      getDrinks(false).then(() => getImage());
-    }
+    if (!currentShop) return navigate('/')
+    getDrinks(false).then(() => getImage());
   }, []);
 
   const getDrinks = (refresh = true) => {
@@ -113,7 +112,6 @@ function ShopDetails({
   };
 
   if (!currentShop) {
-    navigate('/')
     return null;
   }
   return (
