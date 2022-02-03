@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Background, FlexRow, FlexCol, Accent, colors } from '../Styled.jsx';
 
-function Image({ image }) {
-  const Image = styled(Accent)`
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url('${image || ''}');
+const ShopImage = styled(Accent)`
   height: 70vh;
   width: 100vw;
   background-size: cover;
@@ -16,7 +13,13 @@ function Image({ image }) {
   }
 `;
 
-  return <Image />;
+function Image({ image }) {
+  const styles = {
+    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+  url('${image || ''}')`,
+  };
+
+  return <ShopImage style={styles} />;
 }
 
 export default Image;
