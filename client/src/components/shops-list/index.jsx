@@ -116,7 +116,7 @@ function ShopsList({
           <Main style={{ flex: 1 }}>
             <Shops>
               {filter(shops, filters, searchTerm)
-                .sort(sortFunc(sort, favoriteShops, true))
+                .sort(sortFunc(sort, favoriteShops, cookies.favorites_at_top))
                 .map((shop) => (
                   <ShopEntry
                     shop={shop}

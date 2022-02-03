@@ -103,6 +103,15 @@ function Options({ cookies, updateCookies, isLoggedIn }) {
     updateCookies();
   }
 
+  function toggleFavorites() {
+    if (cookies.favorites_at_top) {
+      document.cookie = 'favorites_at_top=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    } else {
+      document.cookie = 'favorites_at_top=true; path=/';
+    }
+    updateCookies();
+  }
+
   return (
     <div style={{ margin: 0 }}>
       <ButtonClosed onClick={setAnchor} disableRipple={true} size='small' open={open}>
@@ -130,6 +139,14 @@ function Options({ cookies, updateCookies, isLoggedIn }) {
                 checked={!!cookies.units_miles}
                 onChange={toggleDistanceUnits}
               />
+              </FlexRow>
+              <FlexRow>
+                <label htmlFor='toggleFavorites'>Favorites at top</label>
+                <Switch
+                  id='toggleFavorites'
+                  checked={!!cookies.favorites_at_top}
+                  onChange={toggleFavorites}
+                />
             </FlexRow>
             <EmptySpace />
           </FlexCol>
