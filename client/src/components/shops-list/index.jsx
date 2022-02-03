@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import TopBar from '../top-bar';
 import styled from 'styled-components';
+import { Switch } from '@mui/material/';
 import {
   isMobile,
   Main,
@@ -49,12 +50,20 @@ const BackgroundGradient = styled.div`
   top: 100%;
 `;
 
-function sortFunc(sortBy) {
+function sortFunc(sortBy, favoriteShops, sortByFavorite) {
+  let sortDown = true;
   if (sortBy.startsWith('-')) {
     sortBy = sortBy.substring(1);
-    return (a, b) => a[sortBy] - b[sortBy];
+    sortDown = false;
   }
-  return (a, b) => b[sortBy] - a[sortBy];
+  return (a, b) => {
+    if (sortByFavorite) {
+      if (favoriteShops[a.place_id] && !favoriteShops[b.place_id]) return - 1;
+      if (!favoriteShops[a.place_id] && favoriteShops[b.place_id]) return 1 ;
+    }
+    if (sortDown) return a[sortBy] - b[sortBy];
+    return b[sortBy] - a[sortBy];
+  };
 }
 
 const defaultFilters = {
@@ -90,7 +99,7 @@ function ShopsList({
   favoriteShops,
   setFavoriteShops,
 }) {
-  const [sort, setSort] = useState('-distance');
+  const [sort, setSort] = useState('distance');
   const [filters, setFilters] = useState(defaultFilters);
 
   return (
@@ -107,7 +116,7 @@ function ShopsList({
           <Main style={{ flex: 1 }}>
             <Shops>
               {filter(shops, filters, searchTerm)
-                .sort(sortFunc(sort))
+                .sort(sortFunc(sort, favoriteShops, true))
                 .map((shop) => (
                   <ShopEntry
                     shop={shop}
@@ -123,10 +132,10 @@ function ShopsList({
             <div>
               <FlexCol>
                 Sort by
-                <AccentButton disabled={sort === '-distance'} onClick={() => setSort('-distance')}>
+                <AccentButton disabled={sort === 'distance'} onClick={() => setSort('distance')}>
                   distance
                 </AccentButton>
-                <AccentButton disabled={sort === 'rating'} onClick={() => setSort('rating')}>
+                <AccentButton disabled={sort === '-rating'} onClick={() => setSort('-rating')}>
                   rating
                 </AccentButton>
                 Show
