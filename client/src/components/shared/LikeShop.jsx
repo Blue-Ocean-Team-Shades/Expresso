@@ -15,6 +15,8 @@ const StyledImg = styled.img`
 const ButtonStar = styled(IconButton)`
   ${styleHighlightButton}
   &&{
+    width: fit-content;
+    height: fit-content;
     border-radius: 50%;
     :disabled {
       background-color: ${colors.highlightLight}
