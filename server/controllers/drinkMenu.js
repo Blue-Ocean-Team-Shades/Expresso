@@ -1,4 +1,5 @@
 const { pool } = require("../../database");
+const {userRatedCoffee} = require('./trackUserRatings.js');
 
 const addDrink = (req, res) => {
   if (req.session.isLoggedIn) {
@@ -26,26 +27,34 @@ const addDrink = (req, res) => {
   }
 };
 
-const rateDrink = (req, res) => {
+const rateDrink = async (req, res) => {
   if (req.session.isLoggedIn) {
-    if (req.body.rating === '1') {
-      pool.query(`UPDATE drinks SET drink_rating = drink_rating + 1 WHERE id = ${Number(req.body.drink_id)}`)
-        .then(x => {
-          res.status(200).send('Drink rating updated +1!')
-        })
-        .catch(err => {
+    if (req.body.rating === '1') {  //If drink is upvoted
+      if (await userRatedCoffee(req.body.drink_id, req.session.user_id, true)) {
+        console.log('This user has already upvoted this drink');
+        return;
+      } else {
+        try {
+          await pool.query(`UPDATE drinks SET drink_rating = drink_rating + 1 WHERE id = ${Number(req.body.drink_id)}`);
+          res.status(200).send('Drink rating updated +1!');
+        } catch (err) {
           res.status(500).send();
-          console.error(err);
-        });
-    } else {
-      pool.query(`UPDATE drinks SET drink_rating = drink_rating - 1 WHERE id = ${Number(req.body.drink_id)}`)
-        .then(x => {
+          console.error('Error updating drink_rating in drinks table: ', err);
+        }
+      }
+    } else {  //If drink is downvoted
+      if (await userRatedCoffee(req.body.drink_id, req.session.user_id, false)) {
+        console.log('This user has already downvoted this drink');
+        return;
+      } else {
+        try {
+          await pool.query(`UPDATE drinks SET drink_rating = drink_rating - 1 WHERE id = ${Number(req.body.drink_id)}`);
           res.status(200).send('Drink rating updated -1!');
-        })
-        .catch(err => {
+          } catch (err) {
           res.status(500).send();
-          console.error(err);
-        });
+          console.error('Error updating drink_rating in drinks table: ', err);
+        }
+      }
     }
   } else {
     alert('Please login to rate drinks');
