@@ -71,11 +71,11 @@ const defaultFilters = {
   distance: 1000,
 };
 
-function filter(list, filters, searchTerm) {
+function filter(list, filters, searchTerm, cookies) {
   searchTerm = searchTerm.toLowerCase();
   return list.filter((shop) => {
     //TODO: return false if shop doesn't match customizable filter
-
+    if (!cookies.starbucks_allowed && shop.name === 'Starbucks') return false;
     if (searchTerm.length < 3) return true;
     if (shop.name.toLowerCase().includes(searchTerm)) return true;
     if (shop.drinks) {
@@ -115,7 +115,7 @@ function ShopsList({
         ) : (
           <Main style={{ flex: 1 }}>
             <Shops>
-              {filter(shops, filters, searchTerm)
+              {filter(shops, filters, searchTerm, cookies)
                 .sort(sortFunc(sort, favoriteShops, !cookies.favorites_not_at_top))
                 .map((shop) => (
                   <ShopEntry

@@ -94,20 +94,11 @@ function Options({ cookies, updateCookies, isLoggedIn }) {
     api.logOut(updateCookies);
   }
 
-  function toggleDistanceUnits() {
-    if (cookies.units_miles) {
-      document.cookie = 'units_miles=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  function toggleCookie(cookieName) {
+    if (cookies[cookieName]) {
+      document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
     } else {
-      document.cookie = 'units_miles=true; path=/';
-    }
-    updateCookies();
-  }
-
-  function toggleFavorites() {
-    if (cookies.favorites_not_at_top) {
-      document.cookie = 'favorites_not_at_top=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    } else {
-      document.cookie = 'favorites_not_at_top=true; path=/';
+      document.cookie = `${cookieName}=true; path=/`;
     }
     updateCookies();
   }
@@ -136,7 +127,7 @@ function Options({ cookies, updateCookies, isLoggedIn }) {
               <Switch
                 id='toggleDistanceUnits'
                 checked={!!cookies.units_miles}
-                onChange={toggleDistanceUnits}
+                onChange={() => toggleCookie('units_miles')}
               />
               </FlexRow>
               <FlexRow>
@@ -144,9 +135,17 @@ function Options({ cookies, updateCookies, isLoggedIn }) {
                 <Switch
                   id='toggleFavorites'
                   checked={!cookies.favorites_not_at_top}
-                  onChange={toggleFavorites}
+                  onChange={() => toggleCookie('favorites_not_at_top')}
                 />
-            </FlexRow>
+              </FlexRow>
+              <FlexRow>
+                <label htmlFor='toggleStarbucks'>No Starbucks</label>
+                <Switch
+                  id='toggleStarbucks'
+                  checked={!cookies.starbucks_allowed}
+                  onChange={() => toggleCookie('starbucks_allowed')}
+                />
+              </FlexRow>
             <EmptySpace />
           </FlexCol>
           <MenuSide as='div' width={anchorWidth}></MenuSide>
