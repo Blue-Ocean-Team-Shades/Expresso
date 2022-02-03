@@ -32,7 +32,7 @@ const Message = styled.div`
   align-elements: center;
   font-size: 2rem;
   z-index: 10;
-  color: ${colors.highlight}
+  color: ${colors.highlight};
 `;
 
 const Shops = styled(Background)`
@@ -47,7 +47,7 @@ const BackgroundGradient = styled.div`
   width: 100%;
   height: 50vh;
   top: 100%;
-`
+`;
 
 function sortFunc(sortBy) {
   if (sortBy.startsWith('-')) {
@@ -63,7 +63,7 @@ const defaultFilters = {
 };
 
 function filter(list, filters, searchTerm) {
-  searchTerm = searchTerm.toLowerCase()
+  searchTerm = searchTerm.toLowerCase();
   return list.filter((shop) => {
     //TODO: return false if shop doesn't match customizable filter
 
@@ -79,27 +79,45 @@ function filter(list, filters, searchTerm) {
   });
 }
 
-function ShopsList({ shops, isFavorites, setCurrentShop, message, searchTerm, cookies }) {
+function ShopsList({
+  shops,
+  isFavorites,
+  setCurrentShop,
+  message,
+  searchTerm,
+  cookies,
+  isLoggedIn,
+  favoriteShops,
+  setFavoriteShops,
+}) {
   const [sort, setSort] = useState('-distance');
   const [filters, setFilters] = useState(defaultFilters);
 
   return (
     <Background>
       {isFavorites ? 'TODO: filter by favorites' : null}
-      <FlexCol style={{height: '100%'}}>
-        <FitWidth style={{position: 'relative'}}>
+      <FlexCol style={{ height: '100%' }}>
+        <FitWidth style={{ position: 'relative' }}>
           <h1>Expresso</h1>
           <BackgroundGradient />
         </FitWidth>
         {message ? (
           <Message>{message}</Message>
         ) : (
-          <Main style={{flex: 1}}>
+          <Main style={{ flex: 1 }}>
             <Shops>
               {filter(shops, filters, searchTerm)
                 .sort(sortFunc(sort))
                 .map((shop) => (
-                  <ShopEntry shop={shop} key={shop.place_id} setCurrentShop={setCurrentShop} cookies={cookies} />
+                  <ShopEntry
+                    shop={shop}
+                    key={shop.place_id}
+                    setCurrentShop={setCurrentShop}
+                    cookies={cookies}
+                    isLoggedIn={isLoggedIn}
+                    favoriteShops={favoriteShops}
+                    setFavoriteShops={setFavoriteShops}
+                  />
                 ))}
             </Shops>
             <div>

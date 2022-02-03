@@ -15,6 +15,7 @@ import ShopInfo from './ShopInfo.jsx';
 import DrinkList from './DrinkList.jsx';
 import AddDrink from './AddDrink.jsx';
 import api from '../../api.js';
+import LikeShop from '../shared/LikeShop.jsx';
 import Image from './Image.jsx';
 
 const ListBackground = styled(Background)`
@@ -76,6 +77,9 @@ function ShopDetails({
   shops,
   setShops,
   isLoggedIn,
+  cookies,
+  favoriteShops,
+  setFavoriteShops,
 }) {
   // sample getting shop drinks from test google places shop
   const [drinks, setDrinks] = useState([]);
@@ -110,6 +114,13 @@ function ShopDetails({
       <Container>
         <Inner>
           <ShopInfo shop={currentShop || {}} />
+          <LikeShop
+            currentShop={currentShop}
+            cookies={cookies}
+            isLoggedIn={isLoggedIn}
+            favoriteShops={favoriteShops}
+            setFavoriteShops={setFavoriteShops}
+          />
           <DrinkList
             drinks={currentShop.drinks || []}
             getDrinks={getDrinks}

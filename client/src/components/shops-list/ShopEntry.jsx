@@ -10,6 +10,7 @@ import {
   styleHighlightButton,
 } from '../Styled.jsx';
 import { useNavigate } from 'react-router-dom';
+import LikeShop from '../shared/LikeShop.jsx';
 
 const HighlightDot = styled.div`
   ${styleHighlightButton}
@@ -19,7 +20,14 @@ const HighlightDot = styled.div`
   content: '&nbsp;';
 `;
 
-function ShopEntry({ shop, setCurrentShop, cookies }) {
+function ShopEntry({
+  shop,
+  setCurrentShop,
+  cookies,
+  isLoggedIn,
+  favoriteShops,
+  setFavoriteShops,
+}) {
   const navigate = useNavigate();
   function viewShop() {
     setCurrentShop(shop);
@@ -29,17 +37,26 @@ function ShopEntry({ shop, setCurrentShop, cookies }) {
   const mi = cookies.units_miles ? 0.621371 : 1;
 
   return (
-    <AccentButton onClick={() => viewShop(shop)}>
-      <div>
-        <em>{shop.name}</em>
-      </div>
-      <HighlightDot />
-      <div>Rating: {shop.rating}</div>
-      <HighlightDot />
-      <div>
-        Distance: {Math.round(shop.distance * mi * 10) / 10} {cookies.units_miles ? ' mi' : ' km'}
-      </div>
-    </AccentButton>
+    <div>
+      <AccentButton onClick={() => viewShop(shop)}>
+        <div>
+          <em>{shop.name}</em>
+        </div>
+        <HighlightDot />
+        <div>Rating: {shop.rating}</div>
+        <HighlightDot />
+        <div>
+          Distance: {Math.round(shop.distance * mi * 10) / 10} {cookies.units_miles ? ' mi' : ' km'}
+        </div>
+      </AccentButton>
+      <LikeShop
+        currentShop={shop}
+        cookies={cookies}
+        isLoggedIn={isLoggedIn}
+        favoriteShops={favoriteShops}
+        setFavoriteShops={setFavoriteShops}
+      />
+    </div>
   );
 }
 
