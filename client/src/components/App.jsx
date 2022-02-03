@@ -63,46 +63,57 @@ function App() {
       .then((position) => {
         setMessage(null);
         setLocation(position);
-        return api.getShops(position)
+        return api.getShops(position);
       })
       .then(({ data }) => {
-        setShops(data)
+        setShops(data);
       })
       .catch((err) => {
-        console.error(err)
+        //TODO: catch separate error for location services earlier
+        console.error(err);
         setMessage('Please enable location, or enter a location in the search!');
       });
   }, []);
 
+  function isLoggedIn() {
+    return cookies.username;
+  }
+
   function submitSearch() {
     if (location) {
-      console.log('new location:', searchLocation || location);
+      if (searchLocation) {
+        api.getShopsAtLocation(searchLocation)
+          .then(({data}) => setShops(data))
+          .catch((err) => console.error(err))
+
+      } else {
+        api.getShops(location)
+        .then(({data}) => setShops(data))
+        .catch((err) => console.error(err))
+      }
       //TODO: submit search at location
       //TODO: reroute to shops list
     }
   }
 
-
   function updateCookies() {
-    const newCookies = {
-      user_id: undefined,
-      username: undefined
-    };
+    const newCookies = {};
     document.cookie.split(';').forEach((cookie) => {
       let [cookieName, cookieBody] = cookie.split('=');
-      if (cookieBody) {
-        cookieBody = cookieBody.slice(4).split('.');
-        api.getCookieData(cookieBody[0])
-          .then(response => {
+      if (cookieName === 'expressoid') {
+        const slicedBody = cookieBody.slice(4).split('.');
+        api
+          .getCookieData(slicedBody[0])
+          .then((response) => {
             newCookies.user_id = response.user_id;
             newCookies.username = response.username;
             setCookies(newCookies);
           })
-          .catch(err => console.log(err));
-      } else {
-        setCookies(newCookies);
+          .catch((err) => console.log(err));
       }
+      newCookies[cookieName] = cookieBody;
     });
+    setCookies(newCookies);
   }
 
   return (
@@ -116,6 +127,7 @@ function App() {
           submitSearch={submitSearch}
           cookies={cookies}
           updateCookies={updateCookies}
+          isLoggedIn={isLoggedIn}
         />
         <Routes>
           <Route
