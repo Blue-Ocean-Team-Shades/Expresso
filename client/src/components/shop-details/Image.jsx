@@ -11,6 +11,9 @@ function Image({ image }) {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
   return <Image />;

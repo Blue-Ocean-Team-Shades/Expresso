@@ -24,6 +24,11 @@ const Container = styled(Accent)`
 const Row = styled(FlexRow)`
   flex-wrap: wrap;
   // width: 100%;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    margin: auto;
+  }
 `;
 
 const Column = styled(FlexCol)`
@@ -43,7 +48,7 @@ const InnerColumn = styled(FlexCol)`
 
 function DrinkList({ drinks, getDrinks, placeId }) {
   const createRows = (array) => {
-    let arr = sortDrinks(array)
+    let arr = sortDrinks(array);
     let result = [];
     while (arr.length > 2) {
       result.push(
@@ -92,22 +97,24 @@ function DrinkList({ drinks, getDrinks, placeId }) {
   const sortDrinks = (array) => {
     let result = [];
     let isSorted = false;
-    while(!isSorted && array.length > 0) {
+    while (!isSorted && array.length > 0) {
       isSorted = true;
       for (let i = 0; i < array.length; i++) {
         let drink = array[i];
-        let rating = drink ? Number(drink.drink_rating) : undefined
+        let rating = drink ? Number(drink.drink_rating) : undefined;
         let nextDrink = array[i + 1];
-        let nextDrinkRating = nextDrink ? Number(nextDrink.drink_rating) : undefined
+        let nextDrinkRating = nextDrink
+          ? Number(nextDrink.drink_rating)
+          : undefined;
         if (nextDrink && rating < nextDrinkRating) {
           isSorted = false;
-          array[i] = nextDrink
-          array[i + 1] = drink
+          array[i] = nextDrink;
+          array[i + 1] = drink;
         }
       }
-      }
-      return array
-  }
+    }
+    return array;
+  };
 
   let rows = createRows(drinks);
   return <Container>{rows}</Container>;

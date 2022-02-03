@@ -9,17 +9,17 @@ import {
   Input,
   FlexRow,
   FlexCol,
-  colors
+  colors,
 } from '../Styled.jsx';
 import ShopInfo from './ShopInfo.jsx';
 import DrinkList from './DrinkList.jsx';
 import AddDrink from './AddDrink.jsx';
 import api from '../../api.js';
-import Image from './Image.jsx'
+import Image from './Image.jsx';
 
 const ListBackground = styled(Background)`
   position: relative;
-  background-color: ${colors.mainDark}
+  background-color: ${colors.mainDark};
 `;
 
 const Column = styled(FlexCol)`
@@ -35,6 +35,15 @@ const Container = styled(FlexRow)`
   left: 50%;
   top: 0%;
   transform: translateX(-50%);
+  @media (max-width: 768px) {
+    position: inherit;
+    padding: inherit;
+    left: inherit;
+    top: inherit;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: inherit;
+  }
 `;
 
 const Inner = styled(FlexCol)`
@@ -45,6 +54,10 @@ const Inner = styled(FlexCol)`
   background-color: ${colors.highlightLight};
   border: gray solid 1px;
   border-radius: 8px;
+  @media (max-width: 768px) {
+    width: -webkit-fill-available;
+    height: inherit;
+  }
 `;
 
 // const Image = styled(Accent)`
@@ -61,33 +74,33 @@ function ShopDetails({ currentShop, setCurrentShop, shops, setShops }) {
   // sample getting shop drinks from test google places shop
   const [drinks, setDrinks] = useState([]);
   useEffect(() => {
-    getDrinks(false).then(() => getImage())
-
+    getDrinks(false).then(() => getImage());
   }, []);
 
-  const getDrinks = (refresh=true) => {
-
-    return api.getDrinks(currentShop.place_id)
+  const getDrinks = (refresh = true) => {
+    return api
+      .getDrinks(currentShop.place_id)
       .then(({ data }) => {
-        currentShop.drinks = data
-        if (refresh) setShops(shops.slice())
+        currentShop.drinks = data;
+        if (refresh) setShops(shops.slice());
       })
       .catch((err) => console.log(err, '<<<<<<<'));
   };
 
   const getImage = () => {
-    api.getImage(currentShop)
+    api
+      .getImage(currentShop)
       .then(({ data }) => {
-        currentShop.image = data
-        let tempShops = shops.slice()
-        setShops(tempShops)
+        currentShop.image = data;
+        let tempShops = shops.slice();
+        setShops(tempShops);
       })
       .catch((err) => console.log(err, '<<<<<<<'));
   };
 
   return (
     <ListBackground>
-      <Image image={currentShop.image || {}}/>
+      <Image image={currentShop.image || {}} />
       <Container>
         <Inner>
           <ShopInfo shop={currentShop || {}} />
