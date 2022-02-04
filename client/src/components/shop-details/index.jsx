@@ -19,6 +19,21 @@ import LikeShop from '../shared/LikeShop.jsx';
 import Image from './Image.jsx';
 import { useNavigate } from 'react-router-dom';
 
+const StyledLikeShop = styled(LikeShop)`
+  && {
+    background-color: red;
+    color: white;
+    &:hover {
+      background-color: red;
+    }
+  }
+  background-color: red;
+`;
+
+const LikeShopRow = styled(FlexRow)`
+  justify-content: center;
+`;
+
 const ListBackground = styled(Background)`
   position: relative;
   background-color: ${colors.mainDark};
@@ -88,7 +103,7 @@ function ShopDetails({
   const [drinks, setDrinks] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
-    if (!currentShop) return navigate('/')
+    if (!currentShop) return navigate('/');
     getDrinks(false).then(() => getImage());
   }, []);
 
@@ -122,13 +137,16 @@ function ShopDetails({
       <Container>
         <Inner>
           <ShopInfo shop={currentShop || {}} />
-          <LikeShop
-            currentShop={currentShop}
-            cookies={cookies}
-            isLoggedIn={isLoggedIn}
-            favoriteShops={favoriteShops}
-            setFavoriteShops={setFavoriteShops}
-          />
+          <LikeShopRow>
+            <StyledLikeShop
+              styles='backgroundColor: red;'
+              currentShop={currentShop}
+              cookies={cookies}
+              isLoggedIn={isLoggedIn}
+              favoriteShops={favoriteShops}
+              setFavoriteShops={setFavoriteShops}
+            />
+          </LikeShopRow>
           <DrinkList
             drinks={currentShop.drinks || []}
             getDrinks={getDrinks}

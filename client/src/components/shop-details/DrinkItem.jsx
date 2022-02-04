@@ -28,6 +28,7 @@ const Img = styled.img`
 
 const DrinkName = styled(Accent)`
   font-size: 1.5rem;
+  color: ${colors.mainLight};
 `;
 
 const Rating = styled(Accent)`
