@@ -1,4 +1,4 @@
-import Styled, {isMobile} from './Styled.jsx';
+import Styled, { isMobile } from './Styled.jsx';
 import styled from 'styled-components';
 import React, { useState, useEffect, useMemo } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -55,33 +55,45 @@ function App() {
   const [mobile, setMobile] = useState(false);
 
   useEffect(() => {
-    setMobile(isMobile())
+    setMobile(isMobile());
     window.addEventListener('resize', () => {
-      setMobile(isMobile())
-    })
-  }, [])
+      setMobile(isMobile());
+    });
+  }, []);
 
   useEffect(() => {
-    updateCookies();
-  }, [document.cookie]);
-
-  useEffect(() => {
-    setMessage('Fetching location');
-    getLocation()
-      .then((position) => {
+    const newCookies = updateCookies();
+    //hacky redundancy
+    if (cookies.length === 0) {
+      new Promise((resolve, reject) => {
+        if (!newCookies.location) return resolve(false);
+        const position = JSON.parse(newCookies.location);
         setMessage(null);
         setLocation(position);
-        return api.getShops(position);
+        resolve(position);
       })
-      .then(({ data }) => {
-        setShops(data);
-      })
-      .catch((err) => {
-        //TODO: catch separate error for location services earlier
-        console.error(err);
-        setMessage('Please enable location, or enter a location in the search!');
-      });
-  }, []);
+        .then((position) => {
+          if (position) return position;
+          setMessage('Fetching location');
+          return getLocation().then((position) => {
+            setMessage(null);
+            setLocation(position);
+            const positionOb = { latitude: position.latitude, longitude: position.longitude };
+            //TODO: let the cookie expire periodically to get fresh location
+            document.cookie = `location=${JSON.stringify(positionOb)}; path=/`;
+            updateCookies();
+            return position;
+          });
+        })
+        .then((position) => api.getShops(position))
+        .then(({ data }) => setShops(data))
+        .catch((err) => {
+          //TODO: catch separate error for location services earlier
+          console.error(err);
+          setMessage('Please enable location, or enter a location in the search!');
+        });
+    }
+  }, [document.cookie]);
 
   function isLoggedIn() {
     return cookies.username;
@@ -127,13 +139,13 @@ function App() {
             });
             return api.getUserFavorites(response.user_id);
           })
-          .then(({data}) => {
+          .then(({ data }) => {
             const newFavoriteShops = {};
             for (const shop of data.favoriteShops) {
               newFavoriteShops[shop.place_id] = true;
             }
             setFavoriteShops(newFavoriteShops);
-            const newFavoriteDrinks = {}
+            const newFavoriteDrinks = {};
             for (const drink of data.favoriteDrinks) {
               if (!newFavoriteDrinks[drink.place_id]) newFavoriteDrinks[drink.place_id] = {};
               newFavoriteDrinks[drink.place_id][drink.drink_id] = true;
@@ -144,12 +156,13 @@ function App() {
       }
     }
     setCookies(newCookies);
+    return newCookies;
   }
 
   return (
     <BrowserRouter>
-      <div style={{ height: '100vh', width:'100vw', maxHeight: '100vh', display: 'flex' }}>
-        <div style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
+      <div style={{ height: '100vh', width: '100vw', maxHeight: '100vh', display: 'flex' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
           <TopBar
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
@@ -160,7 +173,7 @@ function App() {
             updateCookies={updateCookies}
             isLoggedIn={isLoggedIn}
           />
-          <div style={{flex: 1, overflow:'auto'}}>
+          <div style={{ flex: 1, overflow: 'auto' }}>
             <Routes>
               <Route
                 path='/'
@@ -196,7 +209,9 @@ function App() {
               />
               <Route
                 path='/login'
-                element={<LoginSignup isLogin={true} cookies={cookies} updateCookies={updateCookies} />}
+                element={
+                  <LoginSignup isLogin={true} cookies={cookies} updateCookies={updateCookies} />
+                }
               />
               <Route
                 path='/signup'
