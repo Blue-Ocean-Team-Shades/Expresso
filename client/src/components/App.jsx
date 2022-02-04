@@ -62,26 +62,39 @@ function App() {
   }, [])
 
   useEffect(() => {
-    updateCookies();
-  }, [document.cookie]);
-
-  useEffect(() => {
-    setMessage('Fetching location');
-    getLocation()
-      .then((position) => {
+    const newCookies = updateCookies()
+    if (cookies.length === 0) {
+      if (newCookies.location) {
+        const position = JSON.parse(newCookies.location)
         setMessage(null);
-        setLocation(position);
-        return api.getShops(position);
-      })
-      .then(({ data }) => {
-        setShops(data);
-      })
-      .catch((err) => {
-        //TODO: catch separate error for location services earlier
-        console.error(err);
-        setMessage('Please enable location, or enter a location in the search!');
-      });
-  }, []);
+        setLocation(position)
+        api.getShops(position)
+          .then(({data}) => setShops(data))
+          .catch(err => {
+            console.error(err)
+            setMessage('Unable to get shops at location')
+          })
+      } else {
+        setMessage('Fetching location');
+        getLocation()
+          .then((position) => {
+            setMessage(null);
+            setLocation(position);
+            const positionOb = {latitude: position.latitude, longitude: position.longitude}
+            document.cookie = `location=${JSON.stringify(positionOb)}; path=/`;
+            return api.getShops(position);
+          })
+          .then(({ data }) => {
+            setShops(data);
+          })
+          .catch((err) => {
+            //TODO: catch separate error for location services earlier
+            console.error(err);
+            setMessage('Please enable location, or enter a location in the search!');
+          });
+      }
+    }
+  }, [document.cookie]);
 
   function isLoggedIn() {
     return cookies.username;
@@ -144,6 +157,7 @@ function App() {
       }
     }
     setCookies(newCookies);
+    return newCookies
   }
 
   return (
