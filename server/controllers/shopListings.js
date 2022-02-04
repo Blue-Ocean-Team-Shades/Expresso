@@ -3,7 +3,7 @@ const { findShops, findLocation, getPhotosOfShops } = require('../models');
 const { shopsRatingsQuery } = require('./shopRatings.js');
 const { shopsDrinksQuery } = require('./drinkMenu.js');
 
-const distanceToDestination = ({lat: lat1, lng: lng1}, {lat: lat2, lng: lng2}) => {
+const distanceToDestination = ({ lat: lat1, lng: lng1 }, { lat: lat2, lng: lng2 }) => {
   const earthRadius = 6371e3; // metres
   const lat1Rad = lat1 * Math.PI / 180;
   const lat2Rad = lat2 * Math.PI / 180;
@@ -11,8 +11,8 @@ const distanceToDestination = ({lat: lat1, lng: lng1}, {lat: lat2, lng: lng2}) =
   const deltaLng = (lng2 - lng1) * Math.PI / 180;
 
   const a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
-            Math.cos(lat1Rad) * Math.cos(lat2Rad) *
-            Math.sin(deltaLng / 2) * Math.sin(deltaLng / 2);
+    Math.cos(lat1Rad) * Math.cos(lat2Rad) *
+    Math.sin(deltaLng / 2) * Math.sin(deltaLng / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
   const distance = earthRadius * c / 1000; // km
@@ -35,7 +35,7 @@ const listsOfShops = async (query, location) => {
 const listsOfShopsByLocation = async (query, location) => {
 
   let locationString = location.split(' ').join('+');
-  let data =  await findLocation(locationString);
+  let data = await findLocation(locationString);
   const shops = await listsOfShops(query, data.results[0].geometry.location);
   for (const shop of shops) {
     shop.distance = distanceToDestination(data.results[0].geometry.location, shop.geometry.location)
@@ -44,11 +44,13 @@ const listsOfShopsByLocation = async (query, location) => {
 }
 
 const shopImage = async (shop) => {
-  let reference = shop.photos[0].photo_reference;
-
-  let imageURL = await getPhotosOfShops(reference);
-  return imageURL
-
+  if (shop.photos) {
+    let reference = shop.photos[0].photo_reference;
+    let imageURL = await getPhotosOfShops(reference);
+    return imageURL
+  } else {
+    return undefined;
+  }
 }
 
 //saturates shops with ratings and drinks
@@ -78,7 +80,7 @@ const addRatingsAndMenus = async (shops) => {
 
 const getShopList = async (req, res) => {
   let data;
-  if (req.body.customLocation){
+  if (req.body.customLocation) {
     data = await listsOfShopsByLocation('coffee shops', req.body.customLocation)
   } else {
     let jsonStr = req.body.location.replace('{', '{"').replaceAll(':', '":').replace(', l', ', "l');

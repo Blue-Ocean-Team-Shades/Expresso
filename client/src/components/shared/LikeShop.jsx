@@ -10,21 +10,34 @@ import starFull from '../../assets/star-full.svg';
 const StyledImg = styled.img`
   width: 1rem;
   height: 1rem;
-`
+`;
 
 const ButtonStar = styled(IconButton)`
   ${styleHighlightButton}
-  &&{
+  && {
     width: fit-content;
     height: fit-content;
     border-radius: 50%;
+    background-color: ${({ normalcolor }) => normalcolor};
+    :hover {
+      background-color: ${({ hoveredcolor }) => hoveredcolor};
+    }
     :disabled {
-      background-color: ${colors.highlightLight}
+      background-color: ${({ favoritecolor }) => favoritecolor || colors.highlightLight};
     }
   }
-`
+`;
 
-function LikeShop({ currentShop, cookies, isLoggedIn, favoriteShops, setFavoriteShops }) {
+function LikeShop({
+  currentShop,
+  cookies,
+  isLoggedIn,
+  favoriteShops,
+  setFavoriteShops,
+  normalcolor,
+  hoveredcolor,
+  favoritecolor,
+}) {
   if (!isLoggedIn()) return null;
 
   function likeHandler(e) {
@@ -41,9 +54,17 @@ function LikeShop({ currentShop, cookies, isLoggedIn, favoriteShops, setFavorite
   }
 
   if (favoriteShops[currentShop.place_id]) {
-    return <ButtonStar disabled={true}><StyledImg src={starFull} /></ButtonStar>;
+    return (
+      <ButtonStar favoritecolor={favoritecolor} disabled={true}>
+        <StyledImg src={starFull} />
+      </ButtonStar>
+    );
   }
-  return <ButtonStar onClick={likeHandler}><StyledImg src={starEmpty} /></ButtonStar>;
+  return (
+    <ButtonStar onClick={likeHandler} normalcolor={normalcolor} hoveredcolor={hoveredcolor}>
+      <StyledImg src={starEmpty} />
+    </ButtonStar>
+  );
 }
 
 export default LikeShop;

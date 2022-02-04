@@ -28,11 +28,11 @@ CREATE TABLE IF NOT EXISTS drinks (
 
 DROP TABLE IF EXISTS favorites;
 CREATE TABLE IF NOT EXISTS favorites (
-  id SERIAL NOT NULL,
+  id SERIAL NOT NULL PRIMARY KEY,
   isCoffee BOOLEAN NOT NULL,
-  user_id INT REFERENCES users(id),
+  user_id INT,
   place_id TEXT,
-  drink_id INT REFERENCES drinks(id)
+  drink_id INT
 );
 
 DROP TABLE IF EXISTS user_rated_drink;
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS user_rated_drink (
 DROP TABLE IF EXISTS user_rated_shop;
 CREATE TABLE IF NOT EXISTS user_rated_shop (
   id SERIAL PRIMARY KEY,
-  place_id INT REFERENCES shops(place_id),
+  place_id TEXT,
   user_id INT REFERENCES users(id),
   upvoted BOOLEAN DEFAULT false,
   downvoted BOOLEAN DEFAULT false

@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Input, FlexCol, AccentButton, FlexRow, Accent } from '../Styled.jsx';
+import {
+  Input,
+  FlexCol,
+  AccentButton,
+  FlexRow,
+  Accent,
+  colors,
+} from '../Styled.jsx';
 import api from '../../api.js';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
@@ -63,15 +70,24 @@ const RecommendLabel = styled(Accent)`
 
 const AddDrinkButton = styled(AccentButton)`
   && {
-    background-color: #621c15;
+    background-color: ${colors.mainDark};
     color: white;
+    &:hover {
+      background-color: ${colors.main};
+    }
   }
 `;
 
 const AddNewDrinkButton = styled(AccentButton)`
   && {
-    background-color: #621c15;
+    background-color: ${colors.mainDark};
     color: white;
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    border-radius: 13px;
+    &:hover {
+      background-color: ${colors.main};
+    }
     @media (max-width: 768px) {
       // position: fixed;
       // bottom: -4px;
