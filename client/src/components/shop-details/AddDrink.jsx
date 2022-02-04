@@ -82,6 +82,9 @@ const AddNewDrinkButton = styled(AccentButton)`
   && {
     background-color: ${colors.mainDark};
     color: white;
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    border-radius: 13px;
     &:hover {
       background-color: ${colors.main};
     }
