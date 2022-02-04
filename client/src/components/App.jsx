@@ -66,27 +66,27 @@ function App() {
     //hacky redundancy
     if (cookies.length === 0) {
       new Promise((resolve, reject) => {
-        if (newCookies.location) {
-          //TODO: periodically check for new location
-          const position = JSON.parse(newCookies.location);
-          setMessage(null);
-          setLocation(position);
-          resolve(position);
-        } else {
+        if (!newCookies.location) return resolve(false);
+        const position = JSON.parse(newCookies.location);
+        setMessage(null);
+        setLocation(position);
+        resolve(position);
+      })
+        .then((position) => {
+          if (position) return position;
           setMessage('Fetching location');
           return getLocation().then((position) => {
             setMessage(null);
             setLocation(position);
             const positionOb = { latitude: position.latitude, longitude: position.longitude };
+            //TODO: let the cookie expire periodically to get fresh location
             document.cookie = `location=${JSON.stringify(positionOb)}; path=/`;
-            resolve(position);
+            updateCookies();
+            return position;
           });
-        }
-      })
-        .then((position) => api.getShops(position))
-        .then(({ data }) => {
-          setShops(data);
         })
+        .then((position) => api.getShops(position))
+        .then(({ data }) => setShops(data))
         .catch((err) => {
           //TODO: catch separate error for location services earlier
           console.error(err);
