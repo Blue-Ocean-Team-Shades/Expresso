@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import TopBar from '../top-bar';
 import styled from 'styled-components';
+import { Switch, ToggleButtonGroup, ToggleButton } from '@mui/material/';
 import {
-  isMobile,
   Main,
   Background,
   Accent,
@@ -10,7 +10,9 @@ import {
   FlexRow,
   FlexCol,
   AccentButton,
+  styleHighlightButton,
   colors,
+  mobileWidth,
 } from '../Styled.jsx';
 import ShopEntry from './ShopEntry.jsx';
 
@@ -38,7 +40,6 @@ const Message = styled.div`
 const Shops = styled(Background)`
   display: flex;
   flex-direction: column;
-  height: 100%;
 `;
 
 const BackgroundGradient = styled.div`
@@ -49,12 +50,24 @@ const BackgroundGradient = styled.div`
   top: 100%;
 `;
 
-function sortFunc(sortBy) {
+const ToggleButtonAccent = styled(ToggleButton)`
+  ${styleHighlightButton}
+`;
+
+function sortFunc(sortBy, favoriteShops, sortByFavorite) {
+  let sortDown = true;
   if (sortBy.startsWith('-')) {
     sortBy = sortBy.substring(1);
-    return (a, b) => a[sortBy] - b[sortBy];
+    sortDown = false;
   }
-  return (a, b) => b[sortBy] - a[sortBy];
+  return (a, b) => {
+    if (sortByFavorite) {
+      if (favoriteShops[a.place_id] && !favoriteShops[b.place_id]) return -1;
+      if (!favoriteShops[a.place_id] && favoriteShops[b.place_id]) return 1;
+    }
+    if (sortDown) return a[sortBy] - b[sortBy];
+    return b[sortBy] - a[sortBy];
+  };
 }
 
 const defaultFilters = {
@@ -62,11 +75,11 @@ const defaultFilters = {
   distance: 1000,
 };
 
-function filter(list, filters, searchTerm) {
+function filter(list, searchTerm, cookies) {
   searchTerm = searchTerm.toLowerCase();
   return list.filter((shop) => {
     //TODO: return false if shop doesn't match customizable filter
-
+    if (!cookies.starbucks_allowed && shop.name === 'Starbucks') return false;
     if (searchTerm.length < 3) return true;
     if (shop.name.toLowerCase().includes(searchTerm)) return true;
     if (shop.drinks) {
@@ -89,54 +102,50 @@ function ShopsList({
   isLoggedIn,
   favoriteShops,
   setFavoriteShops,
+  mobile,
 }) {
-  const [sort, setSort] = useState('-distance');
-  const [filters, setFilters] = useState(defaultFilters);
+  const [sort, setSort] = useState('distance');
 
   return (
-    <Background>
-      {isFavorites ? 'TODO: filter by favorites' : null}
-      <FlexCol style={{ height: '100%' }}>
-        <FitWidth style={{ position: 'relative' }}>
+    <Background style={{ display: 'flex', overflow: 'hidden', flexDirection: 'column' }}>
+      <FitWidth style={{ position: 'relative' }}>
+        <FlexRow>
           <h1>Expresso</h1>
-          <BackgroundGradient />
-        </FitWidth>
-        {message ? (
-          <Message>{message}</Message>
-        ) : (
-          <Main style={{ flex: 1 }}>
-            <Shops>
-              {filter(shops, filters, searchTerm)
-                .sort(sortFunc(sort))
-                .map((shop) => (
-                  <ShopEntry
-                    shop={shop}
-                    key={shop.place_id}
-                    setCurrentShop={setCurrentShop}
-                    cookies={cookies}
-                    isLoggedIn={isLoggedIn}
-                    favoriteShops={favoriteShops}
-                    setFavoriteShops={setFavoriteShops}
-                  />
-                ))}
-            </Shops>
-            <div>
-              <FlexCol>
-                Sort by
-                <AccentButton disabled={sort === '-distance'} onClick={() => setSort('-distance')}>
-                  distance
-                </AccentButton>
-                <AccentButton disabled={sort === 'rating'} onClick={() => setSort('rating')}>
-                  rating
-                </AccentButton>
-                Show
-                <AccentButton>open</AccentButton>
-                <AccentButton>nearby</AccentButton>
-              </FlexCol>
-            </div>
+        </FlexRow>
+        <BackgroundGradient />
+      </FitWidth>
+      {message ? (
+        <Message>{message}</Message>
+      ) : (
+        <FlexCol style={{ overflow: 'auto', flex: 1, flexDirection: mobile ? 'column' : 'row', justifyContent:'center' }}>
+          <Main style={{ flex: 1, flexDirection: 'column', overflow: 'auto' }}>
+            {filter(shops, searchTerm, cookies)
+              .sort(sortFunc(sort, favoriteShops, !cookies.favorites_not_at_top))
+              .map((shop) => (
+                <ShopEntry
+                  shop={shop}
+                  key={shop.place_id}
+                  setCurrentShop={setCurrentShop}
+                  cookies={cookies}
+                  isLoggedIn={isLoggedIn}
+                  favoriteShops={favoriteShops}
+                  setFavoriteShops={setFavoriteShops}
+                  mobile={mobile}
+                />
+              ))}
           </Main>
-        )}
-      </FlexCol>
+          <ToggleButtonGroup
+            value={sort}
+            exclusive
+            onChange={(e) => setSort(e.target.value)}
+            style={{ alignSelf: mobile ? 'flex-end' : 'flex-start' }}
+            orientation={mobile ? 'horizontal' : 'vertical'}
+          >
+            <ToggleButtonAccent value='distance'>distance</ToggleButtonAccent>
+            <ToggleButtonAccent value='-rating'>rating</ToggleButtonAccent>
+          </ToggleButtonGroup>
+        </FlexCol>
+      )}
     </Background>
   );
 }
