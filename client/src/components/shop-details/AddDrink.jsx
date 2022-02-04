@@ -72,6 +72,12 @@ const AddNewDrinkButton = styled(AccentButton)`
   && {
     background-color: #621c15;
     color: white;
+    @media (max-width: 768px) {
+      // position: fixed;
+      // bottom: -4px;
+      padding: 10px 15px;
+      font-size: 1.2rem;
+    }
   }
 `;
 
