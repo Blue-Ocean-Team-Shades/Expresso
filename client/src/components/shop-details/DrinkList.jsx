@@ -44,7 +44,7 @@ const Column = styled(FlexCol)`
   flex-basis: 100%;
   flex: 1;
   margin: 4px;
-  border-radius: 5px;
+  border-radius: 20px;
   background-color: ${colors.mainDark};
   padding: 7px;
   color: white;
