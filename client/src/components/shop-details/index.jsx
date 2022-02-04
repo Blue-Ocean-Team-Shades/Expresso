@@ -145,6 +145,7 @@ function ShopDetails({
               isLoggedIn={isLoggedIn}
               favoriteShops={favoriteShops}
               setFavoriteShops={setFavoriteShops}
+              favoritecolor={colors.highlight}
             />
           </LikeShopRow>
           <DrinkList
