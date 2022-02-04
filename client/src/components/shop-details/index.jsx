@@ -59,6 +59,7 @@ const Inner = styled(FlexCol)`
   @media (max-width: 768px) {
     width: -webkit-fill-available;
     height: inherit;
+    border-radius: inherit;
   }
 `;
 
