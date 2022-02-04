@@ -25,6 +25,12 @@ const Em = styled.div`
   font-weight: 600;
 `
 
+const LikeStyled = styled(LikeShop)`
+  &&&& {
+    background-color: red;
+  }
+`
+
 function ShopEntry({ shop, setCurrentShop, cookies, isLoggedIn, favoriteShops, setFavoriteShops, mobile }) {
   const [hovered, setHovered] = useState(false);
 
@@ -68,7 +74,7 @@ function ShopEntry({ shop, setCurrentShop, cookies, isLoggedIn, favoriteShops, s
       </AccentButton>
       {mobile || showFavorite ? (
         <div style={{position: 'absolute', right:0}}>
-          <LikeShop
+          <LikeStyled
             currentShop={shop}
             cookies={cookies}
             isLoggedIn={isLoggedIn}
