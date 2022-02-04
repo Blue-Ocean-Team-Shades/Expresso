@@ -50,8 +50,9 @@ const InputArea = styled.div`
 
 export const Input = styled(TextField)`
   text-align: center;
-  height: 50%;
-  width: 50%;
+  @media screen and (max-width:900px) {
+    width: 85%;
+  }
 `;
 
 export const Button = styled.button`
