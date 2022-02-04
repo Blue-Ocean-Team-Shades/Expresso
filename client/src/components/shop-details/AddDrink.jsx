@@ -68,6 +68,19 @@ const AddDrinkButton = styled(AccentButton)`
   }
 `;
 
+const AddNewDrinkButton = styled(AccentButton)`
+  && {
+    background-color: #621c15;
+    color: white;
+    @media (max-width: 768px) {
+      // position: fixed;
+      // bottom: -4px;
+      padding: 10px 15px;
+      font-size: 1.2rem;
+    }
+  }
+`;
+
 const Form = styled.form`
   width: -webkit-fill-available;
 `;
@@ -85,6 +98,8 @@ function AddDrink({
   const [drinkValue, setDrinkValue] = useState('');
   const [priceValue, setPriceValue] = useState('');
   const [recommend, seRecommend] = React.useState(true);
+  const [isNewDrink, setIsNewDrink] = React.useState(true);
+  const [isAddDrink, setIsAddDrink] = React.useState(false);
   // const [checked, setChecked] = React.useState(true);
 
   const handleToggle = (event, newRecommend) => {
@@ -117,94 +132,71 @@ function AddDrink({
 
   const clickHandler = (event) => {
     event.preventDefault();
-    // add drink to database --> /drinkmenu
-    // // placeid, drink name, recommend
-    // setCurrentShop
-    // // get current shop info from database
-    // // setcurrentshop
+    if (drinkValue !== '') {
+      addDrinkItem(placeId)
+        .then(() => getDrinks())
+        .catch((err) => console.log(err));
+      resetInputFields();
+      setIsAddDrink(false);
+      setIsNewDrink(true);
+    }
+  };
 
-    addDrinkItem(placeId)
-      .then(() => getDrinks())
-      .catch((err) => console.log(err));
-    resetInputFields();
+  const NewDrinkClickHandler = (event) => {
+    event.preventDefault();
+    setIsAddDrink(true);
+    setIsNewDrink(false);
   };
 
   return !isLoggedIn() ? (
     ''
   ) : (
     <Col>
-      <DrinkInput>{placeholder}</DrinkInput>
-      <Form>
-        <Row>
-          <FlexCol>
-            <RecommendRow>
-              <DrinkName
-                required
-                placeholder='Drink Name'
-                value={drinkValue}
-                onChange={handleDrinkInput}
-                variant='standard'
-              />
-            </RecommendRow>
-          </FlexCol>
+      {/* <DrinkInput>{placeholder}</DrinkInput> */}
+      {!isNewDrink ? (
+        ''
+      ) : (
+        <AddNewDrinkButton type='button' onClick={NewDrinkClickHandler}>
+          Add New Drink
+        </AddNewDrinkButton>
+      )}
+      {!isAddDrink ? (
+        ''
+      ) : (
+        <Form>
+          <Row>
+            <FlexCol>
+              <RecommendRow>
+                <DrinkName
+                  required
+                  placeholder='Drink Name'
+                  value={drinkValue}
+                  onChange={handleDrinkInput}
+                  variant='standard'
+                />
+              </RecommendRow>
+            </FlexCol>
 
-          <FlexCol>
-            <RecommendLabel>Recommend?</RecommendLabel>
-            <RecommendRow>
-              <RecommendSwitch
-                // {...label}
-                defaultChecked
-                value={recommend}
-                onChange={handleToggle}
-                color='primary'
-              />
-            </RecommendRow>
-          </FlexCol>
-          <AddDrinkButton type='submit' onClick={clickHandler}>
-            Add Drink
-          </AddDrinkButton>
-        </Row>
-      </Form>
+            <FlexCol>
+              <RecommendLabel>Recommend?</RecommendLabel>
+              <RecommendRow>
+                <RecommendSwitch
+                  // {...label}
+                  defaultChecked
+                  value={recommend}
+                  onChange={handleToggle}
+                  color='primary'
+                />
+              </RecommendRow>
+            </FlexCol>
+            <AddDrinkButton type='submit' onClick={clickHandler}>
+              Add Drink
+            </AddDrinkButton>
+          </Row>
+        </Form>
+      )}
     </Col>
   );
 }
 
 export default AddDrink;
-
-/* <DrinkName
-          placeholder='Drink Name'
-          value={drinkValue}
-          onChange={handleDrinkInput}
-        /> */
-/* <AddDrinkButton onClick={clickHandler}>Add Drink</AddDrinkButton> */
-
-/* <FlexCol>
-          <label>Recommend?</label>
-          <RecommendRow>
-            <AddDrinkButton onClick={clickHandler}>Yes</AddDrinkButton>
-            <AddDrinkButton onClick={clickHandler}>No</AddDrinkButton>
-          </RecommendRow>
-        </FlexCol> */
-
-/*
- <DrinkPrice
-          type='number'
-          placeholder='Price'
-          value={priceValue}
-          onChange={handlePriceInput}
-        />
-*/
-
-/* yes not toggles
-
-   <ToggleButtonGroup
-                color='primary'
-                value={recommend}
-                exclusive
-                onChange={handleToggle}
-              >
-                <ToggleButton value={true}>Yes</ToggleButton>
-                <ToggleButton value={false}>No</ToggleButton>
-              </ToggleButtonGroup>
-
-*/

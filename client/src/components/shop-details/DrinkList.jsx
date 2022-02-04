@@ -14,7 +14,16 @@ const Container = styled(Accent)`
   overflow: auto;
   height: inherit;
   // border: gray solid 1px;
+
   margin: 2vw;
+  // max-height: fit-content;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    margin: 2vw 5vw;
+    height: 60vh;
+    margin-bottom: 5vh;
+  }
 `;
 
 // change flex direction to column  for mobile

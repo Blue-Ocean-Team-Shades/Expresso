@@ -44,6 +44,7 @@ const Container = styled(FlexRow)`
     -webkit-transform: translateX(-50%);
     -ms-transform: translateX(-50%);
     transform: inherit;
+    height: inherit;
   }
 `;
 
