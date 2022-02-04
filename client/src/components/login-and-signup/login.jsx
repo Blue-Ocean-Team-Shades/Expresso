@@ -28,7 +28,7 @@ export const Container = styled.div`
   z-index: 200;
   position:fixed;
   text-align: center;
-  background-color: ${colors.mainLight};
+  background-color: ${colors.highlightLight};
   width: 35%;
   height: 38%;
   top:50%;
