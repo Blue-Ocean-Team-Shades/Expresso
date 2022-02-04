@@ -8,12 +8,12 @@ const Login = ({ usernameChange, passwordChange, submitLogin, signUp, usernameEr
     <Container>
       <div>
         <InputArea>
-          {usernameErr === false && <Input className='loginUser' fullWidth label='username' type="text" onChange={usernameChange}></Input>}
-          {usernameErr === true && <Input error className='loginUser' fullWidth label='username' type="text" onChange={usernameChange} helperText='username not exist'></Input>}
+          {usernameErr === false && <Input className='loginUser' label='username' type="text" onChange={usernameChange}></Input>}
+          {usernameErr === true && <Input error className='loginUser' label='username' type="text" onChange={usernameChange} ></Input>}
         </InputArea>
         <InputArea>
           {passwordErr === false && <Input className='loginPassword' label='password' type="password" onChange={passwordChange}></Input>}
-          {passwordErr === true && <Input error className='loginPassword' label='password' type="password" onChange={passwordChange} helperText='password is incorrect'></Input>}
+          {passwordErr === true && <Input error className='loginPassword' label='password' type="password" onChange={passwordChange} helperText='username or password is incorrect'></Input>}
         </InputArea>
         <div>
           <Button onClick={submitLogin}>Log in</Button>
@@ -28,7 +28,7 @@ export const Container = styled.div`
   z-index: 200;
   position:fixed;
   text-align: center;
-  background-color: ${colors.mainLight};
+  background-color: ${colors.highlightLight};
   width: 35%;
   height: 38%;
   top:50%;

@@ -27,7 +27,7 @@ const Register = ({ logIn, signUp, signUpName, signUpPassword, confirmPassword, 
 
 const InputArea = styled.div`
   margin: 3% 5% 0% 5%;
-`
+`;
 
 const Login = styled.p`
   font-size: 20px;
