@@ -29,7 +29,7 @@ const TitleColumn = styled(FlexCol)`
 
 const TitleText = styled(Accent)`
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 2rem;
 `;
 
 const Text = styled(Accent)`
