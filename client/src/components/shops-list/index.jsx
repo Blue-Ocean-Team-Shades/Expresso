@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TopBar from '../top-bar';
 import styled from 'styled-components';
-import { Switch } from '@mui/material/';
+import { Switch, ToggleButtonGroup, ToggleButton } from '@mui/material/';
 import {
   isMobile,
   Main,
@@ -39,7 +39,6 @@ const Message = styled.div`
 const Shops = styled(Background)`
   display: flex;
   flex-direction: column;
-  height: 100%;
 `;
 
 const BackgroundGradient = styled.div`
@@ -104,15 +103,18 @@ function ShopsList({
   return (
     <Background>
       {isFavorites ? 'TODO: filter by favorites' : null}
-      <FlexCol style={{ height: '100%' }}>
+      <FlexCol style={{ height: '100%', maxHeight:'100%' }}>
         <FitWidth style={{ position: 'relative' }}>
+          <FlexRow>
           <h1>Expresso</h1>
+          <AccentButton>Sort</AccentButton>
+          </FlexRow>
           <BackgroundGradient />
         </FitWidth>
         {message ? (
           <Message>{message}</Message>
         ) : (
-          <Main style={{ flex: 1 }}>
+          <Main style={{ flex: 1, flexDirection: 'column', overflow: 'auto' }}>
             <Shops>
               {filter(shops, searchTerm, cookies)
                 .sort(sortFunc(sort, favoriteShops, !cookies.favorites_not_at_top))
@@ -128,17 +130,14 @@ function ShopsList({
                   />
                 ))}
             </Shops>
-            <div>
-              <FlexCol>
-                Sort by
-                <AccentButton disabled={sort === 'distance'} onClick={() => setSort('distance')}>
-                  distance
-                </AccentButton>
-                <AccentButton disabled={sort === '-rating'} onClick={() => setSort('-rating')}>
-                  rating
-                </AccentButton>
-              </FlexCol>
-            </div>
+            <ToggleButtonGroup value={sort} exclusive onChange={(e) => setSort(e.target.value)}>
+              <ToggleButton value='distance'>
+                distance
+              </ToggleButton>
+              <ToggleButton value='-rating'>
+                rating
+              </ToggleButton>
+            </ToggleButtonGroup>
           </Main>
         )}
       </FlexCol>
