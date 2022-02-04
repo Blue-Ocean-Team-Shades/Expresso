@@ -19,6 +19,9 @@ const http = require('http')
 const https = require('https')
 let secure = false;
 
+let httpServer;
+let httpsServer;
+
 if (fs.existsSync('/etc/letsencrypt/live/thebest.graphics/privkey.pem') && fs.existsSync('/etc/letsencrypt/live/thebest.graphics/fullchain.pem')) {
   port = 80;
   secure = true;
@@ -26,8 +29,8 @@ if (fs.existsSync('/etc/letsencrypt/live/thebest.graphics/privkey.pem') && fs.ex
   const certificate = fs.readFileSync('/etc/letsencrypt/live/thebest.graphics/fullchain.pem')
   const credientials = {key: privateKey, cert: certificate}
 
-  const httpServer = http.createServer(app)
-  const httpsServer = https.createServer(credientials, app)
+  httpServer = http.createServer(app)
+  httpsServer = https.createServer(credientials, app)
   app.enable('trust proxy')
   app.use(function(request, response, next) {
 
