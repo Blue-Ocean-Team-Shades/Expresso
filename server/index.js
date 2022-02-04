@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const port = 80;
+let port = 3000;
 const path = require('path');
 const { pool } = require('../database');
 const utils = require('./hashUtils.js');
@@ -20,6 +20,7 @@ const https = require('https')
 let secure = false;
 
 if (fs.existsSync('/etc/letsencrypt/live/thebest.graphics/privkey.pem') && fs.existsSync('/etc/letsencrypt/live/thebest.graphics/fullchain.pem')) {
+  port = 80;
   secure = true;
   const privateKey = fs.readFileSync('/etc/letsencrypt/live/thebest.graphics/privkey.pem')
   const certificate = fs.readFileSync('/etc/letsencrypt/live/thebest.graphics/fullchain.pem')
