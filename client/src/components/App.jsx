@@ -63,8 +63,10 @@ function App() {
 
   useEffect(() => {
     const newCookies = updateCookies()
+    //hacky redundancy
     if (cookies.length === 0) {
       if (newCookies.location) {
+        //TODO: periodically check for new location
         const position = JSON.parse(newCookies.location)
         setMessage(null);
         setLocation(position)
