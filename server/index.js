@@ -17,24 +17,29 @@ const { getShopList, getShopImage } = require('./controllers/shopListings');
 const fs = require('fs')
 const http = require('http')
 const https = require('https')
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/thebest.graphics/privkey.pem')
-const certificate = fs.readFileSync('/etc/letsencrypt/live/thebest.graphics/fullchain.pem')
-const credientials = {key: privateKey, cert: certificate}
+let secure = false;
 
-const httpServer = http.createServer(app)
-const httpsServer = https.createServer(credientials, app)
+if (fs.existsSync('/etc/letsencrypt/live/thebest.graphics/privkey.pem') && fs.existsSync('/etc/letsencrypt/live/thebest.graphics/fullchain.pem')) {
+  secure = true;
+  const privateKey = fs.readFileSync('/etc/letsencrypt/live/thebest.graphics/privkey.pem')
+  const certificate = fs.readFileSync('/etc/letsencrypt/live/thebest.graphics/fullchain.pem')
+  const credientials = {key: privateKey, cert: certificate}
+
+  const httpServer = http.createServer(app)
+  const httpsServer = https.createServer(credientials, app)
+  app.enable('trust proxy')
+  app.use(function(request, response, next) {
+
+      if (process.env.NODE_ENV != 'development' && !request.secure) {
+         return response.redirect("https://" + request.headers.host + request.url);
+      }
+
+      next();
+  })
+}
 
 app.use(express.json());
 app.use(express.urlencoded());
-app.enable('trust proxy')
-app.use(function(request, response, next) {
-
-    if (process.env.NODE_ENV != 'development' && !request.secure) {
-       return response.redirect("https://" + request.headers.host + request.url);
-    }
-
-    next();
-})
 app.use(session({
   store: new store({
     pool: pool,
@@ -118,10 +123,16 @@ app.get('/cookiedata', (req, res) => {
     .catch(err => res.status(500).send(err));
 });
 
-//////////////////////////////////////////////////
-httpServer.listen(port, () => {
-  console.log(`Server listening at http://localhost:${port}`);
-});
-httpsServer.listen(443, () => {
-  console.log('listening securely on port 443')
-});
+if (secure) {
+  //////////////////////////////////////////////////
+  httpServer.listen(port, () => {
+    console.log(`Server listening at http://localhost:${port}`);
+  });
+  httpsServer.listen(443, () => {
+    console.log('listening securely on port 443')
+  });
+} else {
+  app.listen(port, () => {
+    console.log(`Server listening at http://localhost:${port} ... no HTTPS in this one!`);
+  });
+}
