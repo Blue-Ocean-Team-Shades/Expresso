@@ -9,3 +9,8 @@
   padding: 0;
   margin: inherit;
 }
+
+h1 {
+  font-family: 'Cookie', cursive;
+  font-size: 4.5em;
+}
