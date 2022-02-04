@@ -9,11 +9,11 @@ const Login = ({ usernameChange, passwordChange, submitLogin, signUp, usernameEr
       <div>
         <InputArea>
           {usernameErr === false && <Input className='loginUser' label='username' type="text" onChange={usernameChange}></Input>}
-          {usernameErr === true && <Input error className='loginUser' label='username' type="text" onChange={usernameChange} helperText='username not exist'></Input>}
+          {usernameErr === true && <Input error className='loginUser' label='username' type="text" onChange={usernameChange} ></Input>}
         </InputArea>
         <InputArea>
           {passwordErr === false && <Input className='loginPassword' label='password' type="password" onChange={passwordChange}></Input>}
-          {passwordErr === true && <Input error className='loginPassword' label='password' type="password" onChange={passwordChange} helperText='password is incorrect'></Input>}
+          {passwordErr === true && <Input error className='loginPassword' label='password' type="password" onChange={passwordChange} helperText='username or password is incorrect'></Input>}
         </InputArea>
         <div>
           <Button onClick={submitLogin}>Log in</Button>

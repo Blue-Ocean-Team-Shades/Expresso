@@ -62,9 +62,11 @@ function LoginAndSignup({ isLogin, isSignup, cookies, updateCookies }) {
         .catch((err) => {
           if (err.response.status === 404) {
             setUsernameErr(true);
+            setPasswordErr(true);
             // document.getElementsByClassName('loginUser')[0].style.border = '1px solid red';
           }
           if (err.response.status === 400) {
+            setUsernameErr(true);
             setPasswordErr(true);
             // document.getElementsByClassName('loginPassword')[0].style.border = '1px solid red';
           }
