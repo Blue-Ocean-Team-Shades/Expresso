@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const port = 3000;
+const port = 80;
 const path = require('path');
 const { pool } = require('../database');
 const utils = require('./hashUtils.js');
@@ -14,8 +14,27 @@ const { addShopRating, getShopRatings } = require('./controllers/shopRatings');
 const { addUserFavorite, getUserFavorites } = require('./controllers/userFavorites');
 const { getShopList, getShopImage } = require('./controllers/shopListings');
 
+const fs = require('fs')
+const http = require('http')
+const https = require('https')
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/thebest.graphics/privkey.pem')
+const certificate = fs.readFileSync('/etc/letsencrypt/live/thebest.graphics/fullchain.pem')
+const credientials = {key: privateKey, cert: certificate}
+
+const httpServer = http.createServer(app)
+const httpsServer = https.createServer(credientials, app)
+
 app.use(express.json());
 app.use(express.urlencoded());
+app.enable('trust proxy')
+app.use(function(request, response, next) {
+
+    if (process.env.NODE_ENV != 'development' && !request.secure) {
+       return response.redirect("https://" + request.headers.host + request.url);
+    }
+
+    next();
+})
 app.use(session({
   store: new store({
     pool: pool,
@@ -100,7 +119,9 @@ app.get('/cookiedata', (req, res) => {
 });
 
 //////////////////////////////////////////////////
-
-app.listen(port, () => {
+httpServer.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
+});
+httpsServer.listen(443, () => {
+  console.log('listening securely on port 443')
 });
