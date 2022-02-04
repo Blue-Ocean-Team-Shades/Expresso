@@ -3,7 +3,6 @@ import TopBar from '../top-bar';
 import styled from 'styled-components';
 import { Switch, ToggleButtonGroup, ToggleButton } from '@mui/material/';
 import {
-  isMobile,
   Main,
   Background,
   Accent,
@@ -11,7 +10,9 @@ import {
   FlexRow,
   FlexCol,
   AccentButton,
+  styleHighlightButton,
   colors,
+  mobileWidth,
 } from '../Styled.jsx';
 import ShopEntry from './ShopEntry.jsx';
 
@@ -49,6 +50,10 @@ const BackgroundGradient = styled.div`
   top: 100%;
 `;
 
+const ToggleButtonAccent = styled(ToggleButton)`
+  ${styleHighlightButton}
+`;
+
 function sortFunc(sortBy, favoriteShops, sortByFavorite) {
   let sortDown = true;
   if (sortBy.startsWith('-')) {
@@ -57,8 +62,8 @@ function sortFunc(sortBy, favoriteShops, sortByFavorite) {
   }
   return (a, b) => {
     if (sortByFavorite) {
-      if (favoriteShops[a.place_id] && !favoriteShops[b.place_id]) return - 1;
-      if (!favoriteShops[a.place_id] && favoriteShops[b.place_id]) return 1 ;
+      if (favoriteShops[a.place_id] && !favoriteShops[b.place_id]) return -1;
+      if (!favoriteShops[a.place_id] && favoriteShops[b.place_id]) return 1;
     }
     if (sortDown) return a[sortBy] - b[sortBy];
     return b[sortBy] - a[sortBy];
@@ -97,50 +102,50 @@ function ShopsList({
   isLoggedIn,
   favoriteShops,
   setFavoriteShops,
+  mobile,
 }) {
   const [sort, setSort] = useState('distance');
 
   return (
-    <Background>
-      {isFavorites ? 'TODO: filter by favorites' : null}
-      <FlexCol style={{ height: '100%', maxHeight:'100%' }}>
-        <FitWidth style={{ position: 'relative' }}>
-          <FlexRow>
+    <Background style={{ display: 'flex', overflow: 'hidden', flexDirection: 'column' }}>
+      <FitWidth style={{ position: 'relative' }}>
+        <FlexRow>
           <h1>Expresso</h1>
-          <AccentButton>Sort</AccentButton>
-          </FlexRow>
-          <BackgroundGradient />
-        </FitWidth>
-        {message ? (
-          <Message>{message}</Message>
-        ) : (
+        </FlexRow>
+        <BackgroundGradient />
+      </FitWidth>
+      {message ? (
+        <Message>{message}</Message>
+      ) : (
+        <FlexCol style={{ overflow: 'auto', flex: 1, flexDirection: mobile ? 'column' : 'row', justifyContent:'center' }}>
           <Main style={{ flex: 1, flexDirection: 'column', overflow: 'auto' }}>
-            <Shops>
-              {filter(shops, searchTerm, cookies)
-                .sort(sortFunc(sort, favoriteShops, !cookies.favorites_not_at_top))
-                .map((shop) => (
-                  <ShopEntry
-                    shop={shop}
-                    key={shop.place_id}
-                    setCurrentShop={setCurrentShop}
-                    cookies={cookies}
-                    isLoggedIn={isLoggedIn}
-                    favoriteShops={favoriteShops}
-                    setFavoriteShops={setFavoriteShops}
-                  />
-                ))}
-            </Shops>
-            <ToggleButtonGroup value={sort} exclusive onChange={(e) => setSort(e.target.value)}>
-              <ToggleButton value='distance'>
-                distance
-              </ToggleButton>
-              <ToggleButton value='-rating'>
-                rating
-              </ToggleButton>
-            </ToggleButtonGroup>
+            {filter(shops, searchTerm, cookies)
+              .sort(sortFunc(sort, favoriteShops, !cookies.favorites_not_at_top))
+              .map((shop) => (
+                <ShopEntry
+                  shop={shop}
+                  key={shop.place_id}
+                  setCurrentShop={setCurrentShop}
+                  cookies={cookies}
+                  isLoggedIn={isLoggedIn}
+                  favoriteShops={favoriteShops}
+                  setFavoriteShops={setFavoriteShops}
+                  mobile={mobile}
+                />
+              ))}
           </Main>
-        )}
-      </FlexCol>
+          <ToggleButtonGroup
+            value={sort}
+            exclusive
+            onChange={(e) => setSort(e.target.value)}
+            style={{ alignSelf: mobile ? 'flex-end' : 'flex-start' }}
+            orientation={mobile ? 'horizontal' : 'vertical'}
+          >
+            <ToggleButtonAccent value='distance'>distance</ToggleButtonAccent>
+            <ToggleButtonAccent value='-rating'>rating</ToggleButtonAccent>
+          </ToggleButtonGroup>
+        </FlexCol>
+      )}
     </Background>
   );
 }

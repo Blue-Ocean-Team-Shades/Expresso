@@ -25,7 +25,7 @@ const Em = styled.div`
   font-weight: 600;
 `
 
-function ShopEntry({ shop, setCurrentShop, cookies, isLoggedIn, favoriteShops, setFavoriteShops }) {
+function ShopEntry({ shop, setCurrentShop, cookies, isLoggedIn, favoriteShops, setFavoriteShops, mobile }) {
   const [hovered, setHovered] = useState(false);
 
   const navigate = useNavigate();
@@ -35,6 +35,8 @@ function ShopEntry({ shop, setCurrentShop, cookies, isLoggedIn, favoriteShops, s
   }
 
   const mi = cookies.units_miles ? 0.621371 : 1;
+
+  const showFavorite = favoriteShops[shop.place_id] || hovered;
 
   return (
     <FlexRow
@@ -62,15 +64,18 @@ function ShopEntry({ shop, setCurrentShop, cookies, isLoggedIn, favoriteShops, s
             </div>
           </FlexRow>
         </FlexCol>
+        {mobile ? <div style={{width: '3rem'}} />: null}
       </AccentButton>
-      {favoriteShops[shop.place_id] || hovered ? (
-        <LikeShop
-          currentShop={shop}
-          cookies={cookies}
-          isLoggedIn={isLoggedIn}
-          favoriteShops={favoriteShops}
-          setFavoriteShops={setFavoriteShops}
-        />
+      {mobile || showFavorite ? (
+        <div style={{position: 'absolute', right:0}}>
+          <LikeShop
+            currentShop={shop}
+            cookies={cookies}
+            isLoggedIn={isLoggedIn}
+            favoriteShops={favoriteShops}
+            setFavoriteShops={setFavoriteShops}
+          />
+        </div>
       ) : null}
     </FlexRow>
   );

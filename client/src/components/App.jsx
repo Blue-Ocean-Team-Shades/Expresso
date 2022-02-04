@@ -1,4 +1,4 @@
-import Styled from './Styled.jsx';
+import Styled, {isMobile} from './Styled.jsx';
 import styled from 'styled-components';
 import React, { useState, useEffect, useMemo } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -52,6 +52,14 @@ function App() {
   const [cookies, setCookies] = useState([]);
   const [favoriteShops, setFavoriteShops] = useState({});
   const [favoriteDrinks, setFavoriteDrinks] = useState({});
+  const [mobile, setMobile] = useState(false);
+
+  useEffect(() => {
+    setMobile(isMobile())
+    window.addEventListener('resize', () => {
+      setMobile(isMobile())
+    })
+  }, [])
 
   useEffect(() => {
     updateCookies();
@@ -166,6 +174,7 @@ function App() {
                     isLoggedIn={isLoggedIn}
                     favoriteShops={favoriteShops}
                     setFavoriteShops={setFavoriteShops}
+                    mobile={mobile}
                   />
                 }
               />
