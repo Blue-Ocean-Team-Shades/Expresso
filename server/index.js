@@ -38,7 +38,6 @@ app.use('/', express.static(path.resolve(__dirname, staticPath)));
 app.use('/details', express.static(path.resolve(__dirname, staticPath)));
 app.use('/login', express.static(path.resolve(__dirname, staticPath)));
 app.use('/signup', express.static(path.resolve(__dirname, staticPath)));
-app.use('/favorites', express.static(path.resolve(__dirname, staticPath)));
 
 /////////////* USER ACCOUNT ROUTES *////////////////
 

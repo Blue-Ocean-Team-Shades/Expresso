@@ -1,4 +1,4 @@
-import Styled from './Styled.jsx';
+import Styled, {isMobile} from './Styled.jsx';
 import styled from 'styled-components';
 import React, { useState, useEffect, useMemo } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -11,8 +11,6 @@ import api from '../api.js';
 const BodyMain = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  overflow: auto;
 `;
 
 function getLocation() {
@@ -52,8 +50,16 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchLocation, setSearchLocation] = useState('');
   const [cookies, setCookies] = useState([]);
-  const [favoriteShops, setFavoriteShops] = useState([]);
-  const [favoriteDrinks, setFavoriteDrinks] = useState([]);
+  const [favoriteShops, setFavoriteShops] = useState({});
+  const [favoriteDrinks, setFavoriteDrinks] = useState({});
+  const [mobile, setMobile] = useState(false);
+
+  useEffect(() => {
+    setMobile(isMobile())
+    window.addEventListener('resize', () => {
+      setMobile(isMobile())
+    })
+  }, [])
 
   useEffect(() => {
     updateCookies();
@@ -122,8 +128,17 @@ function App() {
             return api.getUserFavorites(response.user_id);
           })
           .then(({data}) => {
-            setFavoriteShops(data.favoriteShops);
-            setFavoriteDrinks(data.favoriteDrinks);
+            const newFavoriteShops = {};
+            for (const shop of data.favoriteShops) {
+              newFavoriteShops[shop.place_id] = true;
+            }
+            setFavoriteShops(newFavoriteShops);
+            const newFavoriteDrinks = {}
+            for (const drink of data.favoriteDrinks) {
+              if (!newFavoriteDrinks[drink.place_id]) newFavoriteDrinks[drink.place_id] = {};
+              newFavoriteDrinks[drink.place_id][drink.drink_id] = true;
+            }
+            setFavoriteDrinks(newFavoriteDrinks);
           })
           .catch((err) => console.log(err));
       }
@@ -132,75 +147,67 @@ function App() {
   }
 
   return (
-    <BrowserRouter style={{ height: '100vh' }}>
-      <BodyMain>
-        <TopBar
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          searchLocation={searchLocation}
-          setSearchLocation={setSearchLocation}
-          submitSearch={submitSearch}
-          cookies={cookies}
-          updateCookies={updateCookies}
-          isLoggedIn={isLoggedIn}
-        />
-        <Routes>
-          <Route
-            path='/'
-            element={
-              <ShopsList
-                shops={shops}
-                setCurrentShop={setCurrentShop}
-                message={message}
-                searchTerm={searchTerm}
-                cookies={cookies}
-                isLoggedIn={isLoggedIn}
-                favoriteShops={favoriteShops}
-                setFavoriteShops={setFavoriteShops}
+    <BrowserRouter>
+      <div style={{ height: '100vh', width:'100vw', maxHeight: '100vh', display: 'flex' }}>
+        <div style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
+          <TopBar
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            searchLocation={searchLocation}
+            setSearchLocation={setSearchLocation}
+            submitSearch={submitSearch}
+            cookies={cookies}
+            updateCookies={updateCookies}
+            isLoggedIn={isLoggedIn}
+          />
+          <div style={{flex: 1, overflow:'auto'}}>
+            <Routes>
+              <Route
+                path='/'
+                element={
+                  <ShopsList
+                    shops={shops}
+                    setCurrentShop={setCurrentShop}
+                    message={message}
+                    searchTerm={searchTerm}
+                    cookies={cookies}
+                    isLoggedIn={isLoggedIn}
+                    favoriteShops={favoriteShops}
+                    setFavoriteShops={setFavoriteShops}
+                    mobile={mobile}
+                  />
+                }
               />
-            }
-          />
-          <Route
-            path='/details'
-            element={
-              <ShopDetails
-                shops={shops}
-                setCurrentShop={setCurrentShop}
-                currentShop={currentShop}
-                shops={shops}
-                setShops={setShops}
-                cookies={cookies}
-                isLoggedIn={isLoggedIn}
-                favoriteShops={favoriteShops}
-                setFavoriteShops={setFavoriteShops}
+              <Route
+                path='/details'
+                element={
+                  <ShopDetails
+                    shops={shops}
+                    setCurrentShop={setCurrentShop}
+                    currentShop={currentShop}
+                    shops={shops}
+                    setShops={setShops}
+                    cookies={cookies}
+                    isLoggedIn={isLoggedIn}
+                    favoriteShops={favoriteShops}
+                    setFavoriteShops={setFavoriteShops}
+                  />
+                }
               />
-            }
-          />
-          <Route
-            path='/login'
-            element={<LoginSignup isLogin={true} cookies={cookies} updateCookies={updateCookies} />}
-          />
-          <Route
-            path='/signup'
-            element={
-              <LoginSignup isSignup={true} cookies={cookies} updateCookies={updateCookies} />
-            }
-          />
-          <Route
-            path='/favorites'
-            element={
-              <ShopsList
-                isFavorites={true}
-                shops={shops}
-                setCurrentShop={setCurrentShop}
-                message={message}
-                searchTerm={searchTerm}
-                cookies={cookies}
+              <Route
+                path='/login'
+                element={<LoginSignup isLogin={true} cookies={cookies} updateCookies={updateCookies} />}
               />
-            }
-          />
-        </Routes>
-      </BodyMain>
+              <Route
+                path='/signup'
+                element={
+                  <LoginSignup isSignup={true} cookies={cookies} updateCookies={updateCookies} />
+                }
+              />
+            </Routes>
+          </div>
+        </div>
+      </div>
     </BrowserRouter>
   );
 }

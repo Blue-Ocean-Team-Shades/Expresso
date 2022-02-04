@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import {
   Background,
@@ -20,14 +20,14 @@ const HighlightDot = styled.div`
   content: '&nbsp;';
 `;
 
-function ShopEntry({
-  shop,
-  setCurrentShop,
-  cookies,
-  isLoggedIn,
-  favoriteShops,
-  setFavoriteShops,
-}) {
+const Em = styled.div`
+  font-size: 1.1em;
+  font-weight: 600;
+`
+
+function ShopEntry({ shop, setCurrentShop, cookies, isLoggedIn, favoriteShops, setFavoriteShops, mobile }) {
+  const [hovered, setHovered] = useState(false);
+
   const navigate = useNavigate();
   function viewShop() {
     setCurrentShop(shop);
@@ -36,27 +36,48 @@ function ShopEntry({
 
   const mi = cookies.units_miles ? 0.621371 : 1;
 
+  const showFavorite = favoriteShops[shop.place_id] || hovered;
+
   return (
-    <div>
-      <AccentButton onClick={() => viewShop(shop)}>
-        <div>
-          <em>{shop.name}</em>
-        </div>
-        <HighlightDot />
-        <div>Rating: {shop.rating}</div>
-        <HighlightDot />
-        <div>
-          Distance: {Math.round(shop.distance * mi * 10) / 10} {cookies.units_miles ? ' mi' : ' km'}
-        </div>
+    <FlexRow
+      style={{ alignItems: 'center' }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <AccentButton onClick={() => viewShop(shop)} style={{ flex: 1 }}>
+        <FlexCol style={{ margin: 0, width: '100%' }}>
+          <FlexRow style={{ justifyContent: 'center', alignItems: 'center', margin:0 }}>
+            <HighlightDot />
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <Em>{shop.name}</Em>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+               <HighlightDot />
+          </FlexRow>
+          <FlexRow style={{ justifyContent: 'center', alignItems: 'center', margin:0 }}>
+            <div style={{flex: 1, textAlign: 'end'}}>Rating: {shop.rating}</div>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <HighlightDot />
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <div style={{flex: 1, textAlign: 'start'}}>
+              Distance: {Math.round(shop.distance * mi * 10) / 10}{' '}
+              {cookies.units_miles ? ' mi' : ' km'}
+            </div>
+          </FlexRow>
+        </FlexCol>
+        {mobile ? <div style={{width: '3rem'}} />: null}
       </AccentButton>
-      <LikeShop
-        currentShop={shop}
-        cookies={cookies}
-        isLoggedIn={isLoggedIn}
-        favoriteShops={favoriteShops}
-        setFavoriteShops={setFavoriteShops}
-      />
-    </div>
+      {mobile || showFavorite ? (
+        <div style={{position: 'absolute', right:0}}>
+          <LikeShop
+            currentShop={shop}
+            cookies={cookies}
+            isLoggedIn={isLoggedIn}
+            favoriteShops={favoriteShops}
+            setFavoriteShops={setFavoriteShops}
+          />
+        </div>
+      ) : null}
+    </FlexRow>
   );
 }
 
