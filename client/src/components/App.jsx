@@ -49,7 +49,7 @@ function App() {
   const [message, setMessage] = useState('loading');
   const [searchTerm, setSearchTerm] = useState('');
   const [searchLocation, setSearchLocation] = useState('');
-  const [cookies, setCookies] = useState([]);
+  const [cookies, setCookies] = useState({init: false});
   const [favoriteShops, setFavoriteShops] = useState({});
   const [favoriteDrinks, setFavoriteDrinks] = useState({});
   const [mobile, setMobile] = useState(false);
@@ -64,7 +64,7 @@ function App() {
   useEffect(() => {
     const newCookies = updateCookies();
     //hacky redundancy
-    if (cookies.length === 0) {
+    if (cookies.init === false) {
       new Promise((resolve, reject) => {
         if (!newCookies.location) return resolve(false);
         const position = JSON.parse(newCookies.location);
