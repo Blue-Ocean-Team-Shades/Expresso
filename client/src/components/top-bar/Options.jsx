@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FlexRow, FlexCol, colors, AccentButton, styleAccentButton } from '../Styled.jsx';
 import { useNavigate } from 'react-router-dom';
-import Menu from '@mui/material/Menu';
-import { MenuItem, Collapse, IconButton, Switch } from '@mui/material/';
+import { Menu, MenuItem, Collapse, IconButton, Switch } from '@mui/material/';
 import hamburger from '../../assets/hamburger.svg';
 import hamburgerOpen from '../../assets/hamburgerOpen.svg';
 import api from '../../api.js';
@@ -95,11 +94,11 @@ function Options({ cookies, updateCookies, isLoggedIn }) {
     api.logOut(updateCookies);
   }
 
-  function toggleDistanceUnits() {
-    if (cookies.units_miles) {
-      document.cookie = 'units_miles=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  function toggleCookie(cookieName) {
+    if (cookies[cookieName]) {
+      document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
     } else {
-      document.cookie = 'units_miles=true; path=/';
+      document.cookie = `${cookieName}=true; path=/`;
     }
     updateCookies();
   }
@@ -123,15 +122,30 @@ function Options({ cookies, updateCookies, isLoggedIn }) {
             {isLoggedIn() ? (
               <div style={{ textAlign: 'center' }}>Welcome, {cookies.username}!</div>
             ) : null}
-            <MenuItem onClick={() => goToPage('/favorites/')}>My Favorites</MenuItem>
             <FlexRow>
               <label htmlFor='toggleDistanceUnits'>Miles</label>
               <Switch
                 id='toggleDistanceUnits'
                 checked={!!cookies.units_miles}
-                onChange={toggleDistanceUnits}
+                onChange={() => toggleCookie('units_miles')}
               />
-            </FlexRow>
+              </FlexRow>
+              <FlexRow>
+                <label htmlFor='toggleFavorites'>Favorites at top</label>
+                <Switch
+                  id='toggleFavorites'
+                  checked={!cookies.favorites_not_at_top}
+                  onChange={() => toggleCookie('favorites_not_at_top')}
+                />
+              </FlexRow>
+              <FlexRow>
+                <label htmlFor='toggleStarbucks'>No Starbucks</label>
+                <Switch
+                  id='toggleStarbucks'
+                  checked={!cookies.starbucks_allowed}
+                  onChange={() => toggleCookie('starbucks_allowed')}
+                />
+              </FlexRow>
             <EmptySpace />
           </FlexCol>
           <MenuSide as='div' width={anchorWidth}></MenuSide>

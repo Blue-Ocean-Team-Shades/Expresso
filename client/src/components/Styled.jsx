@@ -21,9 +21,8 @@ export function isMobile () {
 
 export const Main = styled.div`
   width: ${mobileWidth}px;
+  max-width: ${mobileWidth}px;
   position: relative;
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
   @media screen and (max-width: ${mobileWidth}px) {
     width: 100%;

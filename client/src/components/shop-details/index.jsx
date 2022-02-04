@@ -17,6 +17,7 @@ import AddDrink from './AddDrink.jsx';
 import api from '../../api.js';
 import LikeShop from '../shared/LikeShop.jsx';
 import Image from './Image.jsx';
+import { useNavigate } from 'react-router-dom';
 
 const ListBackground = styled(Background)`
   position: relative;
@@ -85,7 +86,9 @@ function ShopDetails({
 }) {
   // sample getting shop drinks from test google places shop
   const [drinks, setDrinks] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
+    if (!currentShop) return navigate('/')
     getDrinks(false).then(() => getImage());
   }, []);
 
@@ -110,6 +113,9 @@ function ShopDetails({
       .catch((err) => console.log(err, '<<<<<<<'));
   };
 
+  if (!currentShop) {
+    return null;
+  }
   return (
     <ListBackground>
       <Image image={currentShop.image || {}} />
