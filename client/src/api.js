@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 function getShops(location) {
-  return axios.post('/findshops', {location: `{lat:${location.latitude}, lng:${location.longitude}}`});
+  return axios.get('/findshops', {params: {location: `{lat:${location.latitude}, lng:${location.longitude}}`}});
 }
 
 function getShopsAtLocation(location) {
-  return axios.post('/findshops', {customLocation: location});
+  return axios.get('/findshops', {params : {customLocation: location}});
 }
 
 function logIn(formData, updateCookies) {
@@ -43,7 +43,7 @@ function dislikeDrink(drink_id) {
 }
 
 function getDrinks(place_id) {
-  return axios.post('/getdrinkratings', { place_id }).then((response) => {
+  return axios.get('/getdrinkratings', { params: { place_id } }).then((response) => {
     return response;
   });
 }
@@ -64,7 +64,7 @@ function getCookieData(sid) {
 }
 
 function getImage(shopObj) {
-  return axios.post('/getshopimage', shopObj);
+  return axios.get('/getshopimage', {params: {shopObj} });
 }
 
 function likeShop(place_id, user_id) {
@@ -72,7 +72,7 @@ function likeShop(place_id, user_id) {
 }
 
 function getUserFavorites(user_id) {
-  return axios.post('/getuserfavorites', {user_id})
+  return axios.get('/getuserfavorites', {params: {user_id}})
 }
 
 export default {

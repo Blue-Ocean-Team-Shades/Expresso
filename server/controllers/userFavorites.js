@@ -38,6 +38,9 @@ const addUserFavorite = (req, res) => {
 };
 
 const getUserFavorites = (req, res) => {
+
+
+
   let returnObject = {
     favoriteDrinks: [],
     favoriteShops: []
