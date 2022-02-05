@@ -18,6 +18,7 @@ Users can search for shops or specific drinks near their current location or a c
 - `npm install`
   - follow the onscreen prompts after the installation finishes: the app will need a Postgres username and password (and host location, though the default localhost will likely be correct) as well as a Google Places API key and a string (any value) that can be used as a "secret" for additional password security.
 - `sudo PGUSER=<your postgres username> npm run clear-database`
+  - Warning: this will create a database named `expresso`, if a database by that name already exists it will be dropped and remade.
 - `npm run build`
 - `npm start`
 
