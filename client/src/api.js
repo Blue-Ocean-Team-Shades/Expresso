@@ -1,11 +1,13 @@
 import axios from 'axios';
 
 function getShops(location) {
-  return axios.get('/findshops', {params: {location: `{lat:${location.latitude}, lng:${location.longitude}}`}});
+  return axios.get('/findshops', {
+    params: { location: `{lat:${location.latitude}, lng:${location.longitude}}` },
+  });
 }
 
 function getShopsAtLocation(location) {
-  return axios.get('/findshops', {params : {customLocation: location}});
+  return axios.get('/findshops', { params: { customLocation: location } });
 }
 
 function logIn(formData, updateCookies) {
@@ -53,26 +55,28 @@ function addDrink(drinkObj) {
 }
 
 function getCookieData(sid) {
-  return axios.get(`/cookiedata`, {params: {sid: sid}})
-    .then(response => {
+  return axios
+    .get(`/cookiedata`, { params: { sid: sid } })
+    .then((response) => {
       return {
         user_id: response.data.user_id,
-        username: response.data.username
+        username: response.data.username,
       };
     })
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 }
 
 function getImage(shopObj) {
-  return axios.get('/getshopimage', {params: {shopObj} });
+  return axios.get('/getshopimage', { params: { shopObj } });
 }
 
-function likeShop(place_id, user_id) {
-  return axios.post('/favorites', {place_id, rating: 1})
+function likeShop(place_id, unlike) {
+  if (unlike) return axios.delete('/favorites', { params: { place_id } });
+  return axios.post('/favorites', { place_id, rating: 1 });
 }
 
 function getUserFavorites(user_id) {
-  return axios.get('/getuserfavorites', {params: {user_id}})
+  return axios.get('/getuserfavorites', { params: { user_id } });
 }
 
 export default {
