@@ -78,7 +78,7 @@ const removeUserFavorite = async (req, res) => {
         [req.session.user_id, req.query.place_id, req.query.drink_id]
       )
     } else {
-      const response = await pool.query(
+      await pool.query(
         'DELETE FROM favorites WHERE user_id = $1 AND place_id = $2',
         [req.session.user_id, req.query.place_id]
       )
