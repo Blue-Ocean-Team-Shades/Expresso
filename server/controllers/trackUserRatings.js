@@ -47,7 +47,7 @@ const userRatedCoffee = async (drink_id, user_id, isUpvote) => {
 
   try {
     if (userVote.rows.length === 0) {
-      await pool.query(`INSERT INTO user_rated_drink(drink_id, user_id) VALUES (${drink_id}, ${user_id});`);
+      userVote = await pool.query(`INSERT INTO user_rated_drink(drink_id, user_id) VALUES (${drink_id}, ${user_id}) RETURNING *;`);
     };
   } catch (err) {
     console.error('Error inserting new drink rating into user_rated_drinks: ', err);
