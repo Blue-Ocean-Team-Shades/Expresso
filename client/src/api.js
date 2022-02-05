@@ -10,12 +10,12 @@ function getShops(location) {
 }
 
 function getShopsAtLocation(location) {
-  const logDone = log('getShops');
+  const logDone = log('getShopsAtLocation');
   return axios.get('/findshops', { params: { customLocation: location } }).then(logDone);
 }
 
 function logIn(formData, updateCookies) {
-  const logDone = log('getShops');
+  const logDone = log('logIn');
   return axios
     .post('/login', formData)
     .then(() => {
@@ -25,7 +25,7 @@ function logIn(formData, updateCookies) {
 }
 
 function logOut(updateCookies) {
-  const logDone = log('getShops');
+  const logDone = log('logOut');
   return axios
     .post('/logout')
     .then(() => {
@@ -35,7 +35,7 @@ function logOut(updateCookies) {
 }
 
 function signUp(formData, updateCookies) {
-  const logDone = log('getShops');
+  const logDone = log('signUp');
   return axios
     .post('/signup', formData)
     .then(() => {
@@ -45,7 +45,7 @@ function signUp(formData, updateCookies) {
 }
 
 function likeDrink(drink_id) {
-  const logDone = log('getShops');
+  const logDone = log('likeDrink');
   const obj = {
     drink_id,
     rating: '1',
@@ -54,7 +54,7 @@ function likeDrink(drink_id) {
 }
 
 function dislikeDrink(drink_id) {
-  const logDone = log('getShops');
+  const logDone = log('dislikeDrink');
   const obj = {
     drink_id,
     rating: '0',
@@ -63,7 +63,7 @@ function dislikeDrink(drink_id) {
 }
 
 function getDrinks(place_id) {
-  const logDone = log('getShops');
+  const logDone = log('getDrinks');
   return axios
     .get('/getdrinkratings', { params: { place_id } })
     .then((response) => {
@@ -73,12 +73,12 @@ function getDrinks(place_id) {
 }
 
 function addDrink(drinkObj) {
-  const logDone = log('getShops');
+  const logDone = log('addDrink');
   return axios.post('/drinkmenu', drinkObj);
 }
 
 function getCookieData(sid) {
-  const logDone = log('getShops');
+  const logDone = log('getCookieData');
   return axios
     .get(`/cookiedata`, { params: { sid: sid } })
     .then((response) => {
@@ -87,22 +87,23 @@ function getCookieData(sid) {
         username: response.data.username,
       };
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
+    .then(logDone);
 }
 
 function getImage(shopObj) {
-  const logDone = log('getShops');
+  const logDone = log('getImage');
   return axios.get('/getshopimage', { params: { shopObj } }).then(logDone);
 }
 
 function likeShop(place_id, unlike) {
-  const logDone = log('getShops');
+  const logDone = log('likeShop');
   if (unlike) return axios.delete('/favorites', { params: { place_id } });
   return axios.post('/favorites', { place_id, rating: 1 }).then(logDone);
 }
 
 function getUserFavorites(user_id) {
-  const logDone = log('getShops');
+  const logDone = log('getUserFavorites');
   return axios.get('/getuserfavorites', { params: { user_id } }).then(logDone);
 }
 
@@ -112,10 +113,10 @@ function log(label, silentStart) {
   const startTime = new Date();
   const count = callsCounter++;
   if (!silentStart) {
-    console.log(`-->  ${label} ${count} -->`)
+    console.log(`| ${count} ${label} -->`)
   }
   return function (data) {
-    console.log(`<-- ${label} ${count}: ${new Date() - startTime}ms <--`);
+    console.log(`<-- ${count} ${label} | ${new Date() - startTime}ms`);
     return data;
   };
 }
