@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const silent = false; //set to true to turn off API call logging
+
 function getShops(location) {
   const logDone = log('getShops');
   return axios
@@ -110,13 +112,18 @@ function getUserFavorites(user_id) {
 let callsCounter = 0;
 
 function log(label, silentStart) {
-  const startTime = new Date();
-  const count = callsCounter++;
-  if (!silentStart) {
-    console.log(`| ${count} ${label} -->`)
+  if (!silent) {
+    const startTime = new Date();
+    const count = callsCounter++;
+    if (!silentStart) {
+      console.log(`| ${count} ${label} -->`);
+    }
+    return function (data) {
+      console.log(`<-- ${count} ${label} | ${new Date() - startTime}ms`);
+      return data;
+    };
   }
   return function (data) {
-    console.log(`<-- ${count} ${label} | ${new Date() - startTime}ms`);
     return data;
   };
 }
