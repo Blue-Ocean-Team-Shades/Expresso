@@ -80,10 +80,10 @@ const addRatingsAndMenus = async (shops) => {
 
 const getShopList = async (req, res) => {
   let data;
-  if (req.body.customLocation) {
-    data = await listsOfShopsByLocation('coffee shops', req.body.customLocation)
+  if (req.query.customLocation) {
+    data = await listsOfShopsByLocation('coffee shops', req.query.customLocation)
   } else {
-    let jsonStr = req.body.location.replace('{', '{"').replaceAll(':', '":').replace(', l', ', "l');
+    let jsonStr = req.query.location.replace('{', '{"').replaceAll(':', '":').replace(', l', ', "l');
     let newLocationObj = JSON.parse(jsonStr);
     data = await listsOfShops('coffee shops', newLocationObj);
   }
@@ -94,7 +94,7 @@ const getShopList = async (req, res) => {
 }
 
 const getShopImage = async (req, res) => {
-  let data = await shopImage(req.body);
+  let data = await shopImage(JSON.parse(req.query.shopObj));
 
   if (data) { res.status(200).send(data) } else {
     res.status(500).send();
