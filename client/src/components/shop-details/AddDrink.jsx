@@ -116,7 +116,6 @@ function AddDrink({
   const [recommend, seRecommend] = React.useState(true);
   const [isNewDrink, setIsNewDrink] = React.useState(true);
   const [isAddDrink, setIsAddDrink] = React.useState(false);
-  // const [checked, setChecked] = React.useState(true);
 
   const handleToggle = (event, newRecommend) => {
     seRecommend(newRecommend);
@@ -168,7 +167,6 @@ function AddDrink({
     ''
   ) : (
     <Col>
-      {/* <DrinkInput>{placeholder}</DrinkInput> */}
       {!isNewDrink ? (
         ''
       ) : (
@@ -197,7 +195,6 @@ function AddDrink({
               <RecommendLabel>Recommend?</RecommendLabel>
               <RecommendRow>
                 <RecommendSwitch
-                  // {...label}
                   defaultChecked
                   value={recommend}
                   onChange={handleToggle}

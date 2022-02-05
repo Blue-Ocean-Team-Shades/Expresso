@@ -80,16 +80,6 @@ const Inner = styled(FlexCol)`
   }
 `;
 
-// const Image = styled(Accent)`
-//   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-//     url('https://picsum.photos/300/200');
-//   height: 40vh;
-//   width: 100vw;
-//   background-size: cover;
-//   background-position: center;
-//   background-repeat: no-repeat;
-// `;
-
 function ShopDetails({
   currentShop,
   setCurrentShop,
@@ -100,7 +90,6 @@ function ShopDetails({
   favoriteShops,
   setFavoriteShops,
 }) {
-  // sample getting shop drinks from test google places shop
   const [drinks, setDrinks] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
