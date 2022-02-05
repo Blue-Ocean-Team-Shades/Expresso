@@ -100,6 +100,7 @@ function App() {
   }
 
   function submitSearch() {
+    setShops([])
     if (location) {
       if (searchLocation) {
         api
