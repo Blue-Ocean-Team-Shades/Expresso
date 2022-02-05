@@ -26,10 +26,6 @@ const Container = styled(Accent)`
   }
 `;
 
-// change flex direction to column  for mobile
-// note: DrinkList Inner
-// // //    width: 90vw;
-// // //     height: 60vh;
 const Row = styled(FlexRow)`
   flex-wrap: wrap;
   // width: 100%;
