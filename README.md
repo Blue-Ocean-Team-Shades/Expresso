@@ -4,13 +4,26 @@
 A service to find and rate coffee shops in cities all over, for on-the-go travelers the world over.
 
 Users can search for shops or specific drinks near their current location or a chosen destination. When logged in, users can add and rate drinks, as well as favorite shops to more easily find them again later.
-## Screenshots
 
+## Technologies used
+- Postgres
+- Express
+- Express Session
+- React
+- React Router
+- Material UI
+- Styled Components
+- Axios
+- Webpack
+- Babel
+
+## Screenshots
 ![](./admin/Landing.png)
 ![](./admin/Details.png)
 ![](./admin/Options.png)
 ![](./admin/Login.png)
 ![](./admin/Signup.png)
+
 
 ## Installation
 - Ensure Postgres is installed, or you have access to a remote Postgres installation
