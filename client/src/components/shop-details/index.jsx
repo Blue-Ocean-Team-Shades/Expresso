@@ -72,6 +72,7 @@ const Inner = styled(FlexCol)`
   background-color: ${colors.highlightLight};
   // border: gray solid 1px;
   border-radius: 20px;
+  max-width: 900px;
   @media (max-width: 768px) {
     width: -webkit-fill-available;
     height: inherit;

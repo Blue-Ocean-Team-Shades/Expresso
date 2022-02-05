@@ -55,13 +55,13 @@ const userRatedCoffee = async (drink_id, user_id, isUpvote) => {
 
   try {
     if (isUpvote) {
-      if(!userVote.rows[0].upvoted) {
+      if(!userVote.rows.upvoted) {
         await pool.query(`UPDATE user_rated_drink SET upvoted = true, downvoted = false WHERE drink_id = ${drink_id} AND user_id = ${user_id};`);
       } else {
         return true;
       }
     } else if (!isUpvote) {
-      if (!userVote.rows[0].downvoted) {
+      if (!userVote.rows.downvoted) {
         await pool.query(`UPDATE user_rated_drink SET upvoted = false, downvoted = true WHERE drink_id = ${drink_id} AND user_id = ${user_id};`);
       } else {
         return true;

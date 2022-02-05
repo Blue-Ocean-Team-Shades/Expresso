@@ -86,24 +86,24 @@ app.post('/drinkmenu', addDrink);
 app.post('/ratedrink', rateDrink);
 
 //takes parameter place_id, returns all drink objects (which include drink_name and rating) assoicated with that shop (array of obj)
-app.post('/getdrinkratings', getDrinkRatings);
+app.get('/getdrinkratings', getDrinkRatings);
 
 //takes a parameter, shops (an array of place_ids), and returns an array of all drinks serverd by those places
-app.post('/getshopsdrinks', getShopsDrinks);
+app.get('/getshopsdrinks', getShopsDrinks);
 
 //////////////*SHOP RATING ROUTEs*//////////////
 
 //takes one of two parameters: either customLocation (string, location search terms) or location (object, {lat: 1234532, lng: 123124235}), and returns an array of shop objects
-app.post('/findshops', getShopList);
+app.get('/findshops', getShopList);
 
 //takes parameters place_id and rating (1 = upvote, anything-but-1 = downvote) - if place does not exist, inserts place into DB with inital rating of 1 or 0 depending on passed parameter - if place does exist, increments/decrements its rating
 app.post('/shopratings', addShopRating);
 
-//takes paramater shops (an array of place_ids) and returns an array of shop objects
+// takes paramater shops (an array of place_ids) and returns an array of shop objects
 app.post('/getshopratings', getShopRatings);
 
 //takes a parameter, shop (a shop object from state), and returns the associated image
-app.post('/getshopimage',getShopImage);
+app.get('/getshopimage', getShopImage);
 
 //////////////*USER FAVORITES ROUTES*//////////////
 
@@ -111,7 +111,7 @@ app.post('/getshopimage',getShopImage);
 app.post('/favorites', addUserFavorite);
 
 //takes parameter user_id and returns an object of arrays of objects (lol) with that user's favorites: {drinks: [{}, {}], shops:[{}, {}]}
-app.post('/getuserfavorites', getUserFavorites);
+app.get('/getuserfavorites', getUserFavorites);
 
 
 app.get('/cookiedata', (req, res) => {

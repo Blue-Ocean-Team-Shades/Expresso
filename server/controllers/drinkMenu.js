@@ -63,7 +63,7 @@ const rateDrink = async (req, res) => {
 };
 
 const getDrinkRatings = (req, res) => {
-  pool.query(`SELECT * FROM drinks WHERE place_id = '${req.body.place_id}'`)
+  pool.query(`SELECT * FROM drinks WHERE place_id = '${req.query.place_id}'`)
     .then(data => {
       res.status(200).send(data.rows);
     })
@@ -74,7 +74,7 @@ const getDrinkRatings = (req, res) => {
 };
 
 const getShopsDrinks = (req, res) => {
-  shopsDrinksQuery(req.body.shops)
+  shopsDrinksQuery(req.query.shops)
     .then(data => {
       res.status(200).send(data);
     })
