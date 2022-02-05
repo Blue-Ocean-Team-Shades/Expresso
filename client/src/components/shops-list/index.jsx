@@ -141,8 +141,8 @@ function ShopsList({
             style={{ alignSelf: mobile ? 'flex-end' : 'flex-start' }}
             orientation={mobile ? 'horizontal' : 'vertical'}
           >
-            <ToggleButtonAccent value='distance'>distance</ToggleButtonAccent>
-            <ToggleButtonAccent value='-rating'>rating</ToggleButtonAccent>
+            <ToggleButtonAccent disabled={sort === 'distance'} value='distance'>distance</ToggleButtonAccent>
+            <ToggleButtonAccent disabled={sort === '-rating'} value='-rating'>rating</ToggleButtonAccent>
           </ToggleButtonGroup>
         </FlexCol>
       )}
