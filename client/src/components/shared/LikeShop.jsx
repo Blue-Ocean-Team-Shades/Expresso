@@ -22,9 +22,6 @@ const ButtonStar = styled(IconButton)`
     :hover {
       background-color: ${({ hoveredcolor }) => hoveredcolor};
     }
-    :disabled {
-      background-color: ${({ favoritecolor }) => favoritecolor || colors.highlightLight};
-    }
   }
 `;
 
@@ -40,12 +37,16 @@ function LikeShop({
 }) {
   if (!isLoggedIn()) return null;
 
-  function likeHandler(e) {
+  function likeHandler(isLike) {
     api
-      .likeShop(currentShop.place_id, cookies.user_id)
+      .likeShop(currentShop.place_id, !isLike)
       .then(() => {
         const newFavoriteShops = Object.assign({}, favoriteShops);
-        newFavoriteShops[currentShop.place_id] = true;
+        if (isLike) {
+          newFavoriteShops[currentShop.place_id] = true;
+        } else {
+          newFavoriteShops[currentShop.place_id] = undefined;
+        }
         setFavoriteShops(newFavoriteShops);
       })
       .catch((err) => {
@@ -55,13 +56,22 @@ function LikeShop({
 
   if (favoriteShops[currentShop.place_id]) {
     return (
-      <ButtonStar favoritecolor={favoritecolor} disabled={true}>
+      <ButtonStar
+        onClick={() => likeHandler(false)}
+        normalcolor={favoritecolor}
+        hoveredcolor={hoveredcolor}
+      >
         <StyledImg src={starFull} />
       </ButtonStar>
     );
   }
+
   return (
-    <ButtonStar onClick={likeHandler} normalcolor={normalcolor} hoveredcolor={hoveredcolor}>
+    <ButtonStar
+      onClick={() => likeHandler(true)}
+      normalcolor={normalcolor}
+      hoveredcolor={hoveredcolor}
+    >
       <StyledImg src={starEmpty} />
     </ButtonStar>
   );

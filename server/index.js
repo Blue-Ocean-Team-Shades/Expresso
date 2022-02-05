@@ -11,7 +11,7 @@ const { secret } = require('../config.js');
 const { login, signup, logout } = require('./controllers/userAccounts');
 const { addDrink, rateDrink, getDrinkRatings, getShopsDrinks } = require('./controllers/drinkMenu');
 const { addShopRating, getShopRatings } = require('./controllers/shopRatings');
-const { addUserFavorite, getUserFavorites } = require('./controllers/userFavorites');
+const { addUserFavorite, getUserFavorites, removeUserFavorite } = require('./controllers/userFavorites');
 const { getShopList, getShopImage } = require('./controllers/shopListings');
 
 const fs = require('fs')
@@ -109,6 +109,8 @@ app.get('/getshopimage', getShopImage);
 
 //takes parameters isCoffee (boolean), user_id, place_id, and drink_id (if is coffee) and adds to favorites table if it's not already present associated with that user
 app.post('/favorites', addUserFavorite);
+
+app.delete('/favorites', removeUserFavorite);
 
 //takes parameter user_id and returns an object of arrays of objects (lol) with that user's favorites: {drinks: [{}, {}], shops:[{}, {}]}
 app.get('/getuserfavorites', getUserFavorites);
