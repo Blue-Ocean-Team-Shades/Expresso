@@ -106,10 +106,16 @@ function getUserFavorites(user_id) {
   return axios.get('/getuserfavorites', { params: { user_id } }).then(logDone);
 }
 
-function log(label) {
-  const startTime = new Time();
+let callsCounter = 0;
+
+function log(label, silentStart) {
+  const startTime = new Date();
+  const count = callsCounter++;
+  if (!silentStart) {
+    console.log(`-->  ${label} ${count} -->`)
+  }
   return function (data) {
-    console.log(`${label}: ${startTime - new Time()}ms`);
+    console.log(`<-- ${label} ${count}: ${new Date() - startTime}ms <--`);
     return data;
   };
 }
